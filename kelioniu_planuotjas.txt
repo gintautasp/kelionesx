@@ -1,0 +1,19 @@
+Du pagringiniai pusapiai:
+1. Keliones aprašymas, įvedinėja pats vartotojas
+	aprašant kelionę ji skaidoma į atkarpas ir punktus
+		vykimas, nuo punkto iki punkto
+			punktas - miestas, arba lankytina vieta, sustojimo kemingas, turi geografines koordinates, vietos nusakymas, aprašymas
+			vykimo atkarpa dėliojama aprašoma detaliai tarkim su krypčių pasirinkimu
+			ir galimybe įkelti netgi gpx failą
+			data laikas
+			trukmė, 
+			vykimo būdas, nuoroda į maršutus
+			kaina
+		lankymasis punkte
+			data laikas
+			trukmė, aprašymas
+2. Planavimo puslapis
+	išsirenkami punktai, punktų paieška, naujo punkto įvedimas, punktu tipai (kemingai istorinės vietos, restoranai, viešbučiai, statiniai)
+	esamų atkarpų pridernimas, pasiųlymas 
+	dėliojant planą arba naujų kūrimas (planuojamų) analgiškai aprašymui, su laikų ir kainų numatymais
+		
