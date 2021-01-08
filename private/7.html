@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<title>Kelionės aprašymas</title>
+	<style>
+	
+		label, input, select  {
+		
+			width: 93%;
+			margin: 7px 11px;
+			padding: 4px 7px;
+		}
+		
+		input[type=button] {
+		
+			width: 50%;
+			float: right;
+			margin-right: 50px;
+		}
+		
+		#rezultatas {
+			
+			width: 48%;
+			border: 1px solid black;
+			margin-top: 10px;
+			margin-left: 20px;
+			padding: 10px;
+			float: left;
+		}
+		
+		#duomenys {
+		
+			width: 25%;
+			margin-right:10px;
+			float: left;
+			
+		}
+		
+		#test {
+		
+			
+			float: left;
+			width: 50%;
+
+		}
+			
+		#planuojama {
+		
+			border: 1px solid black;
+
+		}
+		#nav { 
+			
+			background: #862326;
+				color: white;
+			
+		
+			
+		}
+		
+		#asdf {
+		
+		height: auto;
+		width: auto;
+		float: right;
+		position: static;
+		margin: 4px 1px;
+		font-size: 10px
+		border: 1px solid black;
+		text-align: center;
+	
+
+		}
+		
+		#info {
+		
+		background: #e6d119;
+		}
+				
+		#footer { 
+			
+		background: #862326;
+		color: white;
+		padding-top: 1rem;
+		text-align: center;
+		
+		
+		}
+		
+		.vl {
+		
+		border-left: 6px solid #862326;
+		height: 370px;
+		position: absolute;
+		left: 50%;
+		margin-left: -3px;
+		top: 0;
+		overflow: hidden;
+		
+		}
+	</style>
+</head>
+<body>
+	<header>
+	<div class="container.fluid">
+	<div id="nav" class="row">
+		<h1>Kelionių agentūra</h1>
+		<input id="asdf" type="button" value="Keliones aprašymas" onClick="">
+		<input id="asdf" type="button" value="Keliones maršrutas" onClick="">
+		<input id="asdf" type="button" value="Punktu Tipai" onClick="">
+		<input id="asdf" type="button" value="Keliones Būdai" onClick="">
+		<input id="asdf" type="button" value="Punktai" onClick="">
+		<input id="asdf" type="button" value="Kelionių sąrašas" onClick="">
+		<input id="asdf" type="button" value="Kelionės peržiūra" onClick="">
+	</div>
+	<div id="info" class="row">
+		<h3>Kelionės peržiūra</h3>
+	<p>
+		Prašome peržiūrėti kelionės informaciją.
+	</p>
+	</div>
+	</div>
+	</header>
+	<div class="container.fluid">
+	<div id="info" class="row">
+		<div id="test" class="col-md-6">
+		<!--<img src="unnamed.jpg" alt="Miško kelias">-->
+		<table class="table">
+		<thead>
+		<tr>
+			<th>Pavadinimas</th>
+			<th>Aprašymas</th>
+			<th>Data/laikas</th>
+			<th>Trukmė</th>
+		</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Kauno pilis</td>
+				<td>Neslenkanti pilis</td>
+				<td>1/8/2021 14:52:30</td>
+				<td>60:00</td>
+			</tr>
+			<tr>
+				<td>Vilniaus pilis</td>
+				<td>Slankmatis</td>
+				<td>1/7/2021 11:17:55</td>
+				<td>1:30:00<br></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+		</table>
+
+	</div>
+	<div class="vl"></div>
+	<div id="duomenys" class="col-md-6">
+		<table class="table">
+		<thead>
+		  <tr>
+			<th>Pavadinimas</th>
+			<th>Ypatybės</th>
+			<th>1 punktas<br></th>
+			<th>2 punktas</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <tr>
+			<td>Kauno pilis</td>
+			<td>Pilis.<br></td>
+			<td>Kebabinė</td>
+			<td>Neries krantinė</td>
+		  </tr>
+		  <tr>
+			<td>Vilniaus pilis</td>
+			<td>Slankmatis</td>
+			<td>Valdovų rūmai</td>
+			<td>Katedra<br></td>
+		  </tr>
+		  <tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		  </tr>
+		  <tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		  </tr>
+		</tbody>
+		</table>
+						</div>
+
+	</div>
+	</div>
+	<footer id="footer" class="container.fluid">
+	<div class="row">
+	<p>Java Ernadas all rights reserved &#169; 2021</p>
+	
+	</div>
+	</footer>
+
+</body>
+</html>

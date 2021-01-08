@@ -1,0 +1,11 @@
+﻿1,ka,Kelionės aprašymo
+1,ka,Kelionės įvedimo forma
+1,ka,pav,aprasymas,data,laikas,trukmė,planuojama(check box)
+2,km,kelionės maršrutas
+2.km,forma pasirinkimas ir pridejimas punktu,keičiama/pildoma lankymasis_punkte lentelė, data_laiklas, truke, aprasymas
+2,km,forma sujungiam du punktus pažymim du punktus ir tada gauname paklausima ar kurti nauja marsruto atkarpa ar pasirinkti is esamu, jei tokiu yra (3 forma), ir pridedami laukeliai pagal keliones marsruto atkarpos lentele keliones_budas, aprasymas, data_laikas, trukme
+3,pt,crud - create read update delete lentelei punktu_tipai (id, pav)
+4,kb,crud lentelei keliones_budai (id, pav)
+5,punktai,crud lentelei punktai (id,id_punkto_tipo, pav, ilguma, platuma, aprasymas)
+6,ks,kelioniu_sarasas,paieska pagal tai planuojama, pagal data/laika, trukme
+7,kp,keliones_perziura,pilna peržriura su punktais ir maršrutų atkarpomis
