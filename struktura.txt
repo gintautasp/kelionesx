@@ -1,0 +1,19 @@
+
+struktūra
+
+	/index.jsp
+		|
+		/aprasymas/index.jsp   			Luko
+		|
+		/marsrutas/index.jsp
+		|
+		/punktu-tipai/index.jsp			Sigita
+		|
+		/budai/index.jsp					Denis
+		|
+		/punktai/index.jsp				Zygimantas
+		|
+		/sarasas/index.jsp				Edvinas (be paieškos)
+		|
+		/perziura/index.jsp				Edvinas
+		
