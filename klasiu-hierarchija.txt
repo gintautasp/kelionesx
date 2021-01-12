@@ -1,0 +1,15 @@
+
+	commons
+
+		DbMySql --|
+				|
+				 --Crud--|
+					     |
+					     |
+	punktu-tipai		     |
+					     |--PunkuTipai
+	keliones-budai		     |
+					     |--KelionesBudai
+					     
+				
+				
