@@ -14,9 +14,15 @@
 		
 		public Connection connection;
 		
+		protected Sta
+		
 		public DbMySql {
 		
 			connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
+		}
+		
+		public makeStatement ( String name ) {
+			
 		}
 		
 		
