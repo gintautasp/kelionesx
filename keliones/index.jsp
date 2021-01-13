@@ -11,19 +11,7 @@
     <link href="../css/bootstrap.min.css" rel="stylesheet" />
     <link href="../font/css/all.min.css" rel="stylesheet" /> 
     <link rel="stylesheet" href="../css/templatemo-diagoona.css?v=1.0">
-	<style>
-	
-	.table {
-		background-color: #bec5cf;
-		opacity: 0.8;
-		}
-		
-	.header {
-		background-color: #858b94;
-		opacity: 0.9;
-	}	
-		
-	</style>
+
 </head>
 <body>
 <%@page import="java.sql.DriverManager"%>
@@ -103,22 +91,22 @@
 					<form method="post" action="">
 						<table>
 						<tr>
-							<th>Objekto pavadinimas</th>
+							<th>Kelionės pavadinimas</th>
 							<td>
-								<input type="text" name="pav" required>
+								<input type="text" name="pav" value="vidurio Lietuva">
 							</td>
+							<th>Aplankomas punktas</th>
+							<td>
+								<input type="text" name="pav" value="Kėdainių agurkų fabrikas/alpės">
+							</td>							
 							<th>Trukmė</th>
 							<td>
-								<input type="text" name="pav" required>
-							</td>							
-							<th>Data/laikas</th>
-							<td>
-								<input type="text" name="pav" required>
+								<input type="text" name="pav" value="360">
 							</td>
-							<th>Pradinis punktas</th>
+								<th>Data/laikas</th>
 							<td>
-								<input type="text" name="pav" required>
-							</td>		
+								<input type="text" name="pav" value="-03-">
+							<!--	</td>		
 							<th>Galutinis punktas</th>
 							<td>
 								<input type="text" name="pav" required>
@@ -126,7 +114,7 @@
 							<th>Placeholder</th>
 							<td>
 								<input type="text" name="pav" required>
-							</td>	
+							</td>	-->
 						</tr>
 						<tr>
 								<td>
@@ -134,20 +122,20 @@
 								</td>	
 						</tr>
 						</table>
-						<h2 align="center"><strong>Retrieve data from database in jsp</strong></h2>
+						<h2 align="center"><strong>Kelionės paieška</strong></h2>
 						<table align="center" cellpadding="5" cellspacing="5" border="1">
 						<tr>
 
 						</tr>
-						<tr class="header">
-							<th>Pavadinimas</th>
+						<tr class="lent_virsus">
+							<th>Kelionės Pavadinimas</th>
+							<th>Aplankomas punktas</th>
 							<th>Trukmė</th>
 							<th>Data</th>
-							<th>Laikas</th>
-							<th>Pradinis punktas</th>
+							<!--<th>Pradinis punktas</th>
 							<th>Galutinis punktas</th>
 							<th>Koordinatės</th>
-							<th>Aprašymas</th>
+							<th>Aprašymas</th>-->
 						</tr>
 
 <%
@@ -207,7 +195,7 @@
 		 
 		while( resultSet.next() ){
 %>
-<tr class="table">
+<tr class="lent_vidus">
 	<td><%= resultSet.getString ( "kodas" ) %></td>
 	<td><%= resultSet.getString ( "pavadinimas" ) %></td>
 	<td><%= resultSet.getString  ("sk_karalysciu" ) %></td>
@@ -223,15 +211,17 @@
 	}
 %>
 					</table>
-					
+						</form>
 				
 					</div>
 				</div>
 		</div>
 	</div>
+	</form>
     <script src="../js/jquery-3.4.1.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/jquery.backstretch.min.js"></script>
     <script src="../js/templatemo-script.js"></script>
 </body>
+
 </html>
