@@ -1,4 +1,6 @@
 
+	package commons;
+
 	import java.sql.DriverManager;
 	import java.sql.ResultSet;
 	import java.sql.Statement;
@@ -14,17 +16,30 @@
 		
 		public Connection connection;
 		
-		protected Sta
+		protected AssocArrayList statements;
+		
+		public String row_cols;
+		public AssocArrayList rowValues;
 		
 		public DbMySql {
 		
 			connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
 		}
 		
-		public makeStatement ( String name ) {
+		public boolean update ( String query_name, String sql_update ) {
+			
+			statemens.add ( query_name, connection.createStatement() );
+			return statements.giveMe( query_name).exequteUpdate ( sql_update );
+		}
+		
+		public boolean select ( String query_name, String sql_select,  String row_cols ) {
+			
 			
 		}
 		
 		
+		public AssocArrayList giveSelectedRow ( ) {
+		
+		}
 		
 	}

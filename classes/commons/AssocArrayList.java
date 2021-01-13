@@ -1,4 +1,6 @@
 
+	package commons;
+
 	import java.util.ArrayList;
 
 	class AssocArrayList {
