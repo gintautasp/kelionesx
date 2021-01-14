@@ -351,3 +351,13 @@ textarea {
     .tm-service-img { margin-right: 0; }
     .tm-service-img-r { margin-left: 0; }
 }
+
+.lent_vidus {
+	background-color: #bec5cf;
+	opacity: 0.8;
+}
+		
+.lent_virsus {
+	background-color: #858b94;
+	opacity: 0.9;
+}

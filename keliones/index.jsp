@@ -11,19 +11,7 @@
     <link href="../css/bootstrap.min.css" rel="stylesheet" />
     <link href="../font/css/all.min.css" rel="stylesheet" /> 
     <link rel="stylesheet" href="../css/templatemo-diagoona.css?v=1.0">
-	<style>
-	
-	.table {
-		background-color: #bec5cf;
-		opacity: 0.8;
-		}
-		
-	.header {
-		background-color: #858b94;
-		opacity: 0.9;
-	}	
-		
-	</style>
+
 </head>
 <body>
 <%@page import="java.sql.DriverManager"%>
@@ -35,7 +23,7 @@
 // String id = request.getParameter("userId");
 	String driverName = "com.mysql.jdbc.Driver";
 	String connectionUrl = "jdbc:mysql://localhost:3306/";
-	String dbName = "gyv_karalyste";
+	String dbName = "kelionesx";
 	String userId = "root";
 	String password = "";
 
@@ -99,26 +87,25 @@
             </div>
 
 				<div class="container.fluid">
-					
 					<form method="post" action="">
 						<table>
 						<tr>
-							<th>Objekto pavadinimas</th>
+							<th>Kelionės pavadinimas</th>
 							<td>
-								<input type="text" name="pav" required>
+								<input type="text" name="pav1" value="vidurio Lietuva">
 							</td>
+							<th>Aplankomas punktas</th>
+							<td>
+								<input type="text" name="pav2" value="Kėdainių agurkų fabrikas/alpės">
+							</td>							
 							<th>Trukmė</th>
 							<td>
-								<input type="text" name="pav" required>
-							</td>							
-							<th>Data/laikas</th>
-							<td>
-								<input type="text" name="pav" required>
+								<input type="text" name="pav3" value="360">
 							</td>
-							<th>Pradinis punktas</th>
+								<th>Data/laikas</th>
 							<td>
-								<input type="text" name="pav" required>
-							</td>		
+								<input type="text" name="pav4" value="-03-">
+							<!--	</td>		
 							<th>Galutinis punktas</th>
 							<td>
 								<input type="text" name="pav" required>
@@ -126,28 +113,28 @@
 							<th>Placeholder</th>
 							<td>
 								<input type="text" name="pav" required>
-							</td>	
+							</td>	-->
 						</tr>
 						<tr>
 								<td>
-									<input type="submit" name="search" value="Ieskoti">
+									<input type="submit" name="search" value="Ieškoti">
 								</td>	
 						</tr>
 						</table>
-						<h2 align="center"><strong>Retrieve data from database in jsp</strong></h2>
+						<h2 align="center"><strong>Kelionės paieška</strong></h2>
 						<table align="center" cellpadding="5" cellspacing="5" border="1">
 						<tr>
 
 						</tr>
-						<tr class="header">
-							<th>Pavadinimas</th>
+						<tr class="lent_virsus">
+							<th>Kelionės Pavadinimas</th>
+							<th>Aplankomas punktas</th>
 							<th>Trukmė</th>
 							<th>Data</th>
-							<th>Laikas</th>
-							<th>Pradinis punktas</th>
+							<!--<th>Pradinis punktas</th>
 							<th>Galutinis punktas</th>
 							<th>Koordinatės</th>
-							<th>Aprašymas</th>
+							<th>Aprašymas</th>-->
 						</tr>
 
 <%
@@ -169,49 +156,32 @@
 		
 		if ( ivestis != null ) {
 		
-			data = request.getParameter ("pav");																																// Miestai miestas = new Miestai ( lent_miestu );
-			where_part += " AND `sub_karalyste`.`kar_pav`= '"+ data +"'";																																				// miestas.takeFromParams ( request );
-		 } 
+			data = request.getParameter ("pav1");																																
+			where_part += " AND `keliones`.`pav`= '"+ data +"'";																																				
+		 } 		
 					 		
 		String datax = 
-			"SELECT `domenas`.*"	 
-			+ ", COUNT( `karalystes`.`id` ) AS `sk_karalysciu` " 
-			+ ", GROUP_CONCAT( CONCAT( `karalystes`.`pav`, '(', `sub_karalyste`.`pav`, ') ') ) AS `sugrupuota`"
-			+ "FROM `domenas` "
-			+ "LEFT JOIN `karalystes` ON ( `karalystes`.`domeno_kodas`=`domenas`.`kodas` ) "
-			+ "LEFT JOIN `sub_karalyste` ON ( `karalystes`.`pav`=`sub_karalyste`.`kar_pav` ) "
-			+ where_part
-			+ "GROUP BY `domenas`.`kodas`";
+			"SELECT * FROM `keliones`"	 
+			//+ ", COUNT( `karalystes`.`id` ) AS `sk_karalysciu` " 
+			//+ ", GROUP_CONCAT( CONCAT( `karalystes`.`pav`, '(', `sub_karalyste`.`pav`, ') ') ) AS `sugrupuota`"
+			//+ "FROM `domenas` "
+			//+ "LEFT JOIN `karalystes` ON ( `karalystes`.`domeno_kodas`=`domenas`.`kodas` ) "
+			//+ "LEFT JOIN `sub_karalyste` ON ( `karalystes`.`pav`=`sub_karalyste`.`kar_pav` ) "
+			+ where_part;
+			//+ "GROUP BY `domenas`.`kodas`";
 			
 			//out.println ( datax );
 
 			statement_take = connection.createStatement();	
 			resultSet = statement_take.executeQuery(datax);
 			
-	/*	String jdbcutf8 = ""; //  "&useUnicode=true&characterEncoding=UTF-8";	
-		connection = DriverManager.getConnection ( connectionUrl + dbName + jdbcutf8, userId, password );
-		
-		statement=connection.createStatement();		
-		//String sql ="SELECT * FROM `sub_karalyste`  WHERE 1";
-
-		resultSet = statement.executeQuery(
-				"SELECT `domenas`.*"	 
-				+ ", COUNT( `karalystes`.`id` ) AS `sk_karalysciu` " 
-				+ ", GROUP_CONCAT( CONCAT( `karalystes`.`pav`, '(', `sub_karalyste`.`pav`, ') ') ) AS `sugrupuota`"
-				+ "FROM `domenas` "
-				+ "LEFT JOIN `karalystes` ON ( `karalystes`.`domeno_kodas`=`domenas`.`kodas` ) "
-				+ "LEFT JOIN `sub_karalyste` ON ( `karalystes`.`pav`=`sub_karalyste`.`kar_pav` ) "
-				+ "WHERE `sub_karalyste`.`kar_pav`= '""'
-				+ "GROUP BY `domenas`.`kodas`"
-			);*/
-		 
 		while( resultSet.next() ){
 %>
-<tr class="table">
-	<td><%= resultSet.getString ( "kodas" ) %></td>
-	<td><%= resultSet.getString ( "pavadinimas" ) %></td>
-	<td><%= resultSet.getString  ("sk_karalysciu" ) %></td>
-	<td><%=resultSet.getString ( "sugrupuota" ) %></td>
+<tr class="lent_vidus">
+	<td><%= resultSet.getString ( "pav" ) %></td>
+	<td><%= resultSet.getString ( "trukme" ) %></td>
+	<!--<td><%= resultSet.getString  ("sk_karalysciu" ) %></td>
+	<td><%=resultSet.getString ( "sugrupuota" ) %></td>-->
 </tr>
 
 <% 
@@ -223,15 +193,15 @@
 	}
 %>
 					</table>
-					
-				
-					</div>
+					</form>
 				</div>
 		</div>
 	</div>
+	</form>
     <script src="../js/jquery-3.4.1.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/jquery.backstretch.min.js"></script>
     <script src="../js/templatemo-script.js"></script>
 </body>
+
 </html>
