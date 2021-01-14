@@ -23,7 +23,7 @@
 // String id = request.getParameter("userId");
 	String driverName = "com.mysql.jdbc.Driver";
 	String connectionUrl = "jdbc:mysql://localhost:3306/";
-	String dbName = "gyv_karalyste";
+	String dbName = "kelionesx";
 	String userId = "root";
 	String password = "";
 
@@ -87,25 +87,24 @@
             </div>
 
 				<div class="container.fluid">
-					
 					<form method="post" action="">
 						<table>
 						<tr>
 							<th>Kelionės pavadinimas</th>
 							<td>
-								<input type="text" name="pav" value="vidurio Lietuva">
+								<input type="text" name="pav1" value="vidurio Lietuva">
 							</td>
 							<th>Aplankomas punktas</th>
 							<td>
-								<input type="text" name="pav" value="Kėdainių agurkų fabrikas/alpės">
+								<input type="text" name="pav2" value="Kėdainių agurkų fabrikas/alpės">
 							</td>							
 							<th>Trukmė</th>
 							<td>
-								<input type="text" name="pav" value="360">
+								<input type="text" name="pav3" value="360">
 							</td>
 								<th>Data/laikas</th>
 							<td>
-								<input type="text" name="pav" value="-03-">
+								<input type="text" name="pav4" value="-03-">
 							<!--	</td>		
 							<th>Galutinis punktas</th>
 							<td>
@@ -118,7 +117,7 @@
 						</tr>
 						<tr>
 								<td>
-									<input type="submit" name="search" value="Ieskoti">
+									<input type="submit" name="search" value="Ieškoti">
 								</td>	
 						</tr>
 						</table>
@@ -157,49 +156,32 @@
 		
 		if ( ivestis != null ) {
 		
-			data = request.getParameter ("pav");																																// Miestai miestas = new Miestai ( lent_miestu );
-			where_part += " AND `sub_karalyste`.`kar_pav`= '"+ data +"'";																																				// miestas.takeFromParams ( request );
-		 } 
+			data = request.getParameter ("pav1");																																
+			where_part += " AND `keliones`.`pav`= '"+ data +"'";																																				
+		 } 		
 					 		
 		String datax = 
-			"SELECT `domenas`.*"	 
-			+ ", COUNT( `karalystes`.`id` ) AS `sk_karalysciu` " 
-			+ ", GROUP_CONCAT( CONCAT( `karalystes`.`pav`, '(', `sub_karalyste`.`pav`, ') ') ) AS `sugrupuota`"
-			+ "FROM `domenas` "
-			+ "LEFT JOIN `karalystes` ON ( `karalystes`.`domeno_kodas`=`domenas`.`kodas` ) "
-			+ "LEFT JOIN `sub_karalyste` ON ( `karalystes`.`pav`=`sub_karalyste`.`kar_pav` ) "
-			+ where_part
-			+ "GROUP BY `domenas`.`kodas`";
+			"SELECT * FROM `keliones`"	 
+			//+ ", COUNT( `karalystes`.`id` ) AS `sk_karalysciu` " 
+			//+ ", GROUP_CONCAT( CONCAT( `karalystes`.`pav`, '(', `sub_karalyste`.`pav`, ') ') ) AS `sugrupuota`"
+			//+ "FROM `domenas` "
+			//+ "LEFT JOIN `karalystes` ON ( `karalystes`.`domeno_kodas`=`domenas`.`kodas` ) "
+			//+ "LEFT JOIN `sub_karalyste` ON ( `karalystes`.`pav`=`sub_karalyste`.`kar_pav` ) "
+			+ where_part;
+			//+ "GROUP BY `domenas`.`kodas`";
 			
 			//out.println ( datax );
 
 			statement_take = connection.createStatement();	
 			resultSet = statement_take.executeQuery(datax);
 			
-	/*	String jdbcutf8 = ""; //  "&useUnicode=true&characterEncoding=UTF-8";	
-		connection = DriverManager.getConnection ( connectionUrl + dbName + jdbcutf8, userId, password );
-		
-		statement=connection.createStatement();		
-		//String sql ="SELECT * FROM `sub_karalyste`  WHERE 1";
-
-		resultSet = statement.executeQuery(
-				"SELECT `domenas`.*"	 
-				+ ", COUNT( `karalystes`.`id` ) AS `sk_karalysciu` " 
-				+ ", GROUP_CONCAT( CONCAT( `karalystes`.`pav`, '(', `sub_karalyste`.`pav`, ') ') ) AS `sugrupuota`"
-				+ "FROM `domenas` "
-				+ "LEFT JOIN `karalystes` ON ( `karalystes`.`domeno_kodas`=`domenas`.`kodas` ) "
-				+ "LEFT JOIN `sub_karalyste` ON ( `karalystes`.`pav`=`sub_karalyste`.`kar_pav` ) "
-				+ "WHERE `sub_karalyste`.`kar_pav`= '""'
-				+ "GROUP BY `domenas`.`kodas`"
-			);*/
-		 
 		while( resultSet.next() ){
 %>
 <tr class="lent_vidus">
-	<td><%= resultSet.getString ( "kodas" ) %></td>
-	<td><%= resultSet.getString ( "pavadinimas" ) %></td>
-	<td><%= resultSet.getString  ("sk_karalysciu" ) %></td>
-	<td><%=resultSet.getString ( "sugrupuota" ) %></td>
+	<td><%= resultSet.getString ( "pav" ) %></td>
+	<td><%= resultSet.getString ( "trukme" ) %></td>
+	<!--<td><%= resultSet.getString  ("sk_karalysciu" ) %></td>
+	<td><%=resultSet.getString ( "sugrupuota" ) %></td>-->
 </tr>
 
 <% 
@@ -211,9 +193,7 @@
 	}
 %>
 					</table>
-						</form>
-				
-					</div>
+					</form>
 				</div>
 		</div>
 	</div>
