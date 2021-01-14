@@ -11,7 +11,6 @@
     <link href="../css/bootstrap.min.css" rel="stylesheet" />
     <link href="../font/css/all.min.css" rel="stylesheet" /> 
     <link rel="stylesheet" href="../css/templatemo-diagoona.css?v=1.0">
-
 </head>
 
 <body>
@@ -69,8 +68,26 @@
             </div>
 
 				<div class="centriukas">
+
+                    <h1>Įveskite norimo aplankyti punkto informaciją</h1>
 				
-					<!-- Jūsų kodas -->
+                    <form method="POST" action="">
+                        <label for="text">Pavadinimas</label>
+                        <input type="text" id="Pavadinimas" value="">
+                        <input type="button" value="Įvesti">
+                    
+                        <label for="text">Ilguma</label>
+                        <input type="text" id="Ilguma" value="">
+                        <input type="button" value="Įvesti">
+                    
+                        <label for="text">Platuma</label>
+                        <input type="text" id="Platuma" value="">
+                        <input type="button" value="Įvesti">
+                    
+                        <label for="text">Aprašymas</label>
+                        <input type="text" id="Aprašymas" value="">
+                        <input type="button" value="Įvesti">
+                    </form>
 				
 				</div>
     </div>
