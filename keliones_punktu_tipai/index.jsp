@@ -13,14 +13,19 @@
     <link rel="stylesheet" href="../css/templatemo-diagoona.css?v=1.0">
     <style>
 		table {
-
-			border-collapse: collapse;
-
+			background-color: #bec5cf;
+			opacity: 0.8;
+			
+		}
+		
+		header {
+			background-color: #858b94;
+			opacity: 0.9;
 		}
 		 input {
 
 			color:black;
-			background: linear-gradient(to top right, #00ffff 0%, #3366ff 100%);
+			background: linear-gradient( #bec5cf 0%,  #858b94 100%);
 
 		}
 		th {
@@ -30,7 +35,7 @@
 		h1 {
 			font-family: "Arial Black";
 			padding: 5px; 
-			color: black;
+			color: #bec5cf ;
 			font-size: 20px;
 		}
 			
@@ -103,7 +108,7 @@
                 </div>
             </div>
 
-		<div class="centriukas">
+		<div class="center">
 			<div class="title">
 				
 				<h1>Punktu tipai</h1>
