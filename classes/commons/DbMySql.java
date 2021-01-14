@@ -6,7 +6,7 @@
 	import java.sql.Statement;
 	import java.sql.Connection;
 
-	class DbMySql {
+	public class DbMySql {
 	
 		public String driverName = "com.mysql.jdbc.Driver";
 		public String connectionUrl = "jdbc:mysql://localhost:3306/";
@@ -18,28 +18,79 @@
 		
 		protected AssocArrayList statements;
 		
-		public String row_cols;
-		public AssocArrayList rowValues;
+		public String[] row_cols;
+		public AssocArrayList row_values;
 		
-		public DbMySql {
+		public ResultSet result_select;
+		public boolean flag_got_rows;
 		
-			connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
-		}
-		
-		public boolean update ( String query_name, String sql_update ) {
+		public DbMySql() {
 			
-			statemens.add ( query_name, connection.createStatement() );
-			return statements.giveMe( query_name).exequteUpdate ( sql_update );
+			try {
+		
+				connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
+				
+			} catch ( Exception e ) {
+				
+				System.out.println ( "Can't connect to db" );
+				// e.printTrace();
+			}
+			statements = new AssocArrayList();
+			row_values = new AssocArrayList();
 		}
 		
-		public boolean select ( String query_name, String sql_select,  String row_cols ) {
+		public int update ( String query_name, String sql_update ) {
 			
+			int result_update = 0;
 			
+			try {
+			
+				statements.addSet ( query_name, connection.createStatement() );
+				result_update = ( ( Statement ) statements.giveMe ( query_name ) ).executeUpdate ( sql_update );
+			
+			} catch ( Exception e ) {
+			
+				System.out.println ( "Can't execute update" );
+			}
+			return result_update;
 		}
 		
+		public boolean select ( String query_name, String sql_select,  String[] row_columns ) {
+			
+			row_cols = row_columns;
 		
-		public AssocArrayList giveSelectedRow ( ) {
-		
+			try {			
+				
+				statements.addSet ( query_name, connection.createStatement() );
+				result_select = ( ( Statement ) statements.giveMe ( query_name) ).executeQuery ( sql_select );
+				flag_got_rows = result_select.next();
+			
+			} catch ( Exception e ) {
+			
+				System.out.println ( "Can't execute query" );						
+			}
+			
+			return flag_got_rows;
 		}
 		
+		public AssocArrayList giveSelectedRow() {
+			
+			try {
+			
+				if ( flag_got_rows ) {
+				
+					for ( int i = 0; i < row_cols.length; i++ ) {
+			
+						row_values.addSet ( row_cols [ i ], result_select.getString ( row_cols [ i ] ) );
+					}
+					flag_got_rows = result_select.next();
+				}
+			
+			} catch ( Exception e ) {
+			
+				System.out.println ( "Can't get row fields" );
+			}
+			
+			return row_values;
+		}
 	}

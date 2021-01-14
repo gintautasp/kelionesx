@@ -3,7 +3,7 @@
 
 	import java.util.ArrayList;
 
-	class AssocArrayList {
+	public class AssocArrayList {
 		
 		public ArrayList<String> names;
 		public ArrayList<Object> values;
