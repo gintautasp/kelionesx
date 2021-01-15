@@ -185,7 +185,13 @@
 		
 		}
 		
-		if 
+		if ( ( data1 = request.getParameter ("pav1") ) =="" && ( data2 = request.getParameter ("pav1") ) =="" && ( data3 = request.getParameter ("pav1") ) ==""  && ( data4 = request.getParameter ("pav1") ) =="" ) {
+			
+			out.println ( "Prašome įvesti bent vieną paieškos kriterijų" );
+			
+		}
+		
+		
 		
 		/*if ( ivestis != null ) {
 		
