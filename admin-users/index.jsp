@@ -48,10 +48,8 @@
 			}
 		</style>
 <%		
-
 	String id_vart = "0";
 
-	
 	try { 
 		
 		String add; 
@@ -64,8 +62,10 @@
 			}
 			String comma = "";
 			id_vart = request.getParameter ( "id_vart" );
+			
+			out.println ( "id vart.: ." + id_vart + "." );
 
-			if  (  id_vart == null ) {																																	// Miestai miestas = new Miestai ( lent_miestu );
+			if  ( (  id_vart == null ) || ( id_vart.equals ( "0" ) ) ) {																																	// Miestai miestas = new Miestai ( lent_miestu );
 			
 				String sql_ins = "";
 																																								// miestas.takeFromParams ( request )
@@ -184,7 +184,7 @@
 		<tr>
 			<th>Slaptažodis</th>
 			<td>
-				<input id="passwd" name="passwd" value="1">
+				<input id="passwd" name="passwd" value="">
 			</td>
 		</tr>
 		<tr>
