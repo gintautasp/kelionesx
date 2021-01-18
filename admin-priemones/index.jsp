@@ -261,11 +261,11 @@
 		
 			String rec_data = "";
 		
-			for ( int i = 1; i < lauk_priemones.length; i++ ) {
+			for ( int i = 1; i < lauk_priemones.length; i++ ) { // formuojamas data laukelių sąrašas html'e data-pav="kuprinė" data-kaina="15" data-nuoruoda="kazkur.web.lt/?preke=kuprine&i=1" data-vaizdas="kuprine.png"
 
 				rec_data += " data-"  +lent_priemoniu [ i ]  + "=\"" + resultSet.getString (  lent_priemoniu [ i ]  ) + "\"";
 
-			}
+			}  
 			String id_rec = resultSet.getString (  "id"  );
 %>
 <tr>

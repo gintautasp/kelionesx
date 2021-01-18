@@ -3,25 +3,17 @@
 <%@page contentType="text/html;charset=UTF-8"%>
 <%// @page import="classx.Crud" %>
 <% // @ include file="Crud.java" %>
+<%@page language="java" import="commons.AssocArrayList" %>
 <%@page language="java" import="commons.DbMySql" %>
-<%@page language="java" import="commons.Crud" %>
+<%@page language="java" import="commons.Crudx" %>
 <%
 
-	String[] lent_priemoniu = { "id", "pav", "kaina", "nuoroda", "vaizdas" };
-	String[] lauk_priemones = new String [ lent_priemoniu.length ];		
-	Crud lent_priemones = new Crud ( "priemones", lent_priemoniu );
+	String[] lent_vart = { "id", "pav", "passwd", "email" };
+	String[] lauk_vart = new String [ lent_vart.length ];		
+	Crudx crud_users = new Crudx ( "users", lent_vart );
 	// Crud crud_marsrutu_miestu = new Crud ( "marsrutai_miestai", lent_marsrutu_miestu );
 %>
 <html>
-<%
-
-	Connection connection = null;
-	Statement statement_take = null;
-	Statement statement_change = null;
-	ResultSet resultSet = null;
-	int resultSetChange;
-
-%>
 	<head>
 <%	
 	String salis = "Lietuva";
@@ -56,46 +48,39 @@
 			}
 		</style>
 <%		
+	String id_vart = "0";
 
-	String id_priemones = "0";
-	
 	try { 
-	
-		db_mysql = new DbMySql();
 		
 		String add; 
-		String sql_ins;
-
 	
 		if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "papildyti" ) ) {
 		
-			for ( int i = 1; i<lent_priemoniu.length; i++ ) {
+			for ( int i = 1; i<lent_vart.length; i++ ) {
 			
-				lauk_priemones [ i ] = request.getParameter ( lent_priemoniu [ i ] );
+				lauk_vart [ i ] = request.getParameter ( lent_vart [ i ] );
 			}
 			String comma = "";
-			id_priemones = request.getParameter( "id_priemones" );
+			id_vart = request.getParameter ( "id_vart" );
+			
+			out.println ( "id vart.: ." + id_vart + "." );
 
-			if  (  id_priemones == null ) {																																	// Miestai miestas = new Miestai ( lent_miestu );
-																																									// miestas.takeFromParams ( request )
-				sql_ins = lent_priemones.insert(lauk_priemones);
+			if  ( (  id_vart == null ) || ( id_vart.equals ( "0" ) ) ) {																																	// Miestai miestas = new Miestai ( lent_miestu );
+			
+				String sql_ins = "";
+																																								// miestas.takeFromParams ( request )
+				sql_ins = crud_users.insert ( lauk_vart );
 
 				out.println ( sql_ins );
-
-				statement_change = connection.createStatement();
-				resultSetChange = statement_change.executeUpdate(sql_ins);
 				
 			} else {
 			
-				lauk_priemones[0] = id_priemones;
+				lauk_vart [ 0 ] = id_vart;
 				String sql_upd;
-				String salyga = " `id`=" + id_priemones;
-				sql_upd = lent_priemones.update(lauk_priemones, salyga);
+				String salyga = " `id`=" + id_vart;
+				sql_upd = crud_users.update ( lauk_vart, salyga );
 								
-				out.println ( sql_upd );
-
-				statement_change = connection.createStatement();
-				resultSetChange = statement_change.executeUpdate( sql_upd );				
+				out.println ( sql_upd );				
 			}
 			
 		 } else {
@@ -116,22 +101,22 @@
 			
 				if ( mygtukas = document.getElementById ( 'toEdit_' + id_rec ) ) {
 <%
-					for ( int i=1; i<lent_priemoniu.length; i++ ) {
+					for ( int i=1; i<lent_vart.length; i++ ) {
 %>
-						document.getElementById( '<%= lent_priemoniu [ i ]  %>' ).value =  mygtukas.dataset.<%= lent_priemoniu [ i ]  %>;
+						document.getElementById( '<%= lent_vart [ i ]  %>' ).value =  mygtukas.dataset.<%= lent_vart [ i ]  %>;
 <%	
 					}
 %>
-					document.getElementById ( "id_priemones" ).value = id_rec;
+					document.getElementById ( "id_vart" ).value = id_rec;
 				}
 			}
 			
 			function iValyma () {
 			
 <%
-				for ( int i=1; i<lent_priemoniu.length; i++ ) {
+				for ( int i=1; i<lent_vart.length; i++ ) {
 %>																																								
-					document.getElementById( '<%= lent_priemoniu [ i ]  %>' ).value =  "";
+					document.getElementById( '<%= lent_vart [ i ]  %>' ).value =  "";
 <%	
 				}
 %>
@@ -143,7 +128,7 @@
 
 				pav =  mygtukasEdit.dataset.pav;
 				
-				var r = confirm( "Ar norite pašalinti miestą " + pav + "?" );
+				var r = confirm( "Ar norite pašalinti vartotoją " + pav + "?" );
 				
 				alert( r );
 				alert ( r == true );
@@ -162,16 +147,14 @@
 <%		
 	try {
 		String del;
+		String sql_delete;
 		String where_salyga;
 	
 		if ( ( ( del = request.getParameter("del")  ) != null ) && del.equals ( "del1rec" ) ) {
 %>
 			// alert( "opa" );
 <%
-			String sql_delete = lent_priemones.delete (id_priemones);
-			statement_change = connection.createStatement();
-			resultSetChange = statement_change.executeUpdate(sql_delete);
-		
+			sql_delete = crud_users.delete ( id_vart );
 			
 		} /* else {
 		 
@@ -193,27 +176,21 @@
 <form method="post" action="">
 	<table>
 		<tr>
-			<th>Pavadinimas</th>
+			<th>Vartotojas</th>
 			<td>
 				<input id="pav" type="text" name="pav" required>
 			</td>
 		</tr>
 		<tr>
-			<th>Kaina</th>
+			<th>Slaptažodis</th>
 			<td>
-				<input id="kaina" name="kaina" value="1">
+				<input id="passwd" name="passwd" value="">
 			</td>
 		</tr>
 		<tr>
-			<th>Nuoroda</th>
+			<th>El.paštas</th>
 			<td>
-				<input id="nuoroda"  name="nuoroda" value="">
-			</td>
-		</tr>
-		<tr>
-			<th>Vaizdas</th>
-			<td>
-				<input id="vaizdas" name="vaizdas" value="default.png">
+				<input id="email"  name="email" value="">
 			</td>
 		</tr>
 		<tr>
@@ -225,7 +202,7 @@
 			</td>
 		</tr>
 	</table>
-		<input type="hidden" id="id_priemones" name="id_priemones" value="0">
+		<input type="hidden" id="id_vart" name="id_vart" value="0">
 		<input type="hidden" id="alert" name="alert" value="0">
 </form>
 <form id="del_rec" method="post" action="">
@@ -238,41 +215,36 @@
 <tr>
 	<th>Funkcijos</th>
 	<th>id</th>
-	<th>Pavadinimas</th>
-	<th>Kaina</th>
-	<th>Nuoroda</th>
-	<th>Vaizdas</th>
+	<th>Vartotojas</th>
+	<th>Slaptažodis</th>
+	<th>El. paštas</th>
 </tr>
 <%
 	try {
-		//id_miesto = request.getParameter( "m_del" );
-		statement_take = connection.createStatement();		
-		String sql = lent_priemones.select ();
-		out.println(sql);
-		//String sql ="SELECT * FROM `priemones`  WHERE 1";
-		resultSet = statement_take.executeQuery(sql);
-
-
+	
+		String sql = crud_users.select( "" );
 		 
-		while( resultSet.next() ){
+		while( crud_users.flag_got_rows ) {
 		
 			String rec_data = "";
+			
+			AssocArrayList lst_row_fields = crud_users.giveSelectedRow();
 		
-			for ( int i = 1; i < lauk_priemones.length; i++ ) {
+			for ( int i = 1; i < lauk_vart.length; i++ ) {
 
-				rec_data += " data-"  +lent_priemoniu [ i ]  + "=\"" + resultSet.getString (  lent_priemoniu [ i ]  ) + "\"";
+				rec_data += " data-"  + ( ( String ) lst_row_fields.giveMe ( lent_vart [ i ] ) )   + "=\"" +  ( ( String ) lst_row_fields.giveMe (  lent_vart [ i ]  ) ) + "\"";
 
 			}
-			String id_rec = resultSet.getString (  "id"  );
+			String id_rec =  ( String ) lst_row_fields.giveMe (   "id"  );
 %>
 <tr>
 	<td><input type="button" class="record_edit"  id="toEdit_<%= id_rec  %>" data-id_miesto="<%= id_rec  %>"<%= rec_data %> value="&#9998;" onClick="iRedagavima( <%= id_rec %> )"></td>
 	<td><input type="button" class="delete"  id="toDelete_<%= id_rec  %>" data-id_miesto="<%= id_rec %>" value="&#10007;" onClick="iTrinima( <%= id_rec %> )"></td>
 
 <%
-		for ( int i = 1; i < lauk_priemones.length; i++ ) {
+		for ( int i = 1; i < lauk_vart.length; i++ ) {
 %>
-	<td><%= resultSet.getString (  lent_priemoniu [ i ]  ) %></td>
+	<td><%=  lst_row_fields.giveMe (  lent_vart [ i ]  ) %></td>
 <%
 		}
 %>

@@ -92,15 +92,15 @@
 						<tr>
 							<th>Kelionės pavadinimas</th>
 							<td>
-								<input type="text" name="pav1" value="vidurio Lietuva">
+								<input type="text" name="pav1" value="Kaunas">
 							</td>
-							<th>Aplankomas punktas</th>
-							<td>
-								<input type="text" name="pav2" value="Kėdainių agurkų fabrikas/alpės">
-							</td>							
 							<th>Trukmė</th>
 							<td>
-								<input type="text" name="pav3" value="360">
+								<input type="text" name="pav2" value="360">
+							</td>							
+							<th>Aplankomas punktas</th>
+							<td>
+								<input type="text" name="pav3" value="Kėdainių agurkų fabrikas/alpės">
 							</td>
 								<th>Data/laikas</th>
 							<td>
@@ -151,26 +151,57 @@
 	
 		connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
 		String ivestis = request.getParameter ("search");
-		String data;
+		String data1;
+		String data2;
+		String data3;
+		String data4;		
 		String where_part = "WHERE 1";
 		
-		if ( ivestis != null ) {
+		if ( ( ( data1 = request.getParameter ("pav1") ) !="" )  ) {
 		
-			data = request.getParameter ("pav1");																																
-			where_part += " AND `keliones`.`pav`= '"+ data +"'";																																				
-		 } 		
+	
+		where_part += " AND '" + data1 + "'=`keliones`.`pav`";
+		
+		}
+	
+		if ( ( ( data2 = request.getParameter ("pav2") ) !="" ) ) {
+		
+		
+		where_part += " AND '"+ data2 + "'=`keliones`.`trukme`";
+		
+		}
+		
+		if ( ( ( data3 = request.getParameter ("pav3") ) !="" )  ) {
+		
+	
+		where_part += " AND '" + data3 + "'=`keliones`.`data`";
+		
+		}
+	
+		if ( ( ( data4 = request.getParameter ("pav4") ) !="" ) ) {
+		
+		
+		where_part += " AND '"+ data4 + "'=`keliones`.`aprasymas`";
+		
+		}
+		
+		if ( ( data1 = request.getParameter ("pav1") ) =="" && ( data2 = request.getParameter ("pav1") ) =="" && ( data3 = request.getParameter ("pav1") ) ==""  && ( data4 = request.getParameter ("pav1") ) =="" ) {
+			
+			out.println ( "Prašome įvesti bent vieną paieškos kriterijų" );
+			
+		}
+
+		/*if ( ivestis != null ) {
+		
+			data1 = request.getParameter ("pav1");																																
+			where_part += " AND `keliones`.`pav`= '"+ data1 +"'";																																				
+		 } */	
 					 		
 		String datax = 
 			"SELECT * FROM `keliones`"	 
-			//+ ", COUNT( `karalystes`.`id` ) AS `sk_karalysciu` " 
-			//+ ", GROUP_CONCAT( CONCAT( `karalystes`.`pav`, '(', `sub_karalyste`.`pav`, ') ') ) AS `sugrupuota`"
-			//+ "FROM `domenas` "
-			//+ "LEFT JOIN `karalystes` ON ( `karalystes`.`domeno_kodas`=`domenas`.`kodas` ) "
-			//+ "LEFT JOIN `sub_karalyste` ON ( `karalystes`.`pav`=`sub_karalyste`.`kar_pav` ) "
 			+ where_part;
-			//+ "GROUP BY `domenas`.`kodas`";
 			
-			//out.println ( datax );
+			out.println ( datax );
 
 			statement_take = connection.createStatement();	
 			resultSet = statement_take.executeQuery(datax);
@@ -178,10 +209,10 @@
 		while( resultSet.next() ){
 %>
 <tr class="lent_vidus">
-	<td><%= resultSet.getString ( "pav" ) %></td>
+	<td><a href="perziura.jsp?i=<%=resultSet.getInt("id")%>" target="_blank"><%= resultSet.getString ( "pav" ) %></td>
 	<td><%= resultSet.getString ( "trukme" ) %></td>
-	<!--<td><%= resultSet.getString  ("sk_karalysciu" ) %></td>
-	<td><%=resultSet.getString ( "sugrupuota" ) %></td>-->
+	<td><%= resultSet.getString  ("data" ) %></td>
+	<td><%= resultSet.getString ( "aprasymas" ) %></td>
 </tr>
 
 <% 
