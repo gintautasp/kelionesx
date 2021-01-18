@@ -2,6 +2,11 @@
 <html lang="en">
 <%@page pageEncoding="UTF-8" language="java"%>
 <%@page contentType="text/html;charset=UTF-8"%>
+<%@page import="java.sql.DriverManager"%>   
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.Connection"%>
+<%    //@page language="java" import="commons.Crud" %>  
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +16,7 @@
     <link href="../css/bootstrap.min.css" rel="stylesheet" />
     <link href="../font/css/all.min.css" rel="stylesheet" /> 
     <link rel="stylesheet" href="../css/templatemo-diagoona.css?v=1.0">
+    
     <style>
 		table {
 			background-color: #bec5cf;
@@ -51,10 +57,26 @@
 		}
 		
 	</style>
-
+	
 </head>
 
 <body>
+<%
+
+	String driverName = "com.mysql.jdbc.Driver";
+	String connectionUrl = "jdbc:mysql://localhost:3306/";
+	String dbName = "keliones";
+	String userId = "root";
+	String password = "";
+
+	Connection connection = null;
+	Statement statement_take = null;
+	Statement statement_change = null;
+	ResultSet resultSet = null;
+	int resultSetChange;
+
+%>
+
     <div class="tm-container">        
         <div>
             <div class="tm-row pt-4" id="top-header">
@@ -63,7 +85,7 @@
                         <i class="fas fa-umbrella-beach fa-3x mt-1 tm-logo"></i>
                         <div class="media-body">
                             <h1 class="tm-sitename text-uppercase">Po Lietuva!</h1>
-                            <p class="tm-slogon">Keliauk laisvai</p>
+                            <p class="center">Keliauk laisvai</p>
                         </div>        
                     </div>
                 </div>
@@ -108,34 +130,109 @@
                 </div>
             </div>
 
-		<div class="center">
+		<div class="pt-centrinis">
 			<div class="title">
 				
 				<h1>Punktu tipai</h1>
-				<p>Punktu tipai:</p>
+				<p>Pavadinimas</p>
 			</div>
 			<div class="form">
-				<form action="javascript:void(0);" method="POST" onsubmit="app.Add()">
-				<input type="text" id="add-punktu_tipas" placeholder="Punktu_tipai">
-				<input type="submit" value="Add" class="btn btn-primary">
+				<form action="" method="POST">
+				<input type="text" name="pav" placeholder="Punktu_tipai">
+				<input type="submit" name="add" value="Papildyti" class="btn btn-primary">
 			</form>
 				<p>Punktu tipai</p>
 				<p id="counter"></p>
-				<table>
+				<table class="pt-centrinis">
 					<tr class="punktu_tipai">
-					<th><h6>Punktu tipai:</h6></th>
+					<th><h6>Punktu tipai</h6></th>
 					</tr>
 					<tbody id="tasks">
+<%
+	String[] lent_punktu_tipai = {  "pav" };
+	String[] lauk_punktu_tipu = new String [ lent_punktu_tipai.length ];   
+	try{
+	     
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");		
+		
+	} catch(Exception e) {}
+
+	try { 
+	
+		connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
+		String add; 
+		
+		if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "Papildyti" ) ) {
+		
+																																					// Miestai miestas = new Miestai ( lent_miestu );
+																																					// miestas.takeFromParams ( request );
+
+			for ( int i = 0; i<lent_punktu_tipai.length; i++ ) {
+			
+				lauk_punktu_tipu [ i ] = request.getParameter ( lent_punktu_tipai [ i ] );
+			}
+
+			String sql_ins = "";
+			String comma = "";
+			
+			for ( int i = 0; i < lent_punktu_tipai.length; i++ ) {
+			
+				sql_ins =  sql_ins + comma  + "'" + lauk_punktu_tipu [ i ] + "'";
+				comma = ",";																													// sql_ins = sql_ins + "'" + Miestai.value + "'";
+			}
+			
+			sql_ins = "INSERT INTO `punktu_tipai`"  
+				+ " ( `pav` )"
+				+ " VALUES ( "			
+				+ sql_ins
+				+ " )";
+
+			out.println ( sql_ins );
+
+			statement_change = connection.createStatement();
+			resultSetChange = statement_change.executeUpdate(sql_ins);			
+			
+		 } else {
+		 
+			if ( add != null ) {
+
+				out.println ( add );
+			}
+		 } 
+		
+		statement_take = connection.createStatement();		
+		String sql ="SELECT * FROM `punktu_tipai` WHERE1";
+
+		resultSet = statement_take.executeQuery(sql);
+		 
+		while( resultSet.next() ){
+%>
+<tr>
+	<td><input type="button" class="record_edit" data-id_punkto_tipo="" value="&#9998;"></td>   
+	<td><input type="button" class="delete" data-id_punkto_tipo="" value="&#10006;"></td>
+<%
+		for ( int i = 0; i < lauk_punktu_tipu.length; i++ ) {
+%>
+	<td><%= resultSet.getString (  lent_punktu_tipai [ i ]  ) %></td>
+<%
+		}
+%>
+</tr>
+<% 
+		}
+
+	} catch ( Exception e ) {
+	
+		e.printStackTrace();
+	}
+%>
+
 					</tbody>
+
 				</table>
 		</div>
-		<div id="edit-box" role="arial-hidden">
-			<form action="javascript:void(0);" method="POST" id="save-edit">
-				<input type="text" id="edit-punktu_tipas">
-				<input type="submit" value="Save" class="btn btn-succes">
-				<a onclick="CloseInput()" arial-label="Close">&#10006;</a>
-			</form>
-				
 					
 				
 		</div>
