@@ -190,9 +190,7 @@
 			out.println ( "Prašome įvesti bent vieną paieškos kriterijų" );
 			
 		}
-		
-		
-		
+
 		/*if ( ivestis != null ) {
 		
 			data1 = request.getParameter ("pav1");																																
@@ -211,7 +209,7 @@
 		while( resultSet.next() ){
 %>
 <tr class="lent_vidus">
-	<td><%= resultSet.getString ( "pav" ) %></td>
+	<td><a href="perziura.jsp?i=<%=resultSet.getInt("id")%>" target="_blank"><%= resultSet.getString ( "pav" ) %></td>
 	<td><%= resultSet.getString ( "trukme" ) %></td>
 	<td><%= resultSet.getString  ("data" ) %></td>
 	<td><%= resultSet.getString ( "aprasymas" ) %></td>
