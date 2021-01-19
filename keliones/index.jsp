@@ -157,28 +157,33 @@
 		String data4;		
 		String where_part = "WHERE 1";
 		
-		if ( ( ( data1 = request.getParameter ("pav1") ) !="" )  ) {
+		data1 = request.getParameter ("pav1");
+		data2 = request.getParameter ("pav2");
+		data3 = request.getParameter ("pav3");
+		data4 = request.getParameter ("pav4");
+		
+		if ( ( data1 !=null )  && ( ! data1.equals ("") ) ) {
 		
 	
 		where_part += " AND '" + data1 + "'=`keliones`.`pav`";
 		
 		}
 	
-		if ( ( ( data2 = request.getParameter ("pav2") ) !="" ) ) {
+		if ( ( data2 !=null ) && ! data2.equals ("")  ) {
 		
 		
 		where_part += " AND '"+ data2 + "'=`keliones`.`trukme`";
 		
 		}
 		
-		if ( ( ( data3 = request.getParameter ("pav3") ) !="" )  ) {
+		if ( ( data3 !=null )  && ( ! data3.equals ("") ) ) {
 		
 	
 		where_part += " AND '" + data3 + "'=`keliones`.`data`";
 		
 		}
 	
-		if ( ( ( data4 = request.getParameter ("pav4") ) !="" ) ) {
+		if ( ( data4 !=null )  && ( ! data4.equals ("") ) ) {
 		
 		
 		where_part += " AND '"+ data4 + "'=`keliones`.`aprasymas`";
