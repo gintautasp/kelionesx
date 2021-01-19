@@ -2,6 +2,11 @@
 <html lang="en">
 <%@page pageEncoding="UTF-8" language="java"%>
 <%@page contentType="text/html;charset=UTF-8"%>
+<%@page import="java.sql.DriverManager"%>   
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.Connection"%>
+<%    //@page language="java" import="commons.Crud" %> 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +19,23 @@
 </head>
 
 <body>
+
+    <%
+
+	String driverName = "com.mysql.jdbc.Driver";
+	String connectionUrl = "jdbc:mysql://localhost:3306/";
+	String dbName = "kelioneee";
+	String userId = "root";
+	String password = "";
+
+	Connection connection = null;
+	Statement statement_take = null;
+	Statement statement_change = null;
+	ResultSet resultSet = null;
+	int resultSetChange;
+
+%>
+
     <div class="tm-container">        
         <div>
             <div class="tm-row pt-4" id="top-header">
@@ -67,7 +89,7 @@
                 </div>
             </div>
 
-				<div class="center">
+				<div class="pt-centrinis">
                     <div class="container.fluid">
 
 
@@ -75,24 +97,25 @@
 				
                     <form method="POST" action="">
                         <label for="text">Pavadinimas</label>
-                        <input type="text" id="Pavadinimas" value="">
+                        <input type="text" id="Pavadinimas" value=""><br>
                         
-                    
                         <label for="text">Ilguma</label>
-                        <input type="text" id="Ilguma" value="">
+                        <input type="text" id="Ilguma" value=""><br>
                         
-                    
                         <label for="text">Platuma</label>
-                        <input type="text" id="Platuma" value="">
+                        <input type="text" id="Platuma" value=""><br>
                         
-                    
                         <label for="text">Aprašymas</label>
                         <input type="text" id="Aprašymas" value="">
-                        <input type="button" value="Įvesti">
+                        <input type="button" value="Įvesti"><br>
                     </form>
+
+       
+                
 				
+                    </div>
                 </div>
-                </div>
+    </div>
     </div>
 
     <script src="../js/jquery-3.4.1.min.js"></script>
