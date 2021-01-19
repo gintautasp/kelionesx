@@ -108,11 +108,13 @@
 		
 		if ( id != null ) {
 																												
-			where_part += " AND `keliones`.`id`= '"+ id +"'";																																				
+			where_part += " AND `lankymasis_punkte`.`id_keliones`= '"+ id +"'";																																				
 			
 
 		String datax = 
-			"SELECT * FROM `keliones`"	 
+			"SELECT *, `lankymasis_punkte`.`aprasymas` AS `lpaprasymas`, `punktai`.`aprasymas` AS `puaprasymas`, `punktai`.`pav` AS `pupav` FROM `lankymasis_punkte`"	 
+			+ "LEFT JOIN `keliones` ON ( `keliones`.`id`=`lankymasis_punkte`.`id_keliones` )"
+			+ "LEFT JOIN `punktai` ON ( `lankymasis_punkte`.`id_punkto`=`punktai`.`id` )"
 			+ where_part;
 			
 			out.println ( datax );
@@ -120,7 +122,7 @@
 			statement_take = connection.createStatement();	
 			resultSet = statement_take.executeQuery(datax);
 %>
-						</table>
+						
 						<h2 align="center"><strong>Kelionės Aprašymas</strong></h2>
 						<table align="center" cellpadding="5" cellspacing="5" border="1">
 						<tr>
@@ -147,77 +149,37 @@ while( resultSet.next() ){
 	<td><%= resultSet.getString ( "aprasymas" ) %></td>
 </tr>
 
-<% 
-		}
-	} 
-	} catch (Exception e) {
-	
-		e.printStackTrace();
-	}
-%>
 					</table>
-					</form>
-				</div>
+					</div>
 				<div class="container.fluid">
-<%
 
-	try{
-	     
-		request.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html; charset=UTF-8");
-		response.setCharacterEncoding("UTF-8");		
-		
-	} catch(Exception e) {}
-
-	try { 
-	
-		connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
-		String ivestis = request.getParameter ("search");
-		String id;
-		String where_part = "WHERE 1";
-		
-		id = request.getParameter ("i");		
-		
-		if ( id != null ) {
-																												
-			where_part += " AND `keliones`.`id`= '"+ id +"'";																																				
-			
-
-		String datax = 
-			"SELECT * FROM `keliones`"	 
-			+ where_part;
-			
-			out.println ( datax );
-
-			statement_take = connection.createStatement();	
-			resultSet = statement_take.executeQuery(datax);
-%>
-						</table>
 						<h2 align="center"><strong>Punktų aprašymas</strong></h2>
 						<table align="center" cellpadding="5" cellspacing="5" border="1">
 						<tr>
 
 						</tr>
 						<tr class="lent_virsus">
-							<th>Kelionės Pavadinimas</th>
-							<th>Datas</th>
-							<th>Laikas</th>
+							<th>Data/laikas</th>
 							<th>Trukmė</th>
-							<th>Aprašymas</th>
-							<!--<th>Galutinis punktas</th>
-							<th>Koordinatės</th>
-							<th>Aprašymas</th>-->
+							<th>Lankimosi punkte aprašymas</th>
+							<th>Punkto pavadinimas</th>
+							<th>Punkto ilguma</th>
+							<th>Punkto platuma</th>
+							<th>Punkto aprašymas</th>
+							
 						</tr>
-<% 		
-while( resultSet.next() ){
-%>
+
 <tr class="lent_vidus">
-	<td><%= resultSet.getString ( "pav" ) %></td>
-	<td><%= resultSet.getString ( "data" ) %></td>
-	<td><%= resultSet.getString  ("laikas" ) %></td>
+	<td><%= resultSet.getString ( "data_laikas" ) %></td>
 	<td><%= resultSet.getString ( "trukme" ) %></td>
-	<td><%= resultSet.getString ( "aprasymas" ) %></td>
+	<td><%= resultSet.getString  ("lpaprasymas" ) %></td>
+	<td><%= resultSet.getString ( "pupav" ) %></td>
+	<td><%= resultSet.getString ( "ilguma" ) %></td>
+	<td><%= resultSet.getString ( "platuma" ) %></td>
+	<td><%= resultSet.getString  ("puaprasymas" ) %></td>
 </tr>
+					</table>
+				</div>				
 
 <% 
 		}
@@ -227,10 +189,7 @@ while( resultSet.next() ){
 		e.printStackTrace();
 	}
 %>
-					</table>
-					</form>
-				</div>				
-				
+
 		</div>
 	</div>
 	</form>
