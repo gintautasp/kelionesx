@@ -79,7 +79,7 @@
 						Įveskite kelionės pavadinimą, datą ir laiką, kada Jūs išvykote. Taip pat užpildykite laukelį "Trukmė" atsakydami į klausimą - Kiek laiko truko Jūsų kelionė?
 						O tuomet pati svarbiausia dalis, kurioje negailėdami pareiškite savo įspudžius/nusivylimus ar kitus pastebėjimus, kurie praverstų būsimiems keliautojams 
 						<strong>Po Lietuvą!</strong> </p>
-                        <form id="contact-form" action="surinkti_duomenys.php" method="POST">
+                        <form id="contact-form" action="surinkti_duomenys.jsp" method="POST">
                             <div class="form-group mb-4">
                                 <input type="text" name="pavadinimas" class="form-control" placeholder="Pavadinimas" required="" /></p>
                             </div>
@@ -92,6 +92,14 @@
 							<div class="form-group mb-4">
                                 <input type="text" name="trukme" class="form-control" placeholder="Trukmė" required="" />
                             </div>
+							<div class="form-group mb-4">
+                               Kelionė įvykusi ar planuojama?
+							   <select type="text" name = "flag_ivykusi">
+							   <option> ---Pasirinkite--- </option>
+									<option value="Įvykus">Įvykusi</option>
+									<option value="Planuojama">Planuojama</option>
+								</select>
+								</div>
                             <div class="form-group mb-5">
                                 <textarea rows="6" input type="text" name="aprasymas" class="form-control" placeholder="Aprašymas..." required=""></textarea>
                             </div>
