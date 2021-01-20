@@ -131,8 +131,8 @@
 							<th>Aplankomas punktas</th>
 							<th>Trukmė</th>
 							<th>Data</th>
-							<!--<th>Pradinis punktas</th>
-							<th>Galutinis punktas</th>
+							<th>Redaguoti</th>
+							<!--<th>Galutinis punktas</th>
 							<th>Koordinatės</th>
 							<th>Aprašymas</th>-->
 						</tr>
@@ -218,6 +218,7 @@
 	<td><%= resultSet.getString ( "trukme" ) %></td>
 	<td><%= resultSet.getString  ("data" ) %></td>
 	<td><%= resultSet.getString ( "aprasymas" ) %></td>
+	<td><a href="../keliones_aprasymas/index.jsp?i=<%=resultSet.getInt("id")%>" target="_blank"> Redaguoti </td>
 </tr>
 
 <% 
