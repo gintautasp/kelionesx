@@ -16,11 +16,8 @@
     <link href="../css/bootstrap.min.css" rel="stylesheet" />
     <link href="../font/css/all.min.css" rel="stylesheet" /> 
     <link rel="stylesheet" href="../css/templatemo-diagoona.css?v=1.0">
-</head>
 
-<body>
-
-    <%
+<%
 
 	String driverName = "com.mysql.jdbc.Driver";
 	String connectionUrl = "jdbc:mysql://localhost:3306/";
@@ -32,9 +29,84 @@
 	Statement statement_take = null;
 	Statement statement_change = null;
 	ResultSet resultSet = null;
-	int resultSetChange;
+    int resultSetChange;
+    
+    String[] punktai = {  "pav", "platuma", "ilguma", "aprasymas"  };
+                    String[] kelioneee = new String [ punktai.length ];   
+                    try{
+                            
+                        request.setCharacterEncoding("UTF-8");
+                        response.setContentType("text/html; charset=UTF-8");
+                        response.setCharacterEncoding("UTF-8");		
+                        
+                    } catch(Exception e) {}
 
 %>
+
+    <script>
+        function iRedagavima ( id_rec ) {
+        
+        if ( mygtukas = document.getElementById ( 'toEdit_' + id_rec ) ) {
+<%
+            for ( int i=0; i<punktai.length; i++ ) {
+%>
+                document.getElementById( '<%= punktai [ i ]  %>' ).value =  mygtukas.dataset.<%= punktai [ i ]  %>;
+<%	
+            }
+%>
+            document.getElementById ( "id_punkto" ).value = id_rec;
+        }
+    }
+
+            function iTrinima ( id_rec ) {
+        
+        mygtukasEdit = document.getElementById ( 'toEdit_' + id_rec );
+
+        pav =  mygtukasEdit.dataset.pav;
+        
+        var r = confirm( "Ar norite pašalinti miestą " + pav + "?" );
+        
+        alert( r );
+        alert ( r == true );
+        
+        if ( r == true ) {
+
+            alert( id_rec + "1" );
+            document.getElementById ( "m_del" ).value = id_rec;
+            alert( id_rec  + "2" );
+            forma_del = document.getElementById ( "del_rec" );
+            alert( forma_del );
+            forma_del.submit();
+        }
+    }
+       // alert ( "ops " );
+        
+<%		
+try {
+    String del;
+    String where_salyga;
+
+    if ( ( ( del = request.getParameter("del")  ) != null ) && del.equals ( "del1rec" ) ) {
+%>
+        // alert( "opa" );
+<%
+    //	String sql_delete = keliones_punktai.delete (keliones_punktai);
+    //	statement_change = connection.createStatement();
+    //	resultSetChange = statement_change.executeUpdate(sql_delete);
+        
+    }
+
+}  catch ( Exception e ) {
+
+e.printStackTrace();
+}
+%>	
+
+</script>
+
+</head>
+
+<body>
 
     <div class="tm-container">        
         <div>
@@ -95,24 +167,112 @@
 
                     <h1>Įveskite norimo aplankyti punkto informaciją</h1>
 				
-                    <form method="POST" action="">
+                <form method="POST" action="">
                         <label for="text">Pavadinimas</label>
-                        <input type="text" id="Pavadinimas" value=""><br>
+                        <input type="text" id="pav" name="pav" value=""><br>
                         
                         <label for="text">Ilguma</label>
-                        <input type="text" id="Ilguma" value=""><br>
+                        <input type="text" id="ilguma" name="ilguma" value=""><br>
                         
                         <label for="text">Platuma</label>
-                        <input type="text" id="Platuma" value=""><br>
+                        <input type="text" id="platuma" name="platuma" value=""><br>
                         
                         <label for="text">Aprašymas</label>
-                        <input type="text" id="Aprašymas" value="">
-                        <input type="button" value="Įvesti"><br>
-                    </form>
+                        <input type="text" id="aprasymas" name="aprasymas" value="">
+                        <input type="submit" name="add" value="Pridėti"><br>
+                    
 
-       
-                
-				
+                  
+                    <input type="hidden" id="id_punkto" name="id_punkto" value="0">
+                    
+                </form>    
+        
+                <form id="del_rec" method="post" action="">
+                    <input type="hidden" name="del" value="del1rec">
+                    <input type="hidden" id="m_del" name="m_del" value="0">
+                </form>
+
+                    <table>
+
+                    <%
+            
+                    try { 
+                    
+                        connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
+                        String add; 
+                        
+                        if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "Pridėti" ) ) {
+
+                            for ( int i = 0; i<punktai.length; i++ ) {
+			
+                                punktai [ i ] = request.getParameter ( punktai [ i ] );
+                            }
+                        
+                                                                                                                                                                    // Miestai miestas = new Miestai ( lent_miestu );
+                                                                                                                                                                    // miestas.takeFromParams ( request );
+            
+                            for ( int i = 0; i<punktai.length; i++ ) {
+                            
+                                kelioneee [ i ] = request.getParameter ( punktai [ i ] );
+                            }
+            
+                            String sql_ins = "";
+                            String comma = "";
+                            
+                            for ( int i = 0; i < punktai.length; i++ ) {
+                            
+                                sql_ins =  sql_ins + comma  + "'" + punktai [ i ] + "'";
+                                comma = ",";																													// sql_ins = sql_ins + "'" + Miestai.value + "'";
+                            }
+                            
+                            statement_change = connection.createStatement();
+                            resultSetChange = statement_change.executeUpdate(sql_ins);			
+                            
+                            } else {
+                            
+                            if ( add != null ) {
+            
+                                out.println ( add );
+                            }
+                            } 
+                        
+                        statement_take = connection.createStatement();		
+                        String sql ="SELECT * FROM `punktai` WHERE1";
+            
+                        resultSet = statement_take.executeQuery(sql);
+                            
+                        while( resultSet.next() ){
+
+                            String rec_data = "";
+		
+			for ( int i = 0; i < punktai.length; i++ ) { // formuojamas data laukelių sąrašas html'e data-pav="kuprinė" data-kaina="15" data-nuoruoda="kazkur.web.lt/?preke=kuprine&i=1" data-vaizdas="kuprine.png"
+
+				rec_data += " data-"  +punktai [ i ]  + "=\"" + resultSet.getString (  punktai [ i ]  ) + "\"";
+
+			}  
+			String id_rec = resultSet.getString (  "id"  );
+
+                %>
+
+                <tr>
+                    <td><input type="button" class="record_edit"  id="toEdit_<%= id_rec  %>" data-punktai="<%= id_rec  %>"<%= rec_data %> value="&#9998;" onClick="iRedagavima( <%= id_rec %> )"></td>
+                <%
+                        for ( int i = 0; i < punktai.length; i++ ) {
+                %>
+                    <td><%= resultSet.getString (  punktai [ i ]  ) %><br></td>
+                <%
+                        }
+                %>
+                </tr>
+                <% 
+                        }
+            
+                    } catch ( Exception e ) {
+                    
+                        e.printStackTrace();
+                    }
+                %>
+                </table>
                     </div>
                 </div>
     </div>
