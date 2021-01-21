@@ -147,7 +147,7 @@
 			
 				mygtukasEdit = document.getElementById ( 'toEdit_' + id_rec );
 				pav =  mygtukasEdit.dataset.pav;
-				var r = confirm( "Ar norite pašalinti budu " + pav + "?" );
+				var r = confirm( "Ar norite pašalinti keliones budai " + pav + "?" );
 				
 
 				if ( r == true ) {
