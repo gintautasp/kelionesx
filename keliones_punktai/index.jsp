@@ -208,8 +208,7 @@ e.printStackTrace();
                                 punktai [ i ] = request.getParameter ( punktai [ i ] );
                             }
                         
-                                                                                                                                                                    // Miestai miestas = new Miestai ( lent_miestu );
-                                                                                                                                                                    // miestas.takeFromParams ( request );
+                                                                                                                                                                    
             
                             for ( int i = 0; i<punktai.length; i++ ) {
                             
@@ -222,7 +221,7 @@ e.printStackTrace();
                             for ( int i = 0; i < punktai.length; i++ ) {
                             
                                 sql_ins =  sql_ins + comma  + "'" + punktai [ i ] + "'";
-                                comma = ",";																													// sql_ins = sql_ins + "'" + Miestai.value + "'";
+                                comma = ",";																												
                             }
                             
                             statement_change = connection.createStatement();
@@ -247,7 +246,7 @@ e.printStackTrace();
 		
 			for ( int i = 0; i < punktai.length; i++ ) { // formuojamas data laukelių sąrašas html'e data-pav="kuprinė" data-kaina="15" data-nuoruoda="kazkur.web.lt/?preke=kuprine&i=1" data-vaizdas="kuprine.png"
 
-				rec_data += " data-"  +punktai [ i ]  + "=\"" + resultSet.getString (  punktai [ i ]  ) + "\"";
+				rec_data += " data-"  + punktai [ i ]  + "=\"" + resultSet.getString (  punktai [ i ]  ) + "\"";
 
 			}  
 			String id_rec = resultSet.getString (  "id"  );
