@@ -126,7 +126,7 @@
 
 		String datax = 
 			"SELECT *, `lankymasis_punkte`.`aprasymas` AS `lpaprasymas`, `punktai`.`aprasymas` AS `puaprasymas`, `punktai`.`pav` AS `pupav`, `marsrutu_atkarpos`.`pav` AS `mapav`, " 
-			+ "`keliones_marsruto_atkarpos`.`aprasymas` AS `kma_aprasymas`, `keliones_marsruto_atkarpos`.`data_laikas` AS `kma_data_laikas`, `keliones_marsruto_atkarpos`.`trukme` AS `kma_trukme` FROM `lankymasis_punkte`"	 
+			+ "`keliones_marsruto_atkarpos`.`aprasymas` AS `kma_aprasymas`, `keliones_marsruto_atkarpos`.`data_laikas` AS `kma_data_laikas`, `keliones_marsruto_atkarpos`.`trukme` AS `kma_trukme`, `keliones`.`aprasymas` AS `k_aprasymas` FROM `lankymasis_punkte`"	 
 			+ "LEFT JOIN `keliones` ON ( `keliones`.`id`=`lankymasis_punkte`.`id_keliones` )"
 			+ "LEFT JOIN `punktai` ON ( `lankymasis_punkte`.`id_punkto`=`punktai`.`id` )"
 			+ "LEFT JOIN `marsrutu_atkarpos` ON ( `marsrutu_atkarpos`.`id_punkto1`=`punktai`.`id` )"
@@ -153,7 +153,7 @@ while( resultSet.next() ){
 	<td><%= resultSet.getString ( "data" ) %></td>
 	<td><%= resultSet.getString  ("laikas" ) %></td>
 	<td><%= resultSet.getString ( "trukme" ) %></td>
-	<td><%= resultSet.getString ( "aprasymas" ) %></td>
+	<td><%= resultSet.getString ( "k_aprasymas" ) %></td>
 </tr>
 
 					</table>
@@ -180,7 +180,7 @@ while( resultSet.next() ){
 uzsipilde = true;
 }
 %>					
-
+					<form method="post" action="">
 <tr class="lent_vidus">
 	<td><%= resultSet.getString ( "data_laikas" ) %></td>
 	<td><%= resultSet.getString ( "trukme" ) %></td>
@@ -191,19 +191,52 @@ uzsipilde = true;
 	<td><%= resultSet.getString ( "id_punkto2" ) %></td>
 </tr>
 
+
+
 <% 
 		}
+
 	} 
 	} catch (Exception e) {
 	
 		e.printStackTrace();
 	}
 %>
-					</table>
+						<tr class="lent_vidus">
 
+							<td>
+								<input type="text" name="pav1" value="">
+							</td>
+
+							<td>
+								<input type="text" name="pav2" value="">
+							</td>							
+
+							<td>
+								<input type="text" name="pav3" value="">
+							</td>
+
+							<td>
+								<input type="text" name="pav4" value="">
+								</td>		
+
+							<td>
+								<input type="text" name="pav5" required>
+							</td>	
+							<!--<th></th>
+							<td>
+								<input type="text" name="pav" required>
+							</td>	-->
+						</tr>
+					</table>
+					</form>
+						    <div class="col text-center">
+								<input type="submit" name="search" value="Įvesti">
+							</div>
+						</tr>
 		</div>
 	</div>
-	</form>
+	
     <script src="../js/jquery-3.4.1.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/jquery.backstretch.min.js"></script>
