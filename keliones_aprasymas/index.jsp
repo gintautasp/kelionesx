@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<body onload="mygtukas()">
 <%@page pageEncoding="UTF-8" language="java"%>
 <%@page contentType="text/html;charset=UTF-8"%>
 <%@page import="java.sql.DriverManager"%>
@@ -22,6 +23,18 @@
     <script src="../js/jquery.backstretch.min.js"></script>
     <script src="../js/templatemo-script.js"></script>
 	<script>
+		function mygtukas() {
+		
+		i = <%= request.getParameter ("i") %>;
+		
+			if ( i > 0) {
+				document.getElementById("atsirasti").removeAttribute("hidden");
+			}
+
+			else {
+				document.getElementById("atsirasti").setAttribute("hidden","");
+			}
+		}
 		function iredaguoti(){
 			
 				swal({
@@ -93,6 +106,8 @@
 
 %>
 
+
+
 <body>
 
     <div class="tm-container">        
@@ -138,7 +153,7 @@
                                     <a class="nav-link tm-nav-link" href="../keliones">Kelionės</a>
                                 </li>								
                                 <li class="nav-item">
-                                    <a class="nav-link tm-nav-link" href="../keliones_priemones">Priemonės</a>
+                                    <a class="nav-link tm-nav-link" href="../marsrutu_atkarpos">Maršrutų atkarpos</a>
                                 </li>
 								<li>
                                 </li>									
@@ -192,7 +207,7 @@
 						  
 						  <form id="contact-form-1" action="redaguoti.jsp" method="POST">
 						  <br>
-						  <div class="text-right">
+						  <div class="text-right" id ="atsirasti">
                                 <input type="button" onClick="iredaguoti()" value="Redaguoti" class="btn btn-big btn-primary"></button>
                             </div>
 							</form>
