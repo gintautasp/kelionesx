@@ -2,6 +2,10 @@
 <html lang="en">
 <%@page pageEncoding="UTF-8" language="java"%>
 <%@page contentType="text/html;charset=UTF-8"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.Connection"%>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,9 +15,87 @@
     <link href="../css/bootstrap.min.css" rel="stylesheet" />
     <link href="../font/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../css/templatemo-diagoona.css?v=1.0">
+	<%-- https://redstapler.co/sweetalert-tutorial/ --%>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="../js/jquery-3.4.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/jquery.backstretch.min.js"></script>
+    <script src="../js/templatemo-script.js"></script>
+	<script>
+		function iredaguoti(){
+			
+				swal({
+                    title: "Ačiū!",
+                    text: "Jūsų duomenys tuoj bus išsaugoti",
+                    icon: "success"
+                    });
+			forma = document.getElementById ("contact-form")
+			forma.action = "redaguoti.jsp";
+			alert(swal);
+			forma.submit();
+		}
+	</script>
 </head>
+<%
+	String driverName = "com.mysql.jdbc.Driver";
+	String connectionUrl = "jdbc:mysql://localhost:3306/";
+	String dbName = "uzduotis_keliones";
+	String userId = "root";
+	String password = "";
+	Connection connection = null;
+	Statement statement = null;
+	ResultSet resultSet = null;
+	Statement statement_take = null;
+	Statement statement_change = null;
+	int resultSetChange;
+	String datax = "";
+	try{
+	     
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");		
+		
+	} catch(Exception e) {}
+
+	try { 
+			String pavadinimas = "";
+			String data = "";
+			String laikas = "";
+			String trukme = "";
+			String flag_ivykusi = "";
+			String aprasymas = "";
+			
+	connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
+	String id = "SELECT MAX(id) AS `id` FROM `keliones`";
+	
+	
+		statement_take = connection.createStatement();	
+		resultSet = statement_take.executeQuery(id);
+			
+		if ( resultSet.next() ){
+			String idx = request.getParameter ("i");
+			data = "";
+			datax = "SELECT * FROM `keliones` WHERE `id`='"+ idx +"'";
+			
+			Statement statement_take_data = connection.createStatement();	
+			ResultSet resultSet_data = statement_take_data.executeQuery(datax);
+			
+			if ( resultSet_data.next() ){
+				
+				
+				 pavadinimas = resultSet_data.getString("pavadinimas");
+				 data = resultSet_data.getString("data");
+				 laikas = resultSet_data.getString("laikas");
+				 trukme = resultSet_data.getString("trukme");
+				 flag_ivykusi = resultSet_data.getString("flag_ivykusi");
+				 aprasymas = resultSet_data.getString("aprasymas");
+			}
+		}
+
+%>
 
 <body>
+
     <div class="tm-container">        
         <div>
             <div class="tm-row pt-4" id="top-header">
@@ -81,32 +163,41 @@
 						<strong>Po Lietuvą!</strong> </p>
                         <form id="contact-form" action="surinkti_duomenys.jsp" method="POST">
                             <div class="form-group mb-4">
-                                <input type="text" name="pavadinimas" class="form-control" placeholder="Pavadinimas" required="" /></p>
+								<input type="hidden" id="custId" name="custId" value="<%= id %>">
+                                <input type="text" name="pavadinimas" class="form-control" value="<%= pavadinimas %>" placeholder="Pavadinimas" required="" /></p>
                             </div>
                             <div class="form-group mb-4">
-                                <input type="datetime" name="data"  class="form-control" placeholder="Data" required="" />
+                                <input type="datetime" name="data"  value="<%= data %>" class="form-control" placeholder="Data" required="" />
                             </div>
 							<div class="form-group mb-4">
-                                <input type="time" name="laikas" class="number" placeholder="Laikas" required="" />
+                                <input type="time" name="laikas" class="number" value="<%= laikas %>"  placeholder="Laikas" required="" />
                             </div>
 							<div class="form-group mb-4">
-                                <input type="text" name="trukme" class="form-control" placeholder="Trukmė" required="" />
+                                <input type="text" name="trukme" class="form-control" value="<%= trukme %>" placeholder="Trukmė" required="" />
                             </div>
 							<div class="form-group mb-4">
                                Kelionė įvykusi ar planuojama?
-							   <select type="text" name = "flag_ivykusi">
-							   <option> ---Pasirinkite--- </option>
-									<option value="Įvykus">Įvykusi</option>
-									<option value="Planuojama">Planuojama</option>
+							   <select type="text" name="flag_ivykusi" value="flag_ivykusi"  />
+									<option>---Pasirinkite---</option>
+									<option value="Įvykus" <%= ( ( flag_ivykusi.equals("Įvykus") ) ? "selected" : "" ) %>>Įvykus</option>
+									<option value="Planuojama" <%= ( ( flag_ivykusi.equals("Planuojama") ) ? "selected" : "" ) %>>Planuojama</option>
 								</select>
 								</div>
                             <div class="form-group mb-5">
-                                <textarea rows="6" input type="text" name="aprasymas" class="form-control" placeholder="Aprašymas..." required=""></textarea>
+                                <textarea rows="6" input type="text" name="aprasymas" class="form-control" placeholder="Aprašymas" required="" ><%= aprasymas %></textarea>
                             </div>
                             <div class="text-right">
                                 <input type="submit" value="Patvirtinti" class="btn btn-big btn-primary"></button>
                             </div>
                         </form>
+						  
+						  <form id="contact-form-1" action="redaguoti.jsp" method="POST">
+						  <br>
+						  <div class="text-right">
+                                <input type="button" onClick="iredaguoti()" value="Redaguoti" class="btn btn-big btn-primary"></button>
+                            </div>
+							</form>
+						
                     </section>
                 </main>
             </div>
@@ -135,10 +226,14 @@
             <div class="tm-bg-right"></div>
         </div>
     </div>
-
-    <script src="../js/jquery-3.4.1.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/jquery.backstretch.min.js"></script>
-    <script src="../js/templatemo-script.js"></script>
+	
+<%
+	} catch (Exception e) {
+	
+		e.printStackTrace();
+	}
+%>
+	
+	
 </body>
 </html>

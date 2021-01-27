@@ -1,13 +1,11 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
+<html lang="en">
 <%@page pageEncoding="UTF-8" language="java"%>
 <%@page contentType="text/html;charset=UTF-8"%>
-<%@ page import="java.sql.*" %> 
-<%@ page import="java.io.*" %> 
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.Connection"%>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,13 +16,78 @@
     <link href="../font/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../css/templatemo-diagoona.css?v=1.0">
 </head>
-<HTML>
+<%
+	String driverName = "com.mysql.jdbc.Driver";
+	String connectionUrl = "jdbc:mysql://localhost:3306/";
+	String dbName = "uzduotis_keliones";
+	String userId = "root";
+	String password = "";
+	Connection connection = null;
+	Statement statement = null;
+	ResultSet resultSet = null;
+	Statement statement_take = null;
+	Statement statement_change = null;
+	int resultSetChange;
+	String datax = "";
+	String idx = "";
+	String pavadinimas = "";
+	String data = "";
+	String laikas = "";
+	String trukme = "";
+	String flag_ivykusi = "";
+	String aprasymas = "";
+	String options = "";
+	try{
+	     
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");				
+	} catch(Exception e) {}
+
+	try { 
+				
+				 pavadinimas = request.getParameter("pavadinimas");
+				 data = request.getParameter("data");
+				 laikas = request.getParameter("laikas");
+				 trukme = request.getParameter("trukme");
+				 flag_ivykusi = request.getParameter("flag_ivykusi");
+				 aprasymas = request.getParameter("aprasymas");
+			
+		connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
+		String id = "SELECT MAX(id) AS `id` FROM `keliones`";
+	
+	
+		statement_take = connection.createStatement();	
+		resultSet = statement_take.executeQuery(id);
+			
+		if ( resultSet.next() ){
+			idx = request.getParameter ("i");
+			datax = "update `keliones` set pavadinimas='"+pavadinimas+"',data='"+data+"',laikas='"+laikas+"',trukme='"+trukme+"',flag_ivykusi='"+flag_ivykusi+"',aprasymas='"+aprasymas+"' WHERE `id`='"+idx+"'";
+			
+			Statement statement_take_data = connection.createStatement();	
+			Integer resultSet_data = statement_take_data.executeUpdate(datax);
+			if(resultSet_data > 0)
+			{
+			out.print("Pakeitimai atlikti");
+			}
+			else
+			{
+			out.print("Redaguoti nepavyko");
+			}
+			
+			String redirectURL = "/polietuva/keliones_marsrutai?i=" +idx;
+			response.sendRedirect(redirectURL);
+		}
+	}		catch(Exception sql)
+			{
+			request.setAttribute("error", sql);
+			out.println(sql);
+			}
+%>
+
 <body>
- <div class="tm-bg">
-            <div class="tm-bg-left"></div>
-            <div class="tm-bg-right"></div>
-        </div>
-    </div>
+<%= datax %>
+
     <div class="tm-container">        
         <div>
             <div class="tm-row pt-4" id="top-header">
@@ -77,86 +140,18 @@
                     </nav>
                 </div>
             </div>
-<body>
-<FORM action="index.jsp" method="post">
-<TABLE style="background-color: #ECE5B6;" WIDTH="30%" >
+            
+        <!-- Diagonal background design -->
+        <div class="tm-bg">
+            <div class="tm-bg-left"></div>
+            <div class="tm-bg-right"></div>
+        </div>
+    </div>
+	
 
-<%
-	request.setCharacterEncoding("UTF-8");
-	response.setContentType("text/html; charset=UTF-8");
-	response.setCharacterEncoding("UTF-8");	
-	
-	String driverName = "com.mysql.jdbc.Driver";
-	String connectionUrl = "jdbc:mysql://localhost:3306/";
-	String dbName = "uzduotis_keliones";
-	String userId = "root";
-	String password = "";
-	String id = request.getParameter("id");
-	String pavadinimas = request.getParameter("pavadinimas");
-	String data = request.getParameter("data");
-	String laikas = request.getParameter("laikas");
-	String trukme = request.getParameter("trukme");
-	String flag_ivykusi = request.getParameter("flag_ivykusi");
-	String aprasymas = request.getParameter("aprasymas");
-	Connection connection = null;
-	PreparedStatement pstatement = null;
-	Statement statement = null;
-	ResultSet resultSet = null;
-	Statement statement_take = null;
-	Statement statement_change = null;
-	int resultSetChange;
-	int updateQuery = 0;
-	try {	
-	Class.forName(driverName);
-	} catch (ClassNotFoundException e) {
-	e.printStackTrace();
-	}
-	connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
-	String queryString = "insert into keliones (id, pavadinimas,data,laikas,trukme,flag_ivykusi,aprasymas) values(?,?,?,?,?,?,?)";
-	pstatement = connection.prepareStatement(queryString);
-	pstatement.setString(1, id);
-	pstatement.setString(2, pavadinimas);
-	pstatement.setString(3, data);
-	pstatement.setString(4, laikas);
-	pstatement.setString(5, trukme);
-	pstatement.setString(6, flag_ivykusi);
-	pstatement.setString(7, aprasymas);
-	updateQuery = pstatement.executeUpdate();
-
-	if (updateQuery != 0) {
-	
-		try{ 
-	
-		String jdbcutf8 = ""; //  "&useUnicode=true&characterEncoding=UTF-8";	
-		connection = DriverManager.getConnection ( connectionUrl + dbName + jdbcutf8, userId, password );
-			
-		String sql ="SELECT MAX(id) AS `id_keliones` FROM `keliones`";
-
-		statement_take = connection.createStatement();	
-		resultSet = statement_take.executeQuery(sql);
-		resultSet.next();
-		} catch(Exception e) {}
-		
-        String redirectURL = "/polietuva/keliones_marsrutai?i=" + resultSet.getString ("id_keliones");
-        response.sendRedirect(redirectURL);
-	}
-%>	
-	<body>
-	<TABLE class="desne lent_vidus lent_virsus" >
-	<TR>
-	<th colspan="2" style="text-align:center">Paskutinis gautas id</th>
-	</tr>
-	<tr>
-	<TD> id_keliones </TD>
-	<TD><%= resultSet.getString ("id_keliones") %></td>
-	</tr>
-	</TABLE>
-	</body>
-	
     <script src="../js/jquery-3.4.1.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/jquery.backstretch.min.js"></script>
     <script src="../js/templatemo-script.js"></script>
-
-</body> 
+</body>
 </html>
