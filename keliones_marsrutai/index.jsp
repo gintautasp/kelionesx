@@ -170,6 +170,11 @@ while( resultSet.next() ){
 							<th>Ypatybės</th>
 							<th>Id 1 punkto</th>
 							<th>Id 2 punkto</th>
+							<th>Maršruto atkarpos id</th>
+							<th>Kelionės būdo id</th>
+							<th>Keliones maršruto aprašymas</th>
+							<th>Keliones maršruto data/laikas</th>
+							<th>Keliones maršruto trukme</th>							
 							<!--<th>Punkto pavadinimas</th> "pupav"
 							<th>Punkto ilguma</th> "ilguma"
 							<th>Punkto platuma</th> "platuma"
@@ -188,7 +193,12 @@ uzsipilde = true;
 	<td><%= resultSet.getString ( "mapav" ) %></td>
 	<td><%= resultSet.getString ( "ipatybes" ) %></td>
 	<td><%= resultSet.getString  ("id_punkto1" ) %></td>
-	<td><%= resultSet.getString ( "id_punkto2" ) %></td>
+	<td><%= resultSet.getString ( "id_punkto2" ) %></td><br>
+	<td><%= resultSet.getString ( "id_marsruto_atkarpos" ) %></td>
+	<td><%= resultSet.getString ( "id_keliones_būdo" ) %></td>
+	<td><%= resultSet.getString ( "kma_aprasymas" ) %></td>
+	<td><%= resultSet.getString ( "kma_data_laikas" ) %></td>
+	<td><%= resultSet.getString ( "kma_trukme" ) %></td>
 </tr>
 
 
@@ -223,10 +233,44 @@ uzsipilde = true;
 							<td>
 								<input type="text" name="pav5" required>
 							</td>	
-							<!--<th></th>
+
 							<td>
-								<input type="text" name="pav" required>
-							</td>	-->
+								<select name="id_punkto1" id="id_punkto1">
+								<option value="1"> Kebabinė </option>
+								<option value="2"> Vykcara fabrikas </option>
+								</select>
+							</td>
+							
+							<td>
+								<select name="id_punkto2" id="id_punkto2">
+								
+								</select>
+							</td>
+							
+							<td>
+								<select name="id_marsruto_atkarpos" id="id_marsruto_atkarpos">
+								
+								</select>
+							</td>
+							
+							<td>
+								<select name="id_keliones_būdo" id="id_keliones_būdo">
+								
+								</select>
+							</td>
+							
+							<td>
+								<input type="text" name="pav6" required>
+							</td>
+							
+							<td>
+								<input type="text" name="pav7" required>
+							</td>
+							
+							<td>
+								<input type="text" name="pav8" required>
+							</td>
+														
 						</tr>
 					</table>
 					</form>
