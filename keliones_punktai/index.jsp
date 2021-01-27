@@ -21,7 +21,7 @@
 
 	String driverName = "com.mysql.jdbc.Driver";
 	String connectionUrl = "jdbc:mysql://localhost:3306/";
-	String dbName = "kelioneee";
+	String dbName = "uzduotis_keliones";
 	String userId = "root";
 	String password = "";
 
@@ -39,18 +39,16 @@
         
         if ( mygtukas = document.getElementById ( 'toEdit_' + id_rec ) ) {
 <%
-            for ( int i=0; i<pv_punktai.length; i++ ) {
+            for ( int i=0; i<punktai.length; i++ ) {
 %>
                 document.getElementById( '<%= punktai [ i ]  %>' ).value =  mygtukas.dataset.<%= punktai [ i ]  %>;
 <%	
             }
 %>
-            document.getElementById ( "id_punkto" ).value = id_rec;
+                document.getElementById ( "punkto" ).value = id_rec;
         }
     }
-
-
-        
+   
 <%		
 try {
     String del;
@@ -179,7 +177,8 @@ e.printStackTrace();
             try { 
                     
                 connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
-                String add; 
+                String add;
+                String sql_ins = "";
                 
                 if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "Pridėti" ) ) {
 
@@ -188,13 +187,11 @@ e.printStackTrace();
                         pv_punktai [ i ] = request.getParameter ( punktai [ i ] );
                     }
                     
-
-                    String sql_ins = "";
                     String comma = "";
                     
-                    for ( int i = 0; i < punktai.length; i++ ) {
+                    for ( int i = 0; i < id_punktai.length; i++ ) {
                     
-                        sql_ins =  sql_ins + comma  + "'" + pv_punktai [ i ] + "'";
+                        sql_ins =  sql_ins + comma  + "'" punktai [ i ] + "'";
                         comma = ",";																												
                     }
                     
