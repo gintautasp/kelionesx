@@ -23,7 +23,7 @@
 // String id = request.getParameter("userId");
 	String driverName = "com.mysql.jdbc.Driver";
 	String connectionUrl = "jdbc:mysql://localhost:3306/";
-	String dbName = "kelionesx";
+	String dbName = "uzduotis_keliones";
 	String userId = "root";
 	String password = "";
 
