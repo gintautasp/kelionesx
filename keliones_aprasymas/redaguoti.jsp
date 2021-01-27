@@ -30,7 +30,7 @@
 	int resultSetChange;
 	String datax = "";
 	String idx = "";
-	String pavadinimas = "";
+	String pav = "";
 	String data = "";
 	String laikas = "";
 	String trukme = "";
@@ -46,7 +46,7 @@
 
 	try { 
 				
-				 pavadinimas = request.getParameter("pavadinimas");
+				 pav = request.getParameter("pav");
 				 data = request.getParameter("data");
 				 laikas = request.getParameter("laikas");
 				 trukme = request.getParameter("trukme");
@@ -62,7 +62,7 @@
 			
 		if ( resultSet.next() ){
 			idx = request.getParameter ("i");
-			datax = "update `keliones` set pavadinimas='"+pavadinimas+"',data='"+data+"',laikas='"+laikas+"',trukme='"+trukme+"',flag_ivykusi='"+flag_ivykusi+"',aprasymas='"+aprasymas+"' WHERE `id`='"+idx+"'";
+			datax = "update `keliones` set pav='"+pav+"',data='"+data+"',laikas='"+laikas+"',trukme='"+trukme+"',flag_ivykusi='"+flag_ivykusi+"',aprasymas='"+aprasymas+"' WHERE `id`='"+idx+"'";
 			
 			Statement statement_take_data = connection.createStatement();	
 			Integer resultSet_data = statement_take_data.executeUpdate(datax);

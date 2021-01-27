@@ -31,7 +31,6 @@
                     });
 			forma = document.getElementById ("contact-form")
 			forma.action = "redaguoti.jsp";
-			alert(swal);
 			forma.submit();
 		}
 	</script>
@@ -58,7 +57,7 @@
 	} catch(Exception e) {}
 
 	try { 
-			String pavadinimas = "";
+			String pav = "";
 			String data = "";
 			String laikas = "";
 			String trukme = "";
@@ -83,7 +82,7 @@
 			if ( resultSet_data.next() ){
 				
 				
-				 pavadinimas = resultSet_data.getString("pavadinimas");
+				 pav = resultSet_data.getString("pav");
 				 data = resultSet_data.getString("data");
 				 laikas = resultSet_data.getString("laikas");
 				 trukme = resultSet_data.getString("trukme");
@@ -164,7 +163,7 @@
                         <form id="contact-form" action="surinkti_duomenys.jsp" method="POST">
                             <div class="form-group mb-4">
 								<input type="hidden" id="custId" name="custId" value="<%= id %>">
-                                <input type="text" name="pavadinimas" class="form-control" value="<%= pavadinimas %>" placeholder="Pavadinimas" required="" /></p>
+                                <input type="text" name="pav" class="form-control" value="<%= pav %>" placeholder="Pavadinimas" required="" /></p>
                             </div>
                             <div class="form-group mb-4">
                                 <input type="datetime" name="data"  value="<%= data %>" class="form-control" placeholder="Data" required="" />

@@ -92,7 +92,7 @@
 	String userId = "root";
 	String password = "";
 	String id = request.getParameter("id");
-	String pavadinimas = request.getParameter("pavadinimas");
+	String pav = request.getParameter("pav");
 	String data = request.getParameter("data");
 	String laikas = request.getParameter("laikas");
 	String trukme = request.getParameter("trukme");
@@ -112,10 +112,10 @@
 	e.printStackTrace();
 	}
 	connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
-	String queryString = "insert into keliones (id, pavadinimas,data,laikas,trukme,flag_ivykusi,aprasymas) values(?,?,?,?,?,?,?)";
+	String queryString = "insert into keliones (id, pav,data,laikas,trukme,flag_ivykusi,aprasymas) values(?,?,?,?,?,?,?)";
 	pstatement = connection.prepareStatement(queryString);
 	pstatement.setString(1, id);
-	pstatement.setString(2, pavadinimas);
+	pstatement.setString(2, pav);
 	pstatement.setString(3, data);
 	pstatement.setString(4, laikas);
 	pstatement.setString(5, trukme);
