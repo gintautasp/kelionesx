@@ -31,24 +31,15 @@
 	ResultSet resultSet = null;
     int resultSetChange;
     
-    String[] punktai = {  "pav", "platuma", "ilguma", "aprasymas"  };
-                    String[] kelioneee = new String [ punktai.length ];   
-                    try{
-                            
-                        request.setCharacterEncoding("UTF-8");
-                        response.setContentType("text/html; charset=UTF-8");
-                        response.setCharacterEncoding("UTF-8");		
-                        
-                    } catch(Exception e) {}
-
 %>
 
     <script>
+
         function iRedagavima ( id_rec ) {
         
         if ( mygtukas = document.getElementById ( 'toEdit_' + id_rec ) ) {
 <%
-            for ( int i=0; i<punktai.length; i++ ) {
+            for ( int i=0; i<pv_punktai.length; i++ ) {
 %>
                 document.getElementById( '<%= punktai [ i ]  %>' ).value =  mygtukas.dataset.<%= punktai [ i ]  %>;
 <%	
@@ -58,28 +49,7 @@
         }
     }
 
-            function iTrinima ( id_rec ) {
-        
-        mygtukasEdit = document.getElementById ( 'toEdit_' + id_rec );
 
-        pav =  mygtukasEdit.dataset.pav;
-        
-        var r = confirm( "Ar norite pašalinti miestą " + pav + "?" );
-        
-        alert( r );
-        alert ( r == true );
-        
-        if ( r == true ) {
-
-            alert( id_rec + "1" );
-            document.getElementById ( "m_del" ).value = id_rec;
-            alert( id_rec  + "2" );
-            forma_del = document.getElementById ( "del_rec" );
-            alert( forma_del );
-            forma_del.submit();
-        }
-    }
-       // alert ( "ops " );
         
 <%		
 try {
@@ -194,69 +164,81 @@ e.printStackTrace();
 
                     <table>
 
-                    <%
+<%
+        String[] punktai = {  "pav", "platuma", "ilguma", "aprasymas"  };
+        String[] pv_punktai = new String [ punktai.length ];   
+               
+            try {
+                        
+            request.setCharacterEncoding("UTF-8");
+            response.setContentType("text/html; charset=UTF-8");
+            response.setCharacterEncoding("UTF-8");		
             
-                    try { 
+                } catch(Exception e) {}
+            
+            try { 
                     
-                        connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
-                        String add; 
-                        
-                        if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "Pridėti" ) ) {
+                connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
+                String add; 
+                
+                if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "Pridėti" ) ) {
 
-                            for ( int i = 0; i<punktai.length; i++ ) {
-			
-                                punktai [ i ] = request.getParameter ( punktai [ i ] );
-                            }
-                        
-                                                                                                                                                                    
-            
-                            for ( int i = 0; i<punktai.length; i++ ) {
-                            
-                                kelioneee [ i ] = request.getParameter ( punktai [ i ] );
-                            }
-            
-                            String sql_ins = "";
-                            String comma = "";
-                            
-                            for ( int i = 0; i < punktai.length; i++ ) {
-                            
-                                sql_ins =  sql_ins + comma  + "'" + punktai [ i ] + "'";
-                                comma = ",";																												
-                            }
-                            
-                            statement_change = connection.createStatement();
-                            resultSetChange = statement_change.executeUpdate(sql_ins);			
-                            
-                            } else {
-                            
-                            if ( add != null ) {
-            
-                                out.println ( add );
-                            }
-                            } 
-                        
-                        statement_take = connection.createStatement();		
-                        String sql ="SELECT * FROM `punktai` WHERE1";
-            
-                        resultSet = statement_take.executeQuery(sql);
-                            
-                        while( resultSet.next() ){
+                    for ( int i=0; i<punktai.length; i++ ) {
 
-                            String rec_data = "";
+                        pv_punktai [ i ] = request.getParameter ( punktai [ i ] );
+                    }
+                    
+
+                    String sql_ins = "";
+                    String comma = "";
+                    
+                    for ( int i = 0; i < punktai.length; i++ ) {
+                    
+                        sql_ins =  sql_ins + comma  + "'" + pv_punktai [ i ] + "'";
+                        comma = ",";																												
+                    }
+                    
+                    sql_ins = 
+                    "INSERT INTO `punktai`"
+                    + " (`pav`, `ilguma`, `platuma`, `aprasymas` )"
+                    + " VALUES ( "			
+                    + sql_ins
+                    + " )";
+                    out.println (sql_ins);
+
+                    statement_change = connection.createStatement();
+                    resultSetChange = statement_change.executeUpdate(sql_ins);			
+                    
+                } else {
+                    
+                    if ( add != null ) {
+
+                        out.println ( add );
+                    }
+                } 
+                        
+                statement_take = connection.createStatement();		
+                String sql ="SELECT * FROM `punktai` WHERE1";
+
+                resultSet = statement_take.executeQuery(sql);
+                            
+                while ( resultSet.next() ){
+
+                    String rec_data = "";
 		
-			for ( int i = 0; i < punktai.length; i++ ) { // formuojamas data laukelių sąrašas html'e data-pav="kuprinė" data-kaina="15" data-nuoruoda="kazkur.web.lt/?preke=kuprine&i=1" data-vaizdas="kuprine.png"
+                    for ( int i = 0; i < punktai.length; i++ ) { 
 
-				rec_data += " data-"  + punktai [ i ]  + "=\"" + resultSet.getString (  punktai [ i ]  ) + "\"";
+                        rec_data += " data-"  + punktai [ i ]  + "=\"" + resultSet.getString (  punktai [ i ]  ) + "\"";
 
-			}  
-			String id_rec = resultSet.getString (  "id"  );
+                    }  
+			        String id_rec = resultSet.getString (  "id"  );
 
                 %>
 
                 <tr>
                     <td><input type="button" class="record_edit"  id="toEdit_<%= id_rec  %>" data-punktai="<%= id_rec  %>"<%= rec_data %> value="&#9998;" onClick="iRedagavima( <%= id_rec %> )"></td>
                 <%
-                        for ( int i = 0; i < punktai.length; i++ ) {
+                        for ( int i = 0; i < pv_punktai.length; i++ ) {
                 %>
                     <td><%= resultSet.getString (  punktai [ i ]  ) %><br></td>
                 <%
@@ -266,7 +248,7 @@ e.printStackTrace();
                 <% 
                         }
             
-                    } catch ( Exception e ) {
+            } catch ( Exception e ) {
                     
                         e.printStackTrace();
                     }
