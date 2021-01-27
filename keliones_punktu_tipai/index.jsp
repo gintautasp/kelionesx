@@ -11,7 +11,7 @@
 
 	String driverName = "com.mysql.jdbc.Driver";
 	String connectionUrl = "jdbc:mysql://localhost:3306/";
-	String dbName = "keliones";
+	String dbName = "uzduotis_keliones";
 	String userId = "root";
 	String password = "";
 	
@@ -250,55 +250,73 @@
 					</tr>
 					
 					<tbody id="tasks">
+		
 
-<%
+<%		String id_punkto_tipo = "0";
 	try { 
-	
-			connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
-			String add; 
+		connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
+		String add; 
+		String sql_ins = "";
 		
-			if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "Papildyti" ) ) {
+		if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "Papildyti" ) ) {
 		
-
-				for ( int i = 0; i<lent_punktu_tipai.length; i++ ) {
-
-
-					lauk_punktu_tipu [ i ] = request.getParameter ( lent_punktu_tipai [ i ] );	
-
-				}
+			for ( int i = 0; i<lent_punktu_tipai.length; i++ ) {																																		// Miestai miestas = new Miestai ( lent_miestu );
+																																					// miestas.takeFromParams ( request );for ( int i = 0; i<lent_punktu_tipai.length; i++ ) {
+				lauk_punktu_tipu [ i ] = request.getParameter ( lent_punktu_tipai [ i ] );
+			}
+			
+			String comma = "";
+			id_punkto_tipo = request.getParameter( "id_punkto_tipo" );
 		
-				String sql_ins = "";
-				String comma = "";
+			
+			if ( ( id_punkto_tipo ==null) || ( id_punkto_tipo.equals("0" ) ) ) {
 			
 				for ( int i = 0; i < lent_punktu_tipai.length; i++ ) {
-				
+			
 					sql_ins =  sql_ins + comma  + "'" + lauk_punktu_tipu [ i ] + "'";
-					comma = ",";	
+					comma = ",";																													// sql_ins = sql_ins + "'" + Miestai.value + "'";
 				}
-				
+			
+			
 				sql_ins = "INSERT INTO `punktu_tipai`"  
-					+ " ( `pav` )"
-					+ " VALUES ( "			
-					+ sql_ins
-					+ " )";
-
+				+ " ( `pav` )"
+				+ " VALUES ( "			
+				+ sql_ins
+				+ " )";
+				
+				
 				out.println ( sql_ins );
-
+			
 				statement_change = connection.createStatement();
 				resultSetChange = statement_change.executeUpdate(sql_ins);	
-
+				
+			
+			
+			} else {
+		 
+				//turi buti vykdomas atnaujinimas, paredagavus. Upadte my sql (php my admin )
+				// UPDATE `punktu_tipai` SET `pav` = 'Tiškeviciaus dvaras' WHERE `punktu_tipai`.`id` = 3;  ( 290 291  288 pvz )
+			}
+			
+			
+		
+			
+			
 			} else {
 		 
 				if ( add != null ) {
 
-				out.println ( add );
+					out.println ( add );
+				}	
 			}
-		 } 
+
+	
 			
 		
 		statement_take = connection.createStatement();		
 		String sql ="SELECT * FROM `punktu_tipai` WHERE 1";
-
+		
+		
 		resultSet = statement_take.executeQuery(sql);
 		
 		while( resultSet.next() ){
@@ -312,6 +330,8 @@
 				rec_data += "data-" + lent_punktu_tipai [ i ] + "=\"" + resultSet.getString	 ( lent_punktu_tipai [ i ] ) + "\"";
 			}
 					String id_rec = resultSet.getString ( "id" );
+					
+				
 %>
 					
 	<tr>
