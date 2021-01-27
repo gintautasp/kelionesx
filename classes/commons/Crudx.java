@@ -7,7 +7,7 @@
 		public String[] laukai;
 		public String[] n_pav;
 		public String sal;
-		public int res_update;
+
 		public boolean res_select;
 		
 		public Crudx() {
@@ -58,8 +58,9 @@
 			return sql_sel;
 		}
 		
-		public String insert ( String[] values ) {
+		public QuerySaveResult insert ( String[] values ) {
 			
+			QuerySaveResult grs;
 			String[] reiksmes = values;
 			String sql_insert = "INSERT INTO " + " `" + lent + "` ( ";
 			String comma = "";
@@ -86,7 +87,7 @@
 			return sql_insert;
 		}
 		
-		public String update ( String[] values, String by ) {
+		public QuerySaveResult update ( String[] values, String by ) {
 			
 			String[] reiksmes = values;
 			String sql_update = "UPDATE" + " `" + lent + "` SET\n ";
