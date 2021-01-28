@@ -30,7 +30,8 @@
 	Statement statement_change = null;
 	ResultSet resultSet = null;
     int resultSetChange;
-    
+    String[] punktai = {  "pav", "platuma", "ilguma", "aprasymas"  };
+    String[] reiksmes_punktai = new String [ punktai.length ];
 %>
 
     <script>
@@ -45,29 +46,29 @@
 <%	
             }
 %>
-                document.getElementById ( "punkto" ).value = id_rec;
+                document.getElementById ( "id_punkto" ).value = id_rec
         }
     }
-   
+   alert ("paima");
 <%		
-try {
-    String del;
-    String where_salyga;
+        try {
+            String del;
+            String where_salyga;
 
-    if ( ( ( del = request.getParameter("del")  ) != null ) && del.equals ( "del1rec" ) ) {
+            if ( ( ( del = request.getParameter("del")  ) != null ) && del.equals ( "del1rec" ) ) {
 %>
-        // alert( "opa" );
+                // alert( "opa" );
 <%
-    //	String sql_delete = keliones_punktai.delete (keliones_punktai);
-    //	statement_change = connection.createStatement();
-    //	resultSetChange = statement_change.executeUpdate(sql_delete);
-        
+            //	String sql_delete = keliones_punktai.delete (keliones_punktai);
+            //	statement_change = connection.createStatement();
+            //	resultSetChange = statement_change.executeUpdate(sql_delete);
+                
+            }
+
+        }  catch ( Exception e ) {
+
+            e.printStackTrace();
     }
-
-}  catch ( Exception e ) {
-
-e.printStackTrace();
-}
 %>	
 
 </script>
@@ -163,8 +164,7 @@ e.printStackTrace();
                     <table>
 
 <%
-        String[] punktai = {  "pav", "platuma", "ilguma", "aprasymas"  };
-        String[] pv_punktai = new String [ punktai.length ];   
+  
                
             try {
                         
@@ -184,14 +184,14 @@ e.printStackTrace();
 
                     for ( int i=0; i<punktai.length; i++ ) {
 
-                        pv_punktai [ i ] = request.getParameter ( punktai [ i ] );
+                        reiksmes_punktai [ i ] = request.getParameter ( punktai [ i ] );
                     }
                     
                     String comma = "";
                     
-                    for ( int i = 0; i < id_punktai.length; i++ ) {
+                    for ( int i = 0; i < reiksmes_punktai.length; i++ ) {
                     
-                        sql_ins =  sql_ins + comma  + "'" punktai [ i ] + "'";
+                        sql_ins =  sql_ins + comma  + "'" + punktai [ i ] + "'";
                         comma = ",";																												
                     }
                     
@@ -233,9 +233,9 @@ e.printStackTrace();
                 %>
 
                 <tr>
-                    <td><input type="button" class="record_edit"  id="toEdit_<%= id_rec  %>" data-punktai="<%= id_rec  %>"<%= rec_data %> value="&#9998;" onClick="iRedagavima( <%= id_rec %> )"></td>
+                    <td><input type="button" class="record_edit"  id="toEdit_<%= id_rec  %>" data-id_punkto="<%= id_rec  %>"<%= rec_data %> value="&#9998;" onClick="iRedagavima( <%= id_rec %> )"></td>
                 <%
-                        for ( int i = 0; i < pv_punktai.length; i++ ) {
+                        for ( int i = 0; i < reiksmes_punktai.length; i++ ) {
                 %>
                     <td><%= resultSet.getString (  punktai [ i ]  ) %><br></td>
                 <%
