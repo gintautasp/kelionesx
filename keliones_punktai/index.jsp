@@ -46,10 +46,10 @@
 <%	
             }
 %>
-                document.getElementById ( "id_punkto" ).value = id_rec
+                document.getElementById ( "id_punkto" ).value = id_rec;
         }
     }
-   alert ("paima");
+
 <%		
         try {
             String del;
@@ -148,10 +148,9 @@
                         
                         <label for="text">Aprašymas</label>
                         <input type="text" id="aprasymas" name="aprasymas" value="">
+
                         <input type="submit" name="add" value="Pridėti"><br>
                     
-
-                  
                     <input type="hidden" id="id_punkto" name="id_punkto" value="0">
                     
                 </form>    
@@ -161,7 +160,7 @@
                     <input type="hidden" id="m_del" name="m_del" value="0">
                 </form>
 
-                    <table>
+                <table>
 
 <%
   
@@ -182,30 +181,42 @@
                 
                 if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "Pridėti" ) ) {
 
-                    for ( int i=0; i<punktai.length; i++ ) {
+                    String id_punkto = request.getParameter ("id_punkto");
 
-                        reiksmes_punktai [ i ] = request.getParameter ( punktai [ i ] );
-                    }
-                    
-                    String comma = "";
-                    
-                    for ( int i = 0; i < reiksmes_punktai.length; i++ ) {
-                    
-                        sql_ins =  sql_ins + comma  + "'" + punktai [ i ] + "'";
-                        comma = ",";																												
-                    }
-                    
-                    sql_ins = 
-                    "INSERT INTO `punktai`"
-                    + " (`pav`, `ilguma`, `platuma`, `aprasymas` )"
-                    + " VALUES ( "			
-                    + sql_ins
-                    + " )";
-                    out.println (sql_ins);
+                    if ( (id_punkto==null) || id_punkto.equals("0") ) {
 
-                    statement_change = connection.createStatement();
-                    resultSetChange = statement_change.executeUpdate(sql_ins);			
-                    
+                        for ( int i=0; i<punktai.length; i++ ) {
+
+                            reiksmes_punktai [ i ] = request.getParameter ( punktai [ i ] );
+                        }
+                        
+                        String comma = "";
+                        
+                        for ( int i = 0; i < reiksmes_punktai.length; i++ ) {
+                        
+                            sql_ins =  sql_ins + comma  + "'" + punktai [ i ] + "'";
+                            comma = ",";																												
+                        }
+                        
+                        sql_ins = 
+                        "INSERT INTO `punktai`"
+                        + " (`pav`, `ilguma`, `platuma`, `aprasymas` )"
+                        + " VALUES ( "			
+                        + sql_ins
+                        + " )";
+                        out.println (sql_ins);
+
+                        statement_change = connection.createStatement();
+                        resultSetChange = statement_change.executeUpdate(sql_ins);
+
+                    } else {
+
+                        sql_ins = "UPDATE `punktai` SET `pav`='"+request.getParameter("pav")+"',ilguma='"+request.getParameter("ilguma")+"',platuma='"+request.getParameter("platuma")+"',aprasymas='"+request.getParameter("aprasymas")+"' WHERE `id` ="+id_punkto;
+
+                        statement_change = connection.createStatement();
+                        resultSetChange = statement_change.executeUpdate(sql_ins);
+                    } 
+
                 } else {
                     
                     if ( add != null ) {
@@ -216,10 +227,9 @@
                         
                 statement_take = connection.createStatement();		
                 String sql ="SELECT * FROM `punktai` WHERE1";
-
                 resultSet = statement_take.executeQuery(sql);
                             
-                while ( resultSet.next() ){
+                     while ( resultSet.next() ){
 
                     String rec_data = "";
 		
@@ -233,7 +243,7 @@
                 %>
 
                 <tr>
-                    <td><input type="button" class="record_edit"  id="toEdit_<%= id_rec  %>" data-id_punkto="<%= id_rec  %>"<%= rec_data %> value="&#9998;" onClick="iRedagavima( <%= id_rec %> )"></td>
+                    <td><input type="button" class="record_edit" id="toEdit_<%= id_rec  %>" data-id_punkto="<%= id_rec  %>"<%= rec_data %> value="&#9998;" onClick="iRedagavima( <%= id_rec %> )"></td>
                 <%
                         for ( int i = 0; i < reiksmes_punktai.length; i++ ) {
                 %>
