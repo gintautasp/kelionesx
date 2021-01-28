@@ -21,19 +21,20 @@
 			laukai = laukeliai;
 		}
 		
-		public String delete ( String id_trinamo ) {
+		public QuerySaveResut delete ( String id_trinamo ) {
 			
-			String sql_delete = "DELETE"
+			QuerySaveResut qrs;
+			qrs.query_save = "DELETE"
 
 						+ " FROM" 
 							+ " `" + lent + "` " 
 					;
-			sql_delete 	+= " WHERE `id`=" + id_trinamo
+			qrs.query_save 	+= " WHERE `id`=" + id_trinamo
 					;
 			
-			res_update = update ( "delete", sql_delete ); 
+			qrs.flag_result_save = update ( "delete", sql_delete ); 
 
-			return sql_delete;
+			return qrs;
 		}
 		
 		public String select ( String by ) {
@@ -58,52 +59,52 @@
 			return sql_sel;
 		}
 		
-		public QuerySaveResult insert ( String[] values ) {
+		public QuerySaveResult insert ( String[] reiksmrs ) {
 			
-			QuerySaveResult grs;
-			String[] reiksmes = values;
-			String sql_insert = "INSERT INTO " + " `" + lent + "` ( ";
+
+			QuerySaveResut qrs;
+			qrs.query_save = "INSERT INTO " + " `" + lent + "` ( ";
 			String comma = "";
 			
 			for ( int i = 1; i < laukai.length; i++ ) {
 				
-				sql_insert += comma  + " `" + laukai [ i ] + "` ";
+				qrs.query_save += comma  + " `" + laukai [ i ] + "` ";
 				comma = ",";																													// sql_ins = sql_ins + "'" + Miestai.value + "'";
 			}
 			
 			comma = "";
-			sql_insert += ") VALUES ( ";
+			qrs.query_save += ") VALUES ( ";
 			
 			for ( int i = 1; i < reiksmes.length; i++ ) {
 
-				sql_insert += comma + " '" + reiksmes[i] + "' ";
+				qrs.query_save += comma + " '" + reiksmes[i] + "' ";
 				comma = ",";	
 				
 			}
-			sql_insert += " )";
+			qrs.query_save += " )";
 			
-			res_update = update ( "insert", sql_insert );
+			qrs.flag_result_save = update ( "insert", qrs.query_save );
 
-			return sql_insert;
+			return qrs;
 		}
 		
-		public QuerySaveResult update ( String[] values, String by ) {
+		public QuerySaveResult update ( String[] reiksmes, String by ) {
+						
+			QuerySaveResut qrs;
+			qrs.query_save = "UPDATE" + " `" + lent + "` SET\n ";
 			
-			String[] reiksmes = values;
-			String sql_update = "UPDATE" + " `" + lent + "` SET\n ";
 			String comma = "";
 			
 			for ( int i = 0; i < laukai.length; i++ ) {
 				
-				sql_update += comma  + " `" + laukai [ i ] + "`='" + reiksmes [ i ] + "'\n";
+				qrs.query_save += comma  + " `" + laukai [ i ] + "`='" + reiksmes [ i ] + "'\n";
 				comma = ",";																													// sql_ins = sql_ins + "'" + Miestai.value + "'";
 			}
 			
-			sql_update += " WHERE " + by;
+			qrs.query_save += " WHERE " + by;
 			
-			res_update = update ( "update", sql_update );			
+			qrs.flag_result_save = update ( "update", qrs.query_save );			
 			
-			return sql_update;
+			return qrs;
 		}
-		
 	}
