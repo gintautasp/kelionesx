@@ -149,7 +149,7 @@
                         <label for="text">Aprašymas</label>
                         <input type="text" id="aprasymas" name="aprasymas" value="">
 
-                        <input type="submit" name="add" value="Pridėti"><br>
+                        <input type="submit" name="add" value="Prideti"><br>
                     
                     <input type="hidden" id="id_punkto" name="id_punkto" value="0">
                     
@@ -176,14 +176,16 @@
             try { 
                     
                 connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
-                String add;
-                String sql_ins = "";
+                String add = "";
                 
-                if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "Pridėti" ) ) {
+                String sql_ins = "";
+            
+                if ( ( ( add = request.getParameter("add") ) != null ) && add.equals ( "Prideti" ) ) {
 
                     String id_punkto = request.getParameter ("id_punkto");
+                    
 
-                    if ( (id_punkto==null) || id_punkto.equals("0") ) {
+                    if ( (id_punkto==null) || id_punkto.equals ("0") ) {
 
                         for ( int i=0; i<punktai.length; i++ ) {
 
@@ -194,7 +196,7 @@
                         
                         for ( int i = 0; i < reiksmes_punktai.length; i++ ) {
                         
-                            sql_ins =  sql_ins + comma  + "'" + punktai [ i ] + "'";
+                            sql_ins =  sql_ins + comma  + "'" + reiksmes_punktai [ i ] + "'";
                             comma = ",";																												
                         }
                         
