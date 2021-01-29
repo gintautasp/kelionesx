@@ -7,45 +7,21 @@
 <%@page language="java" import="commons.QuerySaveResult" %>
 <%@page language="java" import="commons.CrudXY" %>
 <%
-
-	String[] lent_galimybes = { "id", "pav" };
-	String[] lauk_galimybiu = new String [ lent_vart.length ];		
-	CrudXY crud_galimybes = new Crudx ( "galimybes", lent_vart );
-%>
-<html>
-	<head>
-<%	
 	try {
 	     
 		request.setCharacterEncoding ( "UTF-8" );
 		response.setContentType ( "text/html; charset=UTF-8" );
 		response.setCharacterEncoding ( "UTF-8" );		
 		
-	} catch ( Exception e ) {}
-%>	
-		<meta charset="utf-8">
-		<style>
-			table {
-				border-collapse: collapse;
-			}
-			form {
-				float: right;
-			}
-			input {
-				width: 111px;
-			}
-			th, td {
-				padding: 3px 4px;
-				border: 1px solid black;
-			}
-			th {
-				background-color: #A52A2A;
-			}
-			td {
-				background-color: #DEB887;			
-			}
-		</style>
-<%		
+	} catch ( Exception e ) { 
+	
+		e.printStackTrace();
+	}
+	
+	String[] lent_galimybes = { "id", "pav" };
+	String[] lauk_galimybiu = new String [ lent_vart.length ];		
+	CrudXY crud_galimybes = new Crudx ( "galimybes", lent_vart );
+
 	try { 
 	
 		QuerySaveResult qrs;
@@ -78,36 +54,38 @@
 	
 		e.printStackTrace();
 	}
-%>		 
-<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+%>
+<html>
+	<head>	
+		<meta charset="utf-8">
+		<style>
+			table {
+				border-collapse: collapse;
+			}
+			form {
+				float: right;
+			}
+			input {
+				width: 111px;
+			}
+			th, td {
+				padding: 3px 4px;
+				border: 1px solid black;
+			}
+			th {
+				background-color: #A52A2A;
+			}
+			td {
+				background-color: #DEB887;			
+			}
+		</style>
+		 
+		<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 		<script>
-			function iRedagavima ( id_rec ) {
-			
-				if ( mygtukas = document.getElementById ( 'toEdit_' + id_rec ) ) {
-<%
-					for ( int i=1; i<lent_vart.length; i++ ) {
-%>
-						document.getElementById( '<%= lent_vart [ i ]  %>' ).value =  mygtukas.dataset.<%= lent_vart [ i ]  %>;
-<%	
-					}
-%>
-					document.getElementById ( "id_vart" ).value = id_rec;
-				}
-			}
-			
-			function iValyma () {
-<%
-				for ( int i = 1; i<lent_vart.length; i++ ) {
-%>																																								
-					document.getElementById( '<%= lent_vart [ i ]  %>' ).value =  "";
-<%	
-				}
-%>
-			}
-			
-<%
-			out.println ( crud_galimybes.jsTrynimui ( "galimybe" ) );
-%>
+
+			<%= crud_galimybes.jsRedagavimui ( "id_gal" ) %> 
+			<%= crud_galimybes.jsValymui() %>
+			<%= crud_galimybes.jsTrynimui ( "galimybe" ) %>
 
 			$( document ).ready( function() {
 			
