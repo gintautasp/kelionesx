@@ -109,7 +109,7 @@
 				document.getElementById( "id_punkto_tipo" ).value = id_rec
 			}
 		}
-	/*	
+		
 			function iValyma () {
 <%
 				
@@ -129,43 +129,24 @@
 				
 				pav = mygtukasEdit.dataset.pav;
 				
-				var r = confirm( "Ar norite pašalinti punto tipa" + pav + "?" );
+				var r = confirm( "Ar norite pašalinti punkto tipa" + pav + "?" );
 				
-				alert( r );
-				alert ( r == true );
+				//alert( r );
+				//alert ( r == true );
 				
 				if ( r == true ) {
 					
-					alert(id_rec + "1" );
+					//alert(id_rec + "1" );
 					document.getElementById ( "m_del" ).value = id_rec;
-					alert( id_rec + "2" );
+					//alert( id_rec + "2" );
 					forma_del = document.getElementById ( "del_rec" );
-					alert( forma_del );
+					//alert( forma_del );
 					forma_del.submit();
 				}
 				
 			}
-				alert ( "ops" ); */
-<%
-	try {
-		String del;
-		String where_salyga;
-		
-		if ( ( (  del = request.getParameter("del" ) ) != null) && del.equals ( "delirec" ) ) {		
-%>
+				//alert ( "ops" ); 
 
-<%   /*
-			
-			String sql_delete = lent_punktu_tipai.delete ( id_punkto_tipo );
-			statement_change = connection.createStatement();
-			resultSetChange = statement_change.executeUpdate(sql_delete);
-		*/}
-		
-	} catch ( Exception e ) {
-	
-		e.printStackTrace();
-	}
-%>
 	</script>
 		
 </head>
@@ -230,33 +211,12 @@
 				<h1>Punktu tipai</h1>
 				<p>Pavadinimas</p>
 			</div>
-				
-			<div class="form">
-				<form action="" method="POST">
-				<input type="text" id="pav" name="pav" placeholder="Punktu_tipai">
-				<input type="submit" name="add" value="Papildyti" class="btn btn-primary">
-				<input type="hidden" id="id_punkto_tipo" name="id_punkto_tipo" value="0">
-		
-			</form>
-			<form id="del_rec" method="post" action="">
-				<input type="hidden" name="del" value="del1rec">
-				<input type="hidden" id="m_del" name="m_del" value="0">
-			</form>
-				<p>Punktu tipai</p>
-				<p id="counter"></p>
-				<table class="pt-centrinis">
-					<tr class="punktu_tipai">
-					<th><h6>Punktu tipai</h6></th>
-					</tr>
-					
-					<tbody id="tasks">
-		
-
 <%		String id_punkto_tipo = "0";
 	try { 
 		connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
 		String add; 
 		String sql_ins = "";
+		id_punkto_tipo = request.getParameter( "id_punkto_tipo" );
 		
 		if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "Papildyti" ) ) {
 		
@@ -266,7 +226,7 @@
 			}
 			
 			String comma = "";
-			id_punkto_tipo = request.getParameter( "id_punkto_tipo" );
+			
 		
 			
 			if ( ( id_punkto_tipo ==null) || ( id_punkto_tipo.equals("0" ) ) ) {
@@ -290,13 +250,10 @@
 				statement_change = connection.createStatement();
 				resultSetChange = statement_change.executeUpdate(sql_ins);	
 				
-			
-			
+				
 			} else {
 		 
-				//turi buti vykdomas atnaujinimas, paredagavus. Upadte my sql (php my admin )
-				// UPDATE `punktu_tipai` SET `pav` = 'Tiškeviciaus dvaras' WHERE `punktu_tipai`.`id` = 3;  ( 290 291  288 pvz )
-				String sql_upd = "UPDATE `punktu_tipai` SET `pav`='"+request.getParameter("pav")+"' WHERE `punktu_tipai`. `id` ='"+ id_punkto_tipo+"'";
+				String sql_upd = "UPDATE `punktu_tipai` SET `pav`='"+request.getParameter("pav")+"' WHERE `punktu_tipai`. `id`='"+ id_punkto_tipo+"'";
 				
 				out.println ( sql_upd );
 			
@@ -304,22 +261,54 @@
 				resultSetChange = statement_change.executeUpdate(sql_upd);	
 				
 			}
-			
-			
-		
-			
-			
+
 			} else {
 		 
 				if ( add != null ) {
 
 					out.println ( add );
-				}	
+				}
 			}
-
-	
 			
+		String del = "";
+		if ( ( (  del = request.getParameter("del" ) ) != null) && del.equals ( "del1rec" ) ) {		
+
+
+   
+			//*  „DELETE FROM `punktu_tipai` WHERE `punktu_tipai`.`id` = 134“
+			String sql_delete = "DELETE FROM `punktu_tipai` WHERE `punktu_tipai`. `id`='"+ id_punkto_tipo+"'";
+			out.println ( sql_delete );
+			statement_change = connection.createStatement();
+			resultSetChange = statement_change.executeUpdate(sql_delete);
+		}	
+	} catch ( Exception e ) {
+	
+		e.printStackTrace();
+	}
+%>
+
+			<div class="form">
+				<form action="" method="POST">
+				<input type="text" id="pav" name="pav" placeholder="Punktu_tipai">
+				<input type="submit" name="add" value="Papildyti" class="btn btn-primary">
+				<input type="hidden" id="id_punkto_tipo" name="id_punkto_tipo" value="0">
 		
+			</form>
+			<form id="del_rec" method="post" action="">
+				<input type="hidden" name="del" value="del1rec">
+				<input type="hidden" id="m_del" name="id_punkto_tipo" value="0">
+			</form>
+				<p>Punktu tipai</p>
+				<p id="counter"></p>
+				<table class="pt-centrinis">
+					<tr class="punktu_tipai">
+					<th><h6>Punktu tipai</h6></th>
+					</tr>
+					
+					<tbody id="tasks">
+<%	
+	try{
+
 		statement_take = connection.createStatement();		
 		String sql ="SELECT * FROM `punktu_tipai` WHERE 1";
 		
