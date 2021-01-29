@@ -7,26 +7,22 @@
 <%@page import="java.sql.Connection"%>
 <%@page language="java" import="commons.Crud" %>
 <%
-
 	String driverName = "com.mysql.jdbc.Driver";
 	String connectionUrl = "jdbc:mysql://localhost:3306/";
-	String dbName = "test_keliones";
+	String dbName = "uzduotis_keliones";
 	String userId = "root";
 	String password = "";
-
 	String[] lent_budai = { "id", "pav" };
 	String[] lauk_budai = new String [ lent_budai.length ];		
 	Crud lent_priemones = new Crud ( "keliones_budai", lent_budai );
 %>
 <html>
 <%
-
 	Connection connection = null;
 	Statement statement_take = null;
 	Statement statement_change = null;
 	ResultSet resultSet = null;
 	int resultSetChange;
-
 %>
 	<head>
 	<meta charset="UTF-8">
@@ -64,7 +60,6 @@
 		connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
 		String add; 
 		String sql_ins;
-
 	
 		if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "pakeisti" ) ) {
 		
@@ -74,9 +69,7 @@
 			}
 			String comma = "";
 			id_budai = request.getParameter( "id_budai" );
-
 			if  (  id_budai == null ) {																					
-
 				sql_ins = lent_priemones.insert(lauk_budai);
 				statement_change = connection.createStatement();
 				resultSetChange = statement_change.executeUpdate(sql_ins);
@@ -87,7 +80,6 @@
 				String sql_upd;
 				String salyga = " `id`=" + id_budai;
 				sql_upd = lent_priemones.update(lauk_budai, salyga);						
-
 				statement_change = connection.createStatement();
 				resultSetChange = statement_change.executeUpdate( sql_upd );				
 			}
@@ -96,7 +88,6 @@
 		 else {
 		 
 			if ( add != null ) {
-
 				out.println ( add );
 			}
 		 }
@@ -106,8 +97,19 @@
 			}
 			sql_ins = lent_priemones.insert(lauk_budai);	
 			statement_change = connection.createStatement();
-			resultSetChange = statement_change.executeUpdate(sql_ins);	
-		 }else {
+			resultSetChange = statement_change.executeUpdate(sql_ins);
+		 }
+		 String del;
+		String where_salyga;
+	
+		if ( ( ( del = request.getParameter("del")  ) != null ) && del.equals ( "del1rec" ) ) {
+			id_budai= request.getParameter("m_del");
+			String sql_delete = lent_priemones.delete (id_budai);
+			statement_change = connection.createStatement();
+			resultSetChange = statement_change.executeUpdate(sql_delete);
+
+		} 
+		 else {
 		 
 			if ( add != null ) {
 			}
@@ -149,7 +151,6 @@
 				pav =  mygtukasEdit.dataset.pav;
 				var r = confirm( "Ar norite pašalinti keliones budai " + pav + "?" );
 				
-
 				if ( r == true ) {
 					
 					document.getElementById ( "m_del" ).value = id_rec;
@@ -157,27 +158,7 @@
 					forma_del.submit();
 				}
 			}
-		
-<%		
-	try {
-		String del;
-		String where_salyga;
-	
-		if ( ( ( del = request.getParameter("del")  ) != null ) && del.equals ( "del1rec" ) ) {
-%>
-<%
-			String sql_delete = lent_priemones.delete (id_budai);
-			statement_change = connection.createStatement();
-			resultSetChange = statement_change.executeUpdate(sql_delete);
-		
-			
-		} 
-		 
-	}  catch ( Exception e ) {
-	
-		e.printStackTrace();
-	}
-%>					
+						
 		</script>
 	</head>
 <body>
@@ -272,17 +253,13 @@
 		statement_take = connection.createStatement();		
 		String sql = lent_priemones.select ();
 		resultSet = statement_take.executeQuery(sql);
-
-
 		 
 		while( resultSet.next() ){
 		
 			String rec_data = "";
 		
 			for ( int i = 1; i < lauk_budai.length; i++ ) { 
-
 				rec_data += " data-"  +lent_budai [ i ]  + "=\"" + resultSet.getString (  lent_budai [ i ]  ) + "\"";
-
 			}  
 			String id_rec = resultSet.getString (  "id"  );
 %>
@@ -301,7 +278,6 @@
 </tr>
 <% 
 		}
-
 	} catch ( Exception e ) {
 	
 		e.printStackTrace();

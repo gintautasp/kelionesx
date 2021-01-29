@@ -4,26 +4,24 @@
 <%// @page import="classx.Crud" %>
 <% // @ include file="Crud.java" %>
 <%@page language="java" import="commons.AssocArrayList" %>
-<%@page language="java" import="commons.DbMySql" %>
-<%@page language="java" import="commons.Crudx" %>
+<%@page language="java" import="commons.QuerySaveResult" %>
+<%@page language="java" import="commons.CrudXY" %>
 <%
 
-	String[] lent_vart = { "id", "pav", "passwd", "email" };
-	String[] lauk_vart = new String [ lent_vart.length ];		
-	Crudx crud_users = new Crudx ( "users", lent_vart );
-	// Crud crud_marsrutu_miestu = new Crud ( "marsrutai_miestai", lent_marsrutu_miestu );
+	String[] lent_galimybes = { "id", "pav" };
+	String[] lauk_galimybiu = new String [ lent_vart.length ];		
+	CrudXY crud_galimybes = new Crudx ( "galimybes", lent_vart );
 %>
 <html>
 	<head>
 <%	
-	String salis = "Lietuva";
-	try{
+	try {
 	     
-		request.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html; charset=UTF-8");
-		response.setCharacterEncoding("UTF-8");		
+		request.setCharacterEncoding ( "UTF-8" );
+		response.setContentType ( "text/html; charset=UTF-8" );
+		response.setCharacterEncoding ( "UTF-8" );		
 		
-	} catch(Exception e) {}
+	} catch ( Exception e ) {}
 %>	
 		<meta charset="utf-8">
 		<style>
@@ -48,55 +46,32 @@
 			}
 		</style>
 <%		
-	String id_vart = "0";
-
 	try { 
-		
-		String add; 
 	
-		if ( ( ( add = request.getParameter( "add" )  ) != null ) && add.equals ( "papildyti" ) ) {
+		QuerySaveResult qrs;
+
+		String add = request.getParameter ( "add" ); 		
+	
+		if ( ( ( add  ) != null ) && add.equals ( "saugoti" ) ) {
 		
-			for ( int i = 1; i<lent_vart.length; i++ ) {
+			String id_galimybes = request.getParameter ( "id_galimybes" );
+			// out.println ( "id galimybes.: ." + id_galimybes + "." );			
+		
+			for ( int i = 1; i<lent_galimybes.length; i++ ) {
 			
-				lauk_vart [ i ] = request.getParameter ( lent_vart [ i ] );
+				lauk_galimybiu [ i ] = request.getParameter ( lent_galimybes [ i ] );
 			}
-			String comma = "";
-			id_vart = request.getParameter ( "id_vart" );
-			
-			out.println ( "id vart.: ." + id_vart + "." );
-
-			if  ( (  id_vart == null ) || ( id_vart.equals ( "0" ) ) ) {																																	// Miestai miestas = new Miestai ( lent_miestu );
-			
-				String sql_ins = "";
-																																								// miestas.takeFromParams ( request )
-				sql_ins = crud_users.insert ( lauk_vart );
-
-				out.println ( sql_ins );
-				
-			} else {
-			
-				lauk_vart [ 0 ] = id_vart;
-				String sql_upd;
-				String salyga = " `id`=" + id_vart;
-				sql_upd = crud_users.update ( lauk_vart, salyga );
-								
-				out.println ( sql_upd );				
-			}
-			
-		 } else {
-		 
-			if ( add != null ) {
-
-				out.println ( add );
-			}
-		 }
+			qrs = crud_galimybes.save ( id_galimybes, lauk_galimybiu );	
+		 } 
 		 
 		String del;
-		String sql_delete;
 	
-		if ( ( ( del = request.getParameter("del")  ) != null ) && del.equals ( "del1rec" ) ) {
+		if ( ( ( del = request.getParameter ( "del" )  ) != null ) && del.equals ( "del1rec" ) ) {
+		
+			String id_galimybes = request.getParameter ( "id_galimybes" );
+			// out.println ( "id galimybes.: ." + id_galimybes + "." );		
 
-			sql_delete = crud_users.delete ( id_vart );
+			grs = crud_users.delete ( id_vart );
 		}		 
 		 
 	}  catch ( Exception e ) {
@@ -130,33 +105,14 @@
 %>
 			}
 			
-			function iTrinima ( id_rec ) {
+<%
+			out.println ( crud_galimybes.jsTrynimui ( "galimybe" ) );
+%>
+
+			$( document ).ready( function() {
 			
-				mygtukasEdit = document.getElementById ( 'toEdit_' + id_rec );
-
-				pav =  mygtukasEdit.dataset.pav;
-				
-				var r = confirm( "Ar norite pašalinti vartotoją " + pav + "?" );
-				
-				alert( r );
-				alert ( r == true );
-				
-				if ( r == true ) {
-
-					alert( id_rec + "1" );
-					document.getElementById ( "m_del" ).value = id_rec;
-					alert( id_rec  + "2" );
-					forma_del = document.getElementById ( "del_rec" );
-					alert( forma_del );
-					forma_del.submit();
-				}
-			}			
-
-		$( document ).ready( function() {
-		
-			alert( 'hi' )
-		});
-
+				alert( 'hi' )
+			});
 		</script>
 	</head>
 <body>
@@ -192,7 +148,7 @@
 			</td>
 		</tr>
 	</table>
-		<input type="hidden" id="id_vart" name="id_vart" value="0">
+		<input type="hidden" id="id_galimybes" name="id_galimybes" value="0">
 		<input type="hidden" id="alert" name="alert" value="0">
 </form>
 <form id="del_rec" method="post" action="">
