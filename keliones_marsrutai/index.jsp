@@ -255,7 +255,20 @@ uzsipilde = true;
 							
 							<td>
 								<select name="id_keliones_būdo" id="id_keliones_būdo">
-								
+								try {
+									Statement st = connection.createStatement();
+									String sql = "SELECT * FROM `keliones_budai`";
+									ResultSet rs = st.executeQuery(sql);
+									while(rs.next() ){
+								%>
+										<option><%=rs.getString("pav")%></option>
+								<%
+									}
+
+								}catch(Exception e){
+
+								}
+								%>
 								</select>
 							</td>
 							
