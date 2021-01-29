@@ -21,18 +21,17 @@
 			laukai = laukeliai;
 		}
 		
-		public QuerySaveResut delete ( String id_trinamo ) {
+		public QuerySaveResult delete ( String id_trinamo ) {
 			
-			QuerySaveResut qrs;
+			QuerySaveResult qrs = new QuerySaveResult();
 			qrs.query_save = "DELETE"
 
 						+ " FROM" 
 							+ " `" + lent + "` " 
 					;
-			qrs.query_save 	+= " WHERE `id`=" + id_trinamo
+			qrs.query_save += " WHERE `id`=" + id_trinamo
 					;
-			
-			qrs.flag_result_save = update ( "delete", sql_delete ); 
+			qrs.flag_result_save = update ( "delete", qrs.query_save ); 
 
 			return qrs;
 		}
@@ -59,10 +58,9 @@
 			return sql_sel;
 		}
 		
-		public QuerySaveResult insert ( String[] reiksmrs ) {
-			
+		public QuerySaveResult insert ( String[] reiksmes ) {
 
-			QuerySaveResut qrs;
+			QuerySaveResult qrs = new QuerySaveResult();
 			qrs.query_save = "INSERT INTO " + " `" + lent + "` ( ";
 			String comma = "";
 			
@@ -77,7 +75,7 @@
 			
 			for ( int i = 1; i < reiksmes.length; i++ ) {
 
-				qrs.query_save += comma + " '" + reiksmes[i] + "' ";
+				qrs.query_save += comma + " '" + reiksmes [ i ] + "' ";
 				comma = ",";	
 				
 			}
@@ -90,7 +88,7 @@
 		
 		public QuerySaveResult update ( String[] reiksmes, String by ) {
 						
-			QuerySaveResut qrs;
+			QuerySaveResult qrs = new QuerySaveResult();
 			qrs.query_save = "UPDATE" + " `" + lent + "` SET\n ";
 			
 			String comma = "";
