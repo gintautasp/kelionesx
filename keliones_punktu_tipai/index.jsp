@@ -296,6 +296,13 @@
 		 
 				//turi buti vykdomas atnaujinimas, paredagavus. Upadte my sql (php my admin )
 				// UPDATE `punktu_tipai` SET `pav` = 'Tiškeviciaus dvaras' WHERE `punktu_tipai`.`id` = 3;  ( 290 291  288 pvz )
+				String sql_upd = "UPDATE `punktu_tipai` SET `pav`='"+request.getParameter("pav")+"' WHERE `punktu_tipai`. `id` ='"+ id_punkto_tipo+"'";
+				
+				out.println ( sql_upd );
+			
+				statement_change = connection.createStatement();
+				resultSetChange = statement_change.executeUpdate(sql_upd);	
+				
 			}
 			
 			
