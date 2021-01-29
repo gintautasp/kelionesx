@@ -18,6 +18,7 @@
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.Connection"%>
+<%@page language="java" import="commons.Crud" %>
 
 <%
 // String id = request.getParameter("userId");
@@ -32,7 +33,19 @@
 	ResultSet resultSet = null;
 	Statement statement_take = null;
 	
-%>
+	String[] lent_lp = { "data_laikas", "trukme", "aprasymas" };
+	String[] lauk_lp = new String [ lent_lp.length ];		
+	Crud lent_lankymasis_punkte = new Crud ( "keliones_marsrutai", lent_lp );
+	
+	try{
+	     
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");		
+		
+	} catch(Exception e) {}
+%>	
+
     <div class="tm-container">        
         <div>
             <div class="tm-row pt-4" id="top-header">
@@ -102,13 +115,13 @@
 			</tr>			
 <%
 
-	try{
+/*	try{
 	     
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");		
 		
-	} catch(Exception e) {}
+	} catch(Exception e) {}*/
 
 	try { 
 	
@@ -215,15 +228,15 @@ uzsipilde = true;
 						<tr class="lent_vidus">
 
 							<td>
-								<input type="text" name="pav1" value="">
+								<input type="text" name="data_laikas" value="">
 							</td>
 
 							<td>
-								<input type="text" name="pav2" value="">
+								<input type="text" name="trukme" value="">
 							</td>							
 
 							<td>
-								<input type="text" name="pav3" value="">
+								<input type="text" name="lpaprasymas" value="">
 							</td>
 
 							<td>
@@ -271,16 +284,99 @@ uzsipilde = true;
 								<input type="text" name="pav8" required>
 							</td>
 														
-						</tr>
+						</tr> 
 					</table>
-					</form>
+				<!--	</form>  -->
 						    <div class="col text-center">
-								<input type="submit" name="search" value="Įvesti">
+							<!--	<input type="button" name="clear" value="valyti" onClick = "iValyma()"> 
+								<input type="submit" name="add" value="pakeisti"> -->
+								<input type="submit" name="add" value="papildyti">
+							</div>
+							<div>
+								<!--<input type="hidden" id="id_budai" name="id_budai" value="0">
+								<input type="hidden" id="alert" name="alert" value="0">
+							</form>
+							<form id="del_rec" method="post" action="">
+								<input type="hidden" name="del" value="del1rec">
+								<input type="hidden" id="m_del" name="m_del" value="0">-->
+							</form>
 							</div>
 						</tr>
 		</div>
 	</div>
+<%
 	
+	// Connection connection = null;
+	Statement statement1 = null;
+	ResultSet resultSet1 = null;
+	Statement statement_take1 = null;
+	
+	String[] lent_lpaprasymas = {  "data_laikas", "trukme", "lpaprasymas" };
+	String[] lauk_lpaprasymas = new String [ lent_lpaprasymas.length ];
+	
+	try{
+	     
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");		
+		
+	} catch(Exception e) {}
+
+	try { 
+	
+		//connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
+		String add; 
+		
+		if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "papildyti" ) ) {
+		
+			for ( int i = 0; i< lent_lpaprasymas.length; i++ ) {
+			
+				lauk_lpaprasymas [ i ] = request.getParameter ( lent_lpaprasymas [ i ] );
+			}
+
+			String sql_ins = "";
+			String comma = "";
+			
+			for ( int i = 0; i < lent_lpaprasymas.length; i++ ) {
+			
+				sql_ins =  sql_ins + comma  + "'" + lauk_lpaprasymas [ i ] + "'";
+				comma = ",";
+			}
+			
+			sql_ins = 
+				"INSERT INTO `lankymasis_punkte`"
+				+ " ( `data_laikas`, `trukme`, `aprasymas` )"
+				+ " VALUES ( "			
+				+ sql_ins
+				+ " )";
+
+			out.println ( sql_ins );
+
+			Statement statement_change1 = connection.createStatement();
+			Integer  resultSetChange1 = statement_change1.executeUpdate(sql_ins);			
+			
+		 } else {
+		 
+			if ( add != null ) {
+
+				out.println ( add );
+			}
+		 } 
+		
+		statement_take1 = connection.createStatement();		
+		String sql ="SELECT * FROM `lankymasis_punkte`  WHERE 1";
+
+		resultSet1 = statement_take1.executeQuery(sql);
+		 
+		while( resultSet1.next() ){
+ 
+		}
+
+	} catch ( Exception e ) {
+	
+		e.printStackTrace();
+	}
+%>	
     <script src="../js/jquery-3.4.1.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/jquery.backstretch.min.js"></script>
