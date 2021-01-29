@@ -126,15 +126,14 @@
 
 		String datax = 
 			"SELECT *, `lankymasis_punkte`.`aprasymas` AS `lpaprasymas`, `punktai`.`aprasymas` AS `puaprasymas`, `punktai`.`pav` AS `pupav`, `marsrutu_atkarpos`.`pav` AS `mapav`, " 
-			+ "`keliones_marsruto_atkarpos`.`aprasymas` AS `kma_aprasymas`, `keliones_marsruto_atkarpos`.`data_laikas` AS `kma_data_laikas`, `keliones_marsruto_atkarpos`.`trukme` AS `kma_trukme`, `keliones`.`aprasymas` AS `k_aprasymas` FROM `lankymasis_punkte`"	 
+			+ "`keliones_marsruto_atkarpos`.`aprasymas` AS `kma_aprasymas`, `keliones_marsruto_atkarpos`.`data_laikas` AS `kma_data_laikas`, `keliones_marsruto_atkarpos`.`trukme` AS `kma_trukme`, `keliones`.`aprasymas` AS `k_aprasymas`, `keliones_budai`.`pav` AS `keliones_budai` FROM `lankymasis_punkte`"	 
 			+ "LEFT JOIN `keliones` ON ( `keliones`.`id`=`lankymasis_punkte`.`id_keliones` )"
 			+ "LEFT JOIN `punktai` ON ( `lankymasis_punkte`.`id_punkto`=`punktai`.`id` )"
 			+ "LEFT JOIN `marsrutu_atkarpos` ON ( `marsrutu_atkarpos`.`id_punkto1`=`punktai`.`id` )"
-			+ "LEFT JOIN `keliones_marsruto_atkarpos` ON ( `marsrutu_atkarpos`.`id`=`keliones_marsruto_atkarpos`.`id_marsruto_atkarpos` )"
+			+ "LEFT JOIN `keliones_budai` ON ( `keliones_budai`.`id`=`keliones_marsruto_atkarpos`.`id_keliones_budo` )"
 			+ where_part;
 			
 			out.println ( datax );
-
 			statement_take = connection.createStatement();	
 			resultSet = statement_take.executeQuery(datax);
 	
@@ -149,6 +148,7 @@ while( resultSet.next() ){
 
 										
 <tr class="lent_vidus">
+	<td><%= resultSet.getString ( "keliones_budai" ) %></td>
 	<td><%= resultSet.getString ( "pav" ) %></td>
 	<td><%= resultSet.getString ( "data" ) %></td>
 	<td><%= resultSet.getString  ("laikas" ) %></td>
@@ -255,7 +255,21 @@ uzsipilde = true;
 							
 							<td>
 								<select name="id_keliones_būdo" id="id_keliones_būdo">
-								
+							<%
+								try {
+									Statement st = connection.createStatement();
+									String sql = "SELECT * FROM `keliones_budai`";
+									ResultSet rs = st.executeQuery(sql);
+									while(rs.next() ){
+								%>
+										<option><%=rs.getString("pav")%></option>
+								<%
+									}
+
+								}catch(Exception e){
+
+								}
+								%>
 								</select>
 							</td>
 							
