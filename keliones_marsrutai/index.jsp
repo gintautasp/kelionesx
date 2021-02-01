@@ -170,6 +170,7 @@ while( resultSet.next() ){
 </tr>
 
 					</table>
+					<form method="post" action="">
 						<h2 align="center"><strong>Lankymasis punkte ir maršrutų atkarpos</strong></h2>
 						<table align="center" cellpadding="5" cellspacing="5" border="1">
 						<tr>
@@ -198,7 +199,7 @@ while( resultSet.next() ){
 uzsipilde = true;
 }
 %>					
-					<form method="post" action="">
+					
 <tr class="lent_vidus">
 	<td><%= resultSet.getString ( "data_laikas" ) %></td>
 	<td><%= resultSet.getString ( "trukme" ) %></td>
@@ -226,7 +227,7 @@ uzsipilde = true;
 	}
 %>
 						<tr class="lent_vidus">
-
+							
 							<td>
 								<input type="text" name="data_laikas" value="">
 							</td>
@@ -267,7 +268,7 @@ uzsipilde = true;
 							</td>
 							
 							<td>
-								<select name="id_keliones_būdo" id="id_keliones_būdo">
+								<select name="id_keliones_budo" id="id_keliones_budo">
 								<%
 								try {
 									Statement st = connection.createStatement();
@@ -275,7 +276,7 @@ uzsipilde = true;
 									ResultSet rs = st.executeQuery(sql);
 									while(rs.next() ){
 								%>
-										<option><%=rs.getString("pav")%></option>
+										<option value="<%=rs.getString("id")%>"><%=rs.getString("pav")%></option>												
 								<%
 									}
 
@@ -287,23 +288,26 @@ uzsipilde = true;
 							</td>
 							
 							<td>
-								<input type="text" name="pav6">
+								<input type="kma_aprasymas" name="kma_aprasymas">
 							</td>
 							
 							<td>
-								<input type="text" name="pav7">
+								<input type="kma_data_laikas" name="kma_data_laikas">
 							</td>
 							
 							<td>
-								<input type="text" name="pav8">
+								<input type="kma_trukme" name="kma_trukme">
 							</td>
 									<td>
-								<input type="hidden" name="id_keliones" value="1">
+								<!--<input type="hidden" name="atkarpos_numeris" value="1">-->
+								<input type="hidden" name="id_marsruto_atkarpos" value="1">
 							</td>
 														
 						</tr> 
 					</table>
+					
 				<!--	</form>  -->
+						
 						    <div class="col text-center">
 							<!--	<input type="button" name="clear" value="valyti" onClick = "iValyma()"> 
 								<input type="submit" name="add" value="pakeisti"> -->
@@ -316,7 +320,7 @@ uzsipilde = true;
 							<form id="del_rec" method="post" action="">
 								<input type="hidden" name="del" value="del1rec">
 								<input type="hidden" id="m_del" name="m_del" value="0">-->
-							</form>
+						</form>
 							</div>
 						</tr>
 		</div>
@@ -327,9 +331,15 @@ uzsipilde = true;
 	Statement statement1 = null;
 	ResultSet resultSet1 = null;
 	Statement statement_take1 = null;
+	Statement statement2 = null;
+	ResultSet resultSet2 = null;
+	Statement statement_take2 = null;
 	
 	String[] lent_lpaprasymas = {  "data_laikas", "trukme", "lpaprasymas", "id_punkto1", "id_keliones"};
 	String[] lauk_lpaprasymas = new String [ lent_lpaprasymas.length ];
+	
+	String[] lent_km_aprasymas = {  "id_marsruto_atkarpos", "id_keliones_budo", "kma_aprasymas", "kma_data_laikas", "kma_trukme", "atkrapos_numeris", "id_keliones"};
+	String[] lauk_km_aprasymas = new String [ lent_km_aprasymas.length ];
 	
 	try{
 	     
@@ -344,8 +354,11 @@ uzsipilde = true;
 		//connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
 		String add; 
 		String id_keliones;
-		//	id_keliones = request.getParameter ("i");		
+		String atkarpos_numeris;
+		
+		//	id_keliones = request.getParameter ("i");
 		id_keliones = "1";
+		atkarpos_numeris = "1";
 		
 		if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "papildyti" ) ) {
 		
@@ -357,7 +370,7 @@ uzsipilde = true;
 			String sql_ins = "";
 			String comma = "";
 			
-			for ( int i = 0; i < lent_lpaprasymas.length; i++ ) {
+			for ( int i = 0; i < lent_lpaprasymas.length - 1; i++ ) {
 			
 				sql_ins =  sql_ins + comma  + "'" + lauk_lpaprasymas [ i ] + "'";
 				comma = ",";
@@ -367,13 +380,39 @@ uzsipilde = true;
 				"INSERT INTO `lankymasis_punkte`"
 				+ " ( `data_laikas`, `trukme`, `aprasymas`, `id_punkto`, `id_keliones`)"
 				+ " VALUES ( "			
-				+ sql_ins
+				+ sql_ins + ", '" + id_keliones + "' "
 				+ " )";
 
 			out.println ( sql_ins ); 
 
 			Statement statement_change1 = connection.createStatement();
 			Integer  resultSetChange1 = statement_change1.executeUpdate(sql_ins);			
+					
+		for ( int i = 0; i< lent_km_aprasymas.length; i++ ) {
+			
+				lauk_km_aprasymas [ i ] = request.getParameter ( lent_km_aprasymas [ i ] );
+			}
+
+			String sql_ins1 = "";
+			String comma1 = "";
+			
+			for ( int i = 0; i < lent_km_aprasymas.length - 2; i++ ) {
+			
+				sql_ins1 =  sql_ins1 + comma1  + "'" + lauk_km_aprasymas [ i ] + "'";
+				comma1 = ",";
+			}
+			
+			sql_ins1 = 
+				"INSERT INTO `keliones_marsruto_atkarpos`"
+				+ " ( `id_marsruto_atkarpos`, `id_keliones_budo`, `aprasymas`, `data_laikas`, `trukme`, `atkrapos_numeris`, `id_keliones` )"
+				+ " VALUES ( "			
+				+ sql_ins1 + ", '" + atkarpos_numeris + "', '" + id_keliones + "' "
+				+ " )";
+
+			out.println ( sql_ins1 );  
+
+			Statement statement_change2 = connection.createStatement();
+			Integer  resultSetChange2 = statement_change2.executeUpdate(sql_ins1);			
 			
 		 } else {
 		 
@@ -382,7 +421,7 @@ uzsipilde = true;
 				out.println ( add );
 			}
 		 } 
-		
+		 
 		statement_take1 = connection.createStatement();		
 		String sql ="SELECT * FROM `lankymasis_punkte`  WHERE 1";
 
@@ -391,6 +430,7 @@ uzsipilde = true;
 		while( resultSet1.next() ){
  
 		}
+		
 
 	} catch ( Exception e ) {
 	
