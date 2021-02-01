@@ -19,12 +19,12 @@
 	}
 	
 	String[] lent_galimybes = { "id", "pav" };
-	String[] lauk_galimybiu = new String [ lent_vart.length ];		
-	CrudXY crud_galimybes = new Crudx ( "galimybes", lent_vart );
+	String[] lauk_galimybiu = new String [ lent_galimybes.length ];		
+	CrudXY crud_galimybes = new CrudXY ( "galimybes", lent_galimybes );
 
 	try { 
 	
-		QuerySaveResult qrs;
+		QuerySaveResult qrs = new QuerySaveResult();
 
 		String add = request.getParameter ( "add" ); 		
 	
@@ -44,10 +44,10 @@
 	
 		if ( ( ( del = request.getParameter ( "del" )  ) != null ) && del.equals ( "del1rec" ) ) {
 		
-			String id_galimybes = request.getParameter ( "id_galimybes" );
+			String id_galimybes = request.getParameter ( "g_del" );
 			// out.println ( "id galimybes.: ." + id_galimybes + "." );		
 
-			grs = crud_users.delete ( id_vart );
+			qrs = crud_galimybes.delete ( id_galimybes );
 		}		 
 		 
 	}  catch ( Exception e ) {
@@ -83,7 +83,7 @@
 		<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 		<script>
 
-			<%= crud_galimybes.jsRedagavimui ( "id_gal" ) %> 
+			<%= crud_galimybes.jsRedagavimui ( "id_galimybes" ) %> 
 			<%= crud_galimybes.jsValymui() %>
 			<%= crud_galimybes.jsTrynimui ( "galimybe" ) %>
 
@@ -100,21 +100,9 @@
 <form method="post" action="">
 	<table>
 		<tr>
-			<th>Vartotojas</th>
+			<th>Galimybė</th>
 			<td>
 				<input id="pav" type="text" name="pav" required>
-			</td>
-		</tr>
-		<tr>
-			<th>Slaptažodis</th>
-			<td>
-				<input id="passwd" name="passwd" value="">
-			</td>
-		</tr>
-		<tr>
-			<th>El.paštas</th>
-			<td>
-				<input id="email"  name="email" value="">
 			</td>
 		</tr>
 		<tr>
@@ -122,7 +110,7 @@
 			</td>
 			<td>
 				<input type="button" name="clear" value="valyti" onClick = "iValyma()"> 
-				<input type="submit" name="add" value="papildyti">
+				<input type="submit" name="add" value="saugoti">
 			</td>
 		</tr>
 	</table>
@@ -131,48 +119,45 @@
 </form>
 <form id="del_rec" method="post" action="">
 	<input type="hidden" name="del" value="del1rec">
-	<input type="hidden" id="m_del" name="m_del" value="0">
+	<input type="hidden" id="m_del" name="g_del" value="0">
 </form>
 <table align="center">
 <tr>
 </tr>
 <tr>
-	<th>Funkcijos</th>
-	<th>id</th>
-	<th>Vartotojas</th>
-	<th>Slaptažodis</th>
-	<th>El. paštas</th>
+	<th>Veiksmai</th>
+	<th>Id</th>
+	<th>Galimybė</th>
 </tr>
 <%
 	try {
 	
-		String sql = crud_users.select( "" );
+		String sql = crud_galimybes.select( "" );
 		 
-		while( crud_users.flag_got_rows ) {
+		while( crud_galimybes.flag_got_rows ) {
 		
 			String rec_data = "";
 			
-			AssocArrayList lst_row_fields = crud_users.giveSelectedRow();
+			AssocArrayList lst_row_fields = crud_galimybes.giveSelectedRow();
 		
-			for ( int i = 1; i < lauk_vart.length; i++ ) {
+			for ( int i = 1; i < lauk_galimybiu.length; i++ ) {
 
-				rec_data += " data-"  + ( ( String ) lst_row_fields.giveMe ( lent_vart [ i ] ) )   + "=\"" +  ( ( String ) lst_row_fields.giveMe (  lent_vart [ i ]  ) ) + "\"";
+				rec_data += " data-"  + ( lent_galimybes [ i ] )   + "=\"" +  ( ( String ) lst_row_fields.giveMe (  lent_galimybes [ i ]  ) ) + "\"";
 
 			}
 			String id_rec =  ( String ) lst_row_fields.giveMe (   "id"  );
 %>
 <tr>
-	<td><input type="button" class="record_edit"  id="toEdit_<%= id_rec  %>" data-id_miesto="<%= id_rec  %>"<%= rec_data %> value="&#9998;" onClick="iRedagavima( <%= id_rec %> )"></td>
-	<td><input type="button" class="delete"  id="toDelete_<%= id_rec  %>" data-id_miesto="<%= id_rec %>" value="&#10007;" onClick="iTrinima( <%= id_rec %> )"></td>
+	<td><input type="button" class="record_edit"  id="toEdit_<%= id_rec  %>" data-id_gal="<%= id_rec  %>"<%= rec_data %> value="&#9998;" onClick="iRedagavima( <%= id_rec %> )"></td>
+	<td><input type="button" class="delete"  id="toDelete_<%= id_rec  %>" data-id_gal="<%= id_rec %>" value="&#10007;" onClick="iTrinima( <%= id_rec %> )"></td>
 
 <%
-		for ( int i = 1; i < lauk_vart.length; i++ ) {
+		for ( int i = 1; i < lauk_galimybiu.length; i++ ) {
 %>
-	<td><%=  lst_row_fields.giveMe (  lent_vart [ i ]  ) %></td>
+	<td><%=  lst_row_fields.giveMe (  lent_galimybes [ i ]  ) %></td>
 <%
 		}
 %>
-
 </tr>
 <% 
 		}
