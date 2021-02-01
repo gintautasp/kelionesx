@@ -40,16 +40,16 @@
 				
 				+ "var r = confirm( 'Ar norite pasalinti " + pav_iraso + " ' + pav + '?' );\n\n"
 				
-				+ "alert( r )\n\n"
-				+ "alert ( r == true )\n\n"
+				// + "alert( r )\n\n"
+				// + "alert ( r == true )\n\n"
 				
 				+ "if ( r == true ) {\n\n"
 
-				+	"alert( id_rec + '1' )\n"
+				// +	"alert( id_rec + '1' )\n"
 				+	"document.getElementById ( 'm_del' ).value = id_rec\n"
-				+	"alert( id_rec  + '2' )\n"
+				// +	"alert( id_rec  + '2' )\n"
 				+	"forma_del = document.getElementById ( 'del_rec' )\n"
-				+	"alert( forma_del );\n"
+				//+	"alert( forma_del );\n"
 				+	"forma_del.submit();\n"
 				+	"}\n"
 			+ "}\n";
@@ -59,36 +59,36 @@
 		
 		public String jsValymui () {
 		
-			String js_funkcja_i_valyma = "function iValyma () {\n\n";
+			String js_funkcija_i_valyma = "function iValyma () {\n\n";
 
-			for ( int i = 1; i<lent_vart.length; i++ ) {
+			for ( int i = 1; i < laukai.length; i++ ) {
 																																								
-				js_funkcja_i_valyma += "document.getElementById( '" + lent [ i ] + "' ).value =  \"\"\n";
+				js_funkcija_i_valyma += "document.getElementById( '" + laukai [ i ] + "' ).value =  \"\"\n";
 	
 			}
-			js_funkcja_i_valyma += "}\n";
+			js_funkcija_i_valyma += "}\n";
 			
 			return js_funkcija_i_valyma;
 		}
 		
-		public String jsRedagavimui( String id_id ) {
+		public String jsRedagavimui ( String id_id ) {
 			
-			String js_funkcja_i_redagavima = 
+			String js_funkcija_i_redagavima = 
 			
-				"function iRedagavima ( id_rec ) {\n\n"
+				"\tfunction iRedagavima ( id_rec ) {\n\n"
 			
-					+ "if ( mygtukas = document.getElementById ( 'toEdit_' + id_rec ) ) {\n";
+					+ "\t\tif ( mygtukas = document.getElementById ( 'toEdit_' + id_rec ) ) {\n";
 
-					for ( int i=1; i<lent_vart.length; i++ ) {
+			for ( int i = 1; i < laukai.length; i++ ) {
 
-						js_funkcja_i_redagavima += "document.getElementById( '" + lent [ i ]  "' ).value =  mygtukas.dataset." + lent [ i ];
-	
-					}
+				js_funkcija_i_redagavima += "\t\t\tdocument.getElementById( '" + laukai [ i ] + "' ).value =  mygtukas.dataset." + laukai [ i ] + ";\n";
 
-					js_funkcja_i_redagavima += "document.getElementById ( '" + id_id +"' ).value = id_rec;\n";
-					js_funkcja_i_redagavima +=
-				"}\n";
 			}
-			return js_funkcja_i_redagavima;
+			js_funkcija_i_redagavima += "\t\t}\n";					
+			js_funkcija_i_redagavima += "\t\tdocument.getElementById ( '" + id_id +"' ).value = id_rec;\n";
+			js_funkcija_i_redagavima +=
+				"\t}\n"
+			;
+			return js_funkcija_i_redagavima;
 		}
 	}
