@@ -244,13 +244,13 @@ uzsipilde = true;
 								</td>		
 
 							<td>
-								<input type="text" name="pav5" required>
+								<input type="text" name="pav5" >
 							</td>	
 
 							<td>
 								<select name="id_punkto1" id="id_punkto1">
-								<option value="1"> Kebabinė </option>
-								<option value="2"> Vykcara fabrikas </option>
+								<option value="1"> 1 </option>
+								<option value="2"> 2 </option>
 								</select>
 							</td>
 							
@@ -287,15 +287,18 @@ uzsipilde = true;
 							</td>
 							
 							<td>
-								<input type="text" name="pav6" required>
+								<input type="text" name="pav6">
 							</td>
 							
 							<td>
-								<input type="text" name="pav7" required>
+								<input type="text" name="pav7">
 							</td>
 							
 							<td>
-								<input type="text" name="pav8" required>
+								<input type="text" name="pav8">
+							</td>
+									<td>
+								<input type="hidden" name="id_keliones" value="1">
 							</td>
 														
 						</tr> 
@@ -325,7 +328,7 @@ uzsipilde = true;
 	ResultSet resultSet1 = null;
 	Statement statement_take1 = null;
 	
-	String[] lent_lpaprasymas = {  "data_laikas", "trukme", "lpaprasymas" };
+	String[] lent_lpaprasymas = {  "data_laikas", "trukme", "lpaprasymas", "id_punkto1", "id_keliones"};
 	String[] lauk_lpaprasymas = new String [ lent_lpaprasymas.length ];
 	
 	try{
@@ -340,6 +343,9 @@ uzsipilde = true;
 	
 		//connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
 		String add; 
+		String id_keliones;
+		//	id_keliones = request.getParameter ("i");		
+		id_keliones = "1";
 		
 		if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "papildyti" ) ) {
 		
@@ -359,12 +365,12 @@ uzsipilde = true;
 			
 			sql_ins = 
 				"INSERT INTO `lankymasis_punkte`"
-				+ " ( `data_laikas`, `trukme`, `aprasymas` )"
+				+ " ( `data_laikas`, `trukme`, `aprasymas`, `id_punkto`, `id_keliones`)"
 				+ " VALUES ( "			
 				+ sql_ins
 				+ " )";
 
-			out.println ( sql_ins );
+			out.println ( sql_ins ); 
 
 			Statement statement_change1 = connection.createStatement();
 			Integer  resultSetChange1 = statement_change1.executeUpdate(sql_ins);			
