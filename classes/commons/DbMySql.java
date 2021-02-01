@@ -10,7 +10,7 @@
 	
 		public String driverName = "com.mysql.jdbc.Driver";
 		public String connectionUrl = "jdbc:mysql://localhost:3306/";
-		public String dbName = "keliones";
+		public String dbName = "kelionesx";
 		public String userId = "root";
 		public String password = "";
 		
@@ -50,7 +50,7 @@
 			
 			} catch ( Exception e ) {
 			
-				System.out.println ( "Can't execute update" );
+				System.out.println ( "Can't execute update: " + sql_update );
 			}
 			return result_update;
 		}
