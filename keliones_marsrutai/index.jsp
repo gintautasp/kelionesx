@@ -138,12 +138,12 @@
 			
 
 		String datax = 
-			"SELECT *, `lankymasis_punkte`.`aprasymas` AS `lpaprasymas`, `punktai`.`aprasymas` AS `puaprasymas`, `punktai`.`pav` AS `pupav`, `marsrutu_atkarpos`.`pav` AS `mapav`, " 
-			+ "`keliones_marsruto_atkarpos`.`aprasymas` AS `kma_aprasymas`, `keliones_marsruto_atkarpos`.`data_laikas` AS `kma_data_laikas`, `keliones_marsruto_atkarpos`.`trukme` AS `kma_trukme`, `keliones`.`aprasymas` AS `k_aprasymas` FROM `lankymasis_punkte`"	 
-			+ "LEFT JOIN `keliones` ON ( `keliones`.`id`=`lankymasis_punkte`.`id_keliones` )"
-			+ "LEFT JOIN `punktai` ON ( `lankymasis_punkte`.`id_punkto`=`punktai`.`id` )"
-			+ "LEFT JOIN `marsrutu_atkarpos` ON ( `marsrutu_atkarpos`.`id_punkto1`=`punktai`.`id` )"
-			+ "LEFT JOIN `keliones_marsruto_atkarpos` ON ( `marsrutu_atkarpos`.`id`=`keliones_marsruto_atkarpos`.`id_marsruto_atkarpos` )"
+			"SELECT *, `lankymasis_punkte`.`aprasymas` AS `lpaprasymas`, `punktai`.`aprasymas` AS `puaprasymas`, `punktai`.`pav` AS `pupav`, `marsrutu_atkarpos`.`pav` AS `mapav`, `keliones_marsruto_atkarpos`.`aprasymas` AS `kma_aprasymas`, `keliones_marsruto_atkarpos`.`data_laikas` AS `kma_data_laikas`, `keliones_marsruto_atkarpos`.`trukme` AS `kma_trukme`, `keliones`.`aprasymas` AS `k_aprasymas`, `lankymasis_punkte`.`data_laikas` AS `lp_data_laikas` " 
+			+ "FROM `lankymasis_punkte` " 
+			+ "LEFT JOIN `punktai` ON ( `lankymasis_punkte`.`id_punkto`=`punktai`.`id` ) "
+			+ "LEFT JOIN `keliones_marsruto_atkarpos` ON ( `lankymasis_punkte`.`id_keliones`=`keliones_marsruto_atkarpos`.`id_keliones` ) "
+			+ "LEFT JOIN `marsrutu_atkarpos` ON ( `marsrutu_atkarpos`.`id_punkto1`=`punktai`.`id` AND `marsrutu_atkarpos`.`id`=`keliones_marsruto_atkarpos`.`id_marsruto_atkarpos` ) "
+			+ "LEFT JOIN `keliones` ON ( `keliones`.`id`=`lankymasis_punkte`.`id_keliones` ) "
 			+ where_part;
 			
 			out.println ( datax );
@@ -209,7 +209,7 @@ uzsipilde = true;
 	<td><%= resultSet.getString  ("id_punkto1" ) %></td>
 	<td><%= resultSet.getString ( "id_punkto2" ) %></td><br>
 	<td><%= resultSet.getString ( "id_marsruto_atkarpos" ) %></td>
-	<td><%= resultSet.getString ( "id_keliones_būdo" ) %></td>
+	<td><%= resultSet.getString ( "id_keliones_b8ūdo" ) %></td>
 	<td><%= resultSet.getString ( "kma_aprasymas" ) %></td>
 	<td><%= resultSet.getString ( "kma_data_laikas" ) %></td>
 	<td><%= resultSet.getString ( "kma_trukme" ) %></td>
