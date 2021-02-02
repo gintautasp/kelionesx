@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Po Lietuva!</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet" />
-    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+	<link href="../css/bootstrap.min.css" rel="stylesheet" />
     <link href="../font/css/all.min.css" rel="stylesheet" /> 
     <link rel="stylesheet" href="../css/templatemo-diagoona.css?v=1.0">
 
@@ -207,9 +207,9 @@ uzsipilde = true;
 	<td><%= resultSet.getString ( "mapav" ) %></td>
 	<td><%= resultSet.getString ( "ipatybes" ) %></td>
 	<td><%= resultSet.getString  ("id_punkto1" ) %></td>
-	<td><%= resultSet.getString ( "id_punkto2" ) %></td><br>
+	<td><%= resultSet.getString ( "id_punkto2" ) %></td>
 	<td><%= resultSet.getString ( "id_marsruto_atkarpos" ) %></td>
-	<td><%= resultSet.getString ( "id_keliones_b8ūdo" ) %></td>
+	<td><%= resultSet.getString ( "id_keliones_budo" ) %></td>
 	<td><%= resultSet.getString ( "kma_aprasymas" ) %></td>
 	<td><%= resultSet.getString ( "kma_data_laikas" ) %></td>
 	<td><%= resultSet.getString ( "kma_trukme" ) %></td>
