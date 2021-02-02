@@ -43,7 +43,12 @@
     int resultSetChange;
     String[] punktai = {  "pav", "platuma", "ilguma", "aprasymas"  };
     String[] reiksmes_punktai = new String [ punktai.length ];
-
+	
+	try {
+	connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
+	
+	} catch(Exception e){				
+		}
 %>
 
     <script>
@@ -185,7 +190,7 @@
 		<label for="id_punkto_tipo">Punktu tipai</label>
 		<select id="id_punkto_tipo" name="id_punkto_tipo">
 		<%		
-try {
+							try {
 									Statement st = connection.createStatement();
 									String sql = "SELECT * FROM `punktu_tipai`";
 									ResultSet rs = st.executeQuery(sql);
@@ -194,7 +199,9 @@ try {
 										<option value="<%=rs.getString("id")%>"><%=rs.getString("pav")%></option>												
 								<%
 									}
-								}catch(Exception e){
+								} catch(Exception e){
+									
+									e.printStackTrace();
 								}
 %>
 		</select><br>
@@ -228,7 +235,7 @@ try {
 		
 		
 <%
-<<<<<<< HEAD
+
 try {
                         
             request.setCharacterEncoding("UTF-8");
@@ -236,13 +243,9 @@ try {
             response.setCharacterEncoding("UTF-8");		
             
                 } catch(Exception e) {}
-            
-            try { 
-=======
-  
                   
         try { 
->>>>>>> 8870d2146af69e9db3a5c722d43d5dd701c3ee14
+
                     
                 connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
                 String add = request.getParameter("add");
