@@ -207,7 +207,11 @@ uzsipilde = true;
 	<td><%= resultSet.getString ( "mapav" ) %></td>
 	<td><%= resultSet.getString ( "ipatybes" ) %></td>
 	<td><%= resultSet.getString  ("id_punkto1" ) %></td>
+<<<<<<< HEAD
 	<td><%= resultSet.getString ( "id_punkto2" ) %></td>
+=======
+	<td><%= resultSet.getString ( "id_punkto" ) %></td>
+>>>>>>> b6533545ae9d05fbcebbb67b383d6c3cd5fa6fd9
 	<td><%= resultSet.getString ( "id_marsruto_atkarpos" ) %></td>
 	<td><%= resultSet.getString ( "id_keliones_budo" ) %></td>
 	<td><%= resultSet.getString ( "kma_aprasymas" ) %></td>
@@ -256,7 +260,22 @@ uzsipilde = true;
 							</td>
 							
 							<td>
-								<select name="id_punkto2" id="id_punkto2">
+								<select name="id_punkto" id="id_punkto">
+								<%
+								try {
+									Statement st = connection.createStatement();
+									String sql = "SELECT * FROM `punktai`";
+									ResultSet rs = st.executeQuery(sql);
+									while(rs.next() ){
+								%>
+										<option value="<%=rs.getString("id")%>"><%=rs.getString("pav")%><%=rs.getString("ilguma")%>"><%=rs.getString("platuma")%>"><%=rs.getString("aprasymas")%>"></option>												
+								<%
+									}
+
+								}catch(Exception e){
+
+								}
+								%>
 								
 								</select>
 							</td>
