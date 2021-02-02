@@ -207,11 +207,8 @@ uzsipilde = true;
 	<td><%= resultSet.getString ( "mapav" ) %></td>
 	<td><%= resultSet.getString ( "ipatybes" ) %></td>
 	<td><%= resultSet.getString  ("id_punkto1" ) %></td>
-<<<<<<< HEAD
 	<td><%= resultSet.getString ( "id_punkto2" ) %></td>
-=======
 	<td><%= resultSet.getString ( "id_punkto" ) %></td>
->>>>>>> b6533545ae9d05fbcebbb67b383d6c3cd5fa6fd9
 	<td><%= resultSet.getString ( "id_marsruto_atkarpos" ) %></td>
 	<td><%= resultSet.getString ( "id_keliones_budo" ) %></td>
 	<td><%= resultSet.getString ( "kma_aprasymas" ) %></td>
@@ -254,13 +251,27 @@ uzsipilde = true;
 
 							<td>
 								<select name="id_punkto1" id="id_punkto1">
-								<option value="1"> 1 </option>
-								<option value="2"> 2 </option>
+								<%
+								try {
+									Statement st = connection.createStatement();
+									String sql = "SELECT * FROM `punktai`";
+									ResultSet rs = st.executeQuery(sql);
+									while(rs.next() ){
+								%>
+										<option value="<%=rs.getString("id")%>"><%=rs.getString("pav")%><%=rs.getString("ilguma")%>"><%=rs.getString("platuma")%>"><%=rs.getString("aprasymas")%>"></option>												
+								<%
+									}
+
+								}catch(Exception e){
+
+								}
+								%>
+								
 								</select>
 							</td>
 							
 							<td>
-								<select name="id_punkto" id="id_punkto">
+								<select name="id_punkto2" id="id_punkto2">
 								<%
 								try {
 									Statement st = connection.createStatement();
@@ -389,58 +400,67 @@ uzsipilde = true;
 			String sql_ins = "";
 			String comma = "";
 			
-			for ( int i = 0; i < lent_lpaprasymas.length - 1; i++ ) {
-			
-				sql_ins =  sql_ins + comma  + "'" + lauk_lpaprasymas [ i ] + "'";
-				comma = ",";
-			}
-			
-			sql_ins = 
-				"INSERT INTO `lankymasis_punkte`"
-				+ " ( `data_laikas`, `trukme`, `aprasymas`, `id_punkto`, `id_keliones`)"
-				+ " VALUES ( "			
-				+ sql_ins + ", '" + id_keliones + "' "
-				+ " )";
-
-			out.println ( sql_ins ); 
-
-			Statement statement_change1 = connection.createStatement();
-			Integer  resultSetChange1 = statement_change1.executeUpdate(sql_ins);			
+				//if ( ( id_punkto_tipo ==null) || ( id_punkto_tipo.equals("0" ) ) ) {
 					
-		for ( int i = 0; i< lent_km_aprasymas.length; i++ ) {
-			
-				lauk_km_aprasymas [ i ] = request.getParameter ( lent_km_aprasymas [ i ] );
-			}
+					for ( int i = 0; i < lent_lpaprasymas.length - 1; i++ ) {
+					
+						sql_ins =  sql_ins + comma  + "'" + lauk_lpaprasymas [ i ] + "'";
+						comma = ",";
+					}
+					
+					sql_ins = 
+						"INSERT INTO `lankymasis_punkte`"
+						+ " ( `data_laikas`, `trukme`, `aprasymas`, `id_punkto`, `id_keliones`)"
+						+ " VALUES ( "			
+						+ sql_ins + ", '" + id_keliones + "' "
+						+ " )";
 
-			String sql_ins1 = "";
-			String comma1 = "";
-			
-			for ( int i = 0; i < lent_km_aprasymas.length - 2; i++ ) {
-			
-				sql_ins1 =  sql_ins1 + comma1  + "'" + lauk_km_aprasymas [ i ] + "'";
-				comma1 = ",";
-			}
-			
-			sql_ins1 = 
-				"INSERT INTO `keliones_marsruto_atkarpos`"
-				+ " ( `id_marsruto_atkarpos`, `id_keliones_budo`, `aprasymas`, `data_laikas`, `trukme`, `atkrapos_numeris`, `id_keliones` )"
-				+ " VALUES ( "			
-				+ sql_ins1 + ", '" + atkarpos_numeris + "', '" + id_keliones + "' "
-				+ " )";
+					out.println ( sql_ins ); 
 
-			out.println ( sql_ins1 );  
+					Statement statement_change1 = connection.createStatement();
+					Integer  resultSetChange1 = statement_change1.executeUpdate(sql_ins);			
+							
+					for ( int i = 0; i< lent_km_aprasymas.length; i++ ) {
+					
+						lauk_km_aprasymas [ i ] = request.getParameter ( lent_km_aprasymas [ i ] );
+					}
 
-			Statement statement_change2 = connection.createStatement();
-			Integer  resultSetChange2 = statement_change2.executeUpdate(sql_ins1);			
+					String sql_ins1 = "";
+					String comma1 = "";
+					
+					for ( int i = 0; i < lent_km_aprasymas.length - 2; i++ ) {
+					
+						sql_ins1 =  sql_ins1 + comma1  + "'" + lauk_km_aprasymas [ i ] + "'";
+						comma1 = ",";
+					}
+					
+					sql_ins1 = 
+						"INSERT INTO `keliones_marsruto_atkarpos`"
+						+ " ( `id_marsruto_atkarpos`, `id_keliones_budo`, `aprasymas`, `data_laikas`, `trukme`, `atkrapos_numeris`, `id_keliones` )"
+						+ " VALUES ( "			
+						+ sql_ins1 + ", '" + atkarpos_numeris + "', '" + id_keliones + "' "
+						+ " )";
+
+					out.println ( sql_ins1 );  
+
+					Statement statement_change2 = connection.createStatement();
+					Integer  resultSetChange2 = statement_change2.executeUpdate(sql_ins1);			
+				//} 
+				
+				/*else {
+					
+					cia elsas jeigu jau yra info
+				
+				}*/
+							
+			} else {
 			
-		 } else {
-		 
 			if ( add != null ) {
 
 				out.println ( add );
 			}
 		 } 
-		 
+	
 		statement_take1 = connection.createStatement();		
 		String sql ="SELECT * FROM `lankymasis_punkte`  WHERE 1";
 
