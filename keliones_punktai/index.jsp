@@ -137,6 +137,26 @@
                     <h1>Įveskite norimo aplankyti punkto informaciją</h1>
 				
                 <form method="POST" action="">
+		
+		<label for="id_punkto_tipo">Punktu tipai</label>
+		<select id="id_punkto_tipo" name="id_punkto_tipo">
+		<%		
+try {
+									Statement st = connection.createStatement();
+									String sql = "SELECT * FROM `punktu_tipai`";
+									ResultSet rs = st.executeQuery(sql);
+									while(rs.next() ) {
+								%>
+										<option value="<%=rs.getString("id")%>"><%=rs.getString("pav")%></option>												
+								<%
+									}
+								}catch(Exception e){
+								}
+%>
+		</select><br>
+		
+		
+			
                         <label for="text">Pavadinimas</label>
                         <input type="text" id="pav" name="pav" value=""><br>
                         
@@ -161,11 +181,10 @@
                 </form>
 
                 <table>
-
+		
+		
 <%
-  
-               
-            try {
+try {
                         
             request.setCharacterEncoding("UTF-8");
             response.setContentType("text/html; charset=UTF-8");
