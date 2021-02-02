@@ -256,7 +256,22 @@ uzsipilde = true;
 							</td>
 							
 							<td>
-								<select name="id_punkto2" id="id_punkto2">
+								<select name="id_punkto" id="id_punkto">
+								<%
+								try {
+									Statement st = connection.createStatement();
+									String sql = "SELECT * FROM `keliones_punktai`";
+									ResultSet rs = st.executeQuery(sql);
+									while(rs.next() ){
+								%>
+										<option value="<%=rs.getString("id")%>"><%=rs.getString("pav")%><%=rs.getString("ilguma")%>"><%=rs.getString("platuma")%>"><%=rs.getString("aprasymas")%>"></option>												
+								<%
+									}
+
+								}catch(Exception e){
+
+								}
+								%>
 								
 								</select>
 							</td>
