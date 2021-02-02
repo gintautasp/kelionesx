@@ -207,7 +207,7 @@ uzsipilde = true;
 	<td><%= resultSet.getString ( "mapav" ) %></td>
 	<td><%= resultSet.getString ( "ipatybes" ) %></td>
 	<td><%= resultSet.getString  ("id_punkto1" ) %></td>
-	<td><%= resultSet.getString ( "id_punkto2" ) %></td><br>
+	<td><%= resultSet.getString ( "id_punkto" ) %></td>
 	<td><%= resultSet.getString ( "id_marsruto_atkarpos" ) %></td>
 	<td><%= resultSet.getString ( "id_keliones_b8ūdo" ) %></td>
 	<td><%= resultSet.getString ( "kma_aprasymas" ) %></td>
@@ -260,7 +260,7 @@ uzsipilde = true;
 								<%
 								try {
 									Statement st = connection.createStatement();
-									String sql = "SELECT * FROM `keliones_punktai`";
+									String sql = "SELECT * FROM `punktai`";
 									ResultSet rs = st.executeQuery(sql);
 									while(rs.next() ){
 								%>
