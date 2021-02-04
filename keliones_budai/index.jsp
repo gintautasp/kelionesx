@@ -6,8 +6,6 @@
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="java.sql.SQLException"%>
-<%@page import="javax.swing.JOptionPane"%>
-<%@page import="java.util.*"%>
 <%@page language="java" import="commons.Crud" %>
 <%
 	String driverName = "com.mysql.jdbc.Driver";
