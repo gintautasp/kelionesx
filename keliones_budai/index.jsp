@@ -5,6 +5,7 @@
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.Connection"%>
+<%@page import="java.sql.SQLException"%>
 <%@page language="java" import="commons.Crud" %>
 <%
 	String driverName = "com.mysql.jdbc.Driver";
@@ -12,9 +13,10 @@
 	String dbName = "uzduotis_keliones";
 	String userId = "root";
 	String password = "";
-	String[] lent_budai = { "id", "pav" };
+	String[] lent_budai = {"id", "pav" };
 	String[] lauk_budai = new String [ lent_budai.length ];		
-	Crud lent_priemones = new Crud ( "keliones_budai", lent_budai );
+	Crud budai = new Crud ( "keliones_budai", lent_budai );
+	String errormsg= "";
 %>
 <html>
 <%
@@ -70,7 +72,7 @@
 			String comma = "";
 			id_budai = request.getParameter( "id_budai" );
 			if  (  id_budai == null ) {																					
-				sql_ins = lent_priemones.insert(lauk_budai);
+				sql_ins = budai.insert(lauk_budai);
 				statement_change = connection.createStatement();
 				resultSetChange = statement_change.executeUpdate(sql_ins);
 				
@@ -79,32 +81,43 @@
 				lauk_budai[0] = id_budai;
 				String sql_upd;
 				String salyga = " `id`=" + id_budai;
-				sql_upd = lent_priemones.update(lauk_budai, salyga);						
+				sql_upd = budai.update(lauk_budai, salyga);						
 				statement_change = connection.createStatement();
 				resultSetChange = statement_change.executeUpdate( sql_upd );				
-			}
+			 }
 			
 		 } 
 		 else {
 		 
 			if ( add != null ) {
-				out.println ( add );
 			}
 		 }
-		 if ( ( ( add = request.getParameter("papil")  ) != null ) && add.equals("papildyti") ){
+		 if ( ( ( add = request.getParameter("papil")  ) != null) && add.equals("papildyti") ){
 				for ( int i = 1; i<lent_budai.length; i++ ) {
-				lauk_budai [ i ] = request.getParameter ( lent_budai [ i ] );
-			}
-			sql_ins = lent_priemones.insert(lauk_budai);	
-			statement_change = connection.createStatement();
-			resultSetChange = statement_change.executeUpdate(sql_ins);
+				lauk_budai [ i ] = request.getParameter( lent_budai [ i ]);
+				}
+				
+				String sql = "SELECT * FROM `keliones_budai` WHERE `keliones_budai`.`pav`='" + lauk_budai [1] + "'";
+				statement_take = connection.createStatement();
+				resultSet = statement_take.executeQuery(sql);
+				
+				if(resultSet.next()){
+					String pav = resultSet.getString("pav");
+					errormsg= "žodis "+ lauk_budai [1] + " kartojasi";
+
+				}else{
+					sql_ins = budai.insert(lauk_budai);	
+					statement_change = connection.createStatement();
+					resultSetChange = statement_change.executeUpdate(sql_ins);
+				}
 		 }
+		 
 		 String del;
 		String where_salyga;
 	
 		if ( ( ( del = request.getParameter("del")  ) != null ) && del.equals ( "del1rec" ) ) {
 			id_budai= request.getParameter("m_del");
-			String sql_delete = lent_priemones.delete (id_budai);
+			String sql_delete = budai.delete (id_budai);
 			statement_change = connection.createStatement();
 			resultSetChange = statement_change.executeUpdate(sql_delete);
 
@@ -120,6 +133,7 @@
 	}
 %>		 
 		<script>
+		
 			function iRedagavima ( id_rec ) {
 			
 				if ( mygtukas = document.getElementById ( 'toEdit_' + id_rec ) ) {
@@ -144,7 +158,6 @@
 				}
 %>
 			}
-			
 			function iTrinima ( id_rec ) {
 			
 				mygtukasEdit = document.getElementById ( 'toEdit_' + id_rec );
@@ -157,8 +170,7 @@
 					forma_del = document.getElementById ( "del_rec" );
 					forma_del.submit();
 				}
-			}
-						
+			}			
 		</script>
 	</head>
 <body>
@@ -219,13 +231,21 @@
                 <main class="tm-col-right tm-contact-main"> <!-- Content -->
                     <section class="tm-content tm-contact">
                         <h2 ><strong>Keliones budai</strong></h2>
+						<th>
+						</th>
 <form method="post" action="">
 	<table class="header">
 		<tr>
 			<th>Pavadinimas</th>
 			<td>
-				<input id="pav" type="text" name="pav" required>
+				<input id="pav" type="text" name="pav" pattern="[A-Ža-ž]{3,}+" title="Įveskite tris ar daugiau raidžių" required>
 			</td>
+		</tr>
+		<tr>
+		<th></th>
+		<td>
+			<%= errormsg %>	
+		</td>
 		</tr>
 		<tr>
 			<td>
@@ -233,7 +253,7 @@
 			<td>
 				<input type="button" name="clear" value="valyti" onClick = "iValyma()"> 
 				<input type="submit" name="add" value="pakeisti">
-				<input type="submit" name="papil" value="papildyti">
+				<input type="submit" name="papil" value="papildyti" onClick = "pap()">
 			</td>
 		</tr>
 	</table>
@@ -251,24 +271,25 @@
 <%
 	try {
 		statement_take = connection.createStatement();		
-		String sql = lent_priemones.select ();
+		String sql = budai.select ();
 		resultSet = statement_take.executeQuery(sql);
-		 
+
 		while( resultSet.next() ){
 		
 			String rec_data = "";
 		
 			for ( int i = 1; i < lauk_budai.length; i++ ) { 
-				rec_data += " data-"  +lent_budai [ i ]  + "=\"" + resultSet.getString (  lent_budai [ i ]  ) + "\"";
-			}  
+				rec_data += " data-"  +lent_budai [ i ]  + "=\"" + resultSet.getString(lent_budai[i]) + "\"";
+				
+			}
+
 			String id_rec = resultSet.getString (  "id"  );
 %>
 <tr>
 	<td><input type="button" class="record_edit"  id="toEdit_<%= id_rec  %>" data-id_miesto="<%= id_rec  %>"<%= rec_data %> value="&#9998;" onClick="iRedagavima( <%= id_rec %> )"></td>
 	<td><input type="button" class="delete"  id="toDelete_<%= id_rec  %>" data-id_miesto="<%= id_rec %>" value="&#10007;" onClick="iTrinima( <%= id_rec %> )"></td>
-
 <%
-		for ( int i = 1; i < lauk_budai.length; i++ ) {
+		for ( int i = 1; i < lauk_budai.length; i++ ) {		
 %>
 	<td><%= resultSet.getString (  lent_budai [ i ]  ) %></td>
 <%
@@ -278,7 +299,8 @@
 </tr>
 <% 
 		}
-	} catch ( Exception e ) {
+	}
+	 catch ( Exception e ) {
 	
 		e.printStackTrace();
 	}
@@ -311,3 +333,4 @@
     <script src="../js/templatemo-script.js"></script>
 </body>
 </html>
+
