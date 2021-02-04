@@ -340,6 +340,21 @@ uzsipilde = true;
 							
 							<td>
 								<select name="id_marsruto_atkarpos" id="id_marsruto_atkarpos">
+								<%
+									try {
+									Statement st = connection.createStatement();
+									String sql = "SELECT * FROM `punktai`";
+									ResultSet rs = st.executeQuery(sql);
+									while(rs.next() ){
+								%>
+										<option value="<%=rs.getString("id")%>"><%=rs.getString("id")%></option>												
+								<%
+									}
+
+								}catch(Exception e){
+
+								}
+								%>
 								
 								</select>
 							</td>
