@@ -234,7 +234,6 @@
                     <section class="tm-content tm-contact">
                         <h2 ><strong>Keliones budai</strong></h2>
 						<th>
-						<%= errormsg %>	
 						</th>
 <form method="post" action="">
 	<table class="header">
@@ -243,6 +242,12 @@
 			<td>
 				<input id="pav" type="text" name="pav" pattern="[A-Ža-ž]{3,}" title="Įveskite tris ar daugiau raidžių" required>
 			</td>
+		</tr>
+		<tr>
+		<th></th>
+		<td>
+			<%= errormsg %>	
+		</td>
 		</tr>
 		<tr>
 			<td>
@@ -330,3 +335,4 @@
     <script src="../js/templatemo-script.js"></script>
 </body>
 </html>
+
