@@ -18,6 +18,7 @@
 	String[] lent_budai = {"id", "pav" };
 	String[] lauk_budai = new String [ lent_budai.length ];		
 	Crud budai = new Crud ( "keliones_budai", lent_budai );
+	String errormsg= "";
 %>
 <html>
 <%
@@ -85,7 +86,7 @@
 				sql_upd = budai.update(lauk_budai, salyga);						
 				statement_change = connection.createStatement();
 				resultSetChange = statement_change.executeUpdate( sql_upd );				
-			}
+			 }
 			
 		 } 
 		 else {
@@ -95,12 +96,24 @@
 		 }
 		 if ( ( ( add = request.getParameter("papil")  ) != null) && add.equals("papildyti") ){
 				for ( int i = 1; i<lent_budai.length; i++ ) {
-				lauk_budai [ i ] = request.getParameter ( lent_budai [ i ] );
-			}
-			sql_ins = budai.insert(lauk_budai);	
-			statement_change = connection.createStatement();
-			resultSetChange = statement_change.executeUpdate(sql_ins);
+				lauk_budai [ i ] = request.getParameter( lent_budai [ i ]);
+				}
+				
+				String sql = "SELECT * FROM `keliones_budai` WHERE `keliones_budai`.`pav`='" + lauk_budai [1] + "'";
+				statement_take = connection.createStatement();
+				resultSet = statement_take.executeQuery(sql);
+				
+				if(resultSet.next()){
+					String pav = resultSet.getString("pav");
+					errormsg= "duplicate word";
+
+				}else{
+					sql_ins = budai.insert(lauk_budai);	
+					statement_change = connection.createStatement();
+					resultSetChange = statement_change.executeUpdate(sql_ins);
+				}
 		 }
+		 
 		 String del;
 		String where_salyga;
 	
@@ -226,6 +239,7 @@
 			<th>Pavadinimas</th>
 			<td>
 				<input id="pav" type="text" name="pav" pattern="[A-Ža-ž]{3,}" title="Įveskite tris ar daugiau raidžių" required>
+				<%= errormsg %>	
 			</td>
 		</tr>
 		<tr>
@@ -254,20 +268,14 @@
 		statement_take = connection.createStatement();		
 		String sql = budai.select ();
 		resultSet = statement_take.executeQuery(sql);
-		String text=request.getParameter("pav");
-		String add;
-		
-		 if ( ( (add = request.getParameter("papil")  ) != null) && add.equals("papildyti") ){
-				if((text.equals("autobusas"))||(text.equals("automobilis"))){
-					out.println("duplicate word");
-				}
-		}
+
 		while( resultSet.next() ){
 		
 			String rec_data = "";
 		
 			for ( int i = 1; i < lauk_budai.length; i++ ) { 
 				rec_data += " data-"  +lent_budai [ i ]  + "=\"" + resultSet.getString(lent_budai[i]) + "\"";
+				
 			}
 
 			String id_rec = resultSet.getString (  "id"  );
