@@ -8,7 +8,6 @@
 <%@page import="java.sql.Connection"%>
 <%    //@page language="java" import="commons.Crud" %>  
 <%
-
 	String driverName = "com.mysql.jdbc.Driver";
 	String connectionUrl = "jdbc:mysql://localhost:3306/";
 	String dbName = "uzduotis_keliones";
@@ -20,7 +19,6 @@
 %>
 <html>
 <%
-
 	
 
 	Connection connection = null;
@@ -131,21 +129,16 @@
 				
 				var r = confirm( "Ar norite pašalinti punkto tipa" + pav + "?" );
 				
-				//alert( r );
-				//alert ( r == true );
 				
 				if ( r == true ) {
 					
-					//alert(id_rec + "1" );
 					document.getElementById ( "m_del" ).value = id_rec;
-					//alert( id_rec + "2" );
 					forma_del = document.getElementById ( "del_rec" );
-					//alert( forma_del );
 					forma_del.submit();
 				}
 				
 			}
-				//alert ( "ops" ); 
+			
 
 	</script>
 		
@@ -217,17 +210,22 @@
 		String add; 
 		String sql_ins = "";
 		id_punkto_tipo = request.getParameter( "id_punkto_tipo" );
+	
+		
 		
 		if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "Papildyti" ) ) {
-		
+			
 			for ( int i = 0; i<lent_punktu_tipai.length; i++ ) {																																		// Miestai miestas = new Miestai ( lent_miestu );
 																																					// miestas.takeFromParams ( request );for ( int i = 0; i<lent_punktu_tipai.length; i++ ) {
 				lauk_punktu_tipu [ i ] = request.getParameter ( lent_punktu_tipai [ i ] );
 			}
+					
 			
+			
+				
 			String comma = "";
 			
-		
+			String errormes = "";
 			
 			if ( ( id_punkto_tipo ==null) || ( id_punkto_tipo.equals("0" ) ) ) {
 			
@@ -236,20 +234,31 @@
 					sql_ins =  sql_ins + comma  + "'" + lauk_punktu_tipu [ i ] + "'";
 					comma = ",";																													// sql_ins = sql_ins + "'" + Miestai.value + "'";
 				}
-			
-			
-				sql_ins = "INSERT INTO `punktu_tipai`"  
-				+ " ( `pav` )"
-				+ " VALUES ( "			
-				+ sql_ins
-				+ " )";
 				
-				
-				out.println ( sql_ins );
+				String sql = "SELECT * FROM `punktu_tipai` WHERE `punktu_tipai`.`pav`='"+lauk_punktu_tipu[0]+"'";
 			
-				statement_change = connection.createStatement();
-				resultSetChange = statement_change.executeUpdate(sql_ins);	
+				statement_take = connection.createStatement();
+				resultSet = statement_take.executeQuery(sql);	
 				
+				if  ( resultSet.next() ){
+				
+					String pav = resultSet.getString("pav");
+					out.println( "Toks punkto tipas jau yra" );
+				
+				}else {
+			
+					sql_ins = "INSERT INTO `punktu_tipai`"  
+					+ " ( `pav` )"
+					+ " VALUES ( "			
+					+ sql_ins
+					+ " )";
+					
+					
+					out.println ( sql_ins );
+				
+					statement_change = connection.createStatement();
+					resultSetChange = statement_change.executeUpdate(sql_ins);	
+				}
 				
 			} else {
 		 
@@ -271,11 +280,9 @@
 			}
 			
 		String del = "";
+		
 		if ( ( (  del = request.getParameter("del" ) ) != null) && del.equals ( "del1rec" ) ) {		
 
-
-   
-			//*  „DELETE FROM `punktu_tipai` WHERE `punktu_tipai`.`id` = 134“
 			String sql_delete = "DELETE FROM `punktu_tipai` WHERE `punktu_tipai`. `id`='"+ id_punkto_tipo+"'";
 			out.println ( sql_delete );
 			statement_change = connection.createStatement();
@@ -289,7 +296,7 @@
 
 			<div class="form">
 				<form action="" method="POST">
-				<input type="text" id="pav" name="pav" placeholder="Punktu_tipai">
+				<input type="text" id="pav" name="pav" pattern="[A-Ža-ž\s]{3,}" title="Iveskite tris ar daugiau raidžiu" required placeholder="Punktu_tipai">
 				<input type="submit" name="add" value="Papildyti" class="btn btn-primary">
 				<input type="hidden" id="id_punkto_tipo" name="id_punkto_tipo" value="0">
 		

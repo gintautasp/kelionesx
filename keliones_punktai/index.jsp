@@ -8,17 +8,6 @@
 <%@page import="java.sql.Connection"%>
 <%    //@page language="java" import="commons.Crud" %> 
 <head>
-
-<%
-	
-	try{
-	     
-		request.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html; charset=UTF-8");
-		response.setCharacterEncoding("UTF-8");		
-		
-	} catch(Exception e) {}
-%>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -43,7 +32,6 @@
     int resultSetChange;
     String[] punktai = {  "pav", "platuma", "ilguma", "aprasymas"  };
     String[] reiksmes_punktai = new String [ punktai.length ];
-
 %>
 
     <script>
@@ -81,41 +69,9 @@
 
             e.printStackTrace();
     }
-%>
+%>	
 
-			function iValyma () {
-<%
-				
-				for ( int i=1; i<punktai.length; i++) {
-%>
-				
-				document.getElementById('<%= punktai [ i ] %>').value= "";
-<%				
-				}
-%>
-				
-			}
-			
-			function iTrinima ( id_rec ) {
-			
-				mygtukasEdit = document.getElementById ( 'toEdit_' + id_rec );
-				
-				pav = mygtukasEdit.dataset.pav;
-				
-				var r = confirm( "Ar norite pašalinti punkto tipa" + pav + "?" );
-				
-				if ( r == true ) {
-					
-					document.getElementById ( "m_del" ).value = id_rec;
-					
-					forma_del = document.getElementById ( "del_rec" );
-					
-					forma_del.submit();
-				}
-				
-			}
-
-    </script>
+</script>
 
 </head>
 
@@ -184,17 +140,17 @@
 		
 		<label for="id_punkto_tipo">Punktu tipai</label>
 		<select id="id_punkto_tipo" name="id_punkto_tipo">
-		<%		
+<%		
 try {
-									Statement st = connection.createStatement();
-									String sql = "SELECT * FROM `punktu_tipai`";
-									ResultSet rs = st.executeQuery(sql);
-									while(rs.next() ) {
-								%>
-										<option value="<%=rs.getString("id")%>"><%=rs.getString("pav")%></option>												
-								<%
-									}
-								}catch(Exception e){
+	Statement st = connection.createStatement();
+	String sql = "SELECT * FROM `punktu_tipai`";
+	ResultSet rs = st.executeQuery(sql);
+	while(rs.next() ) {
+				%>
+				<option value="<%=rs.getString("id")%>"><%=rs.getString("pav")%></option>												
+				<%
+				}
+	}catch(Exception e){
 								}
 %>
 		</select><br>
@@ -221,14 +177,13 @@ try {
         
                 <form id="del_rec" method="post" action="">
                     <input type="hidden" name="del" value="del1rec">
-                    <input type="hidden" id="m_del" name="id_punkto" value="0">
+                    <input type="hidden" id="m_del" name="m_del" value="0">
                 </form>
 
                 <table>
 		
 		
 <%
-<<<<<<< HEAD
 try {
                         
             request.setCharacterEncoding("UTF-8");
@@ -238,21 +193,16 @@ try {
                 } catch(Exception e) {}
             
             try { 
-=======
-  
-                  
-        try { 
->>>>>>> 8870d2146af69e9db3a5c722d43d5dd701c3ee14
                     
                 connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
-                String add = request.getParameter("add");
-                out.println(add);
+                String add = "";
+                
                 String sql_ins = "";
             
-                if ( ( ( add ) != null ) && add.equals ( "Prideti" ) ) {
+                if ( ( ( add = request.getParameter("add") ) != null ) && add.equals ( "Prideti" ) ) {
 
                     String id_punkto = request.getParameter ("id_punkto");
-                    out.println (id_punkto);
+                    
 
                     if ( (id_punkto==null) || id_punkto.equals ("0") ) {
 
@@ -271,7 +221,7 @@ try {
                         
                         sql_ins = 
                         "INSERT INTO `punktai`"
-                        + " (`pav`, `ilguma`, `platuma`, `aprasymas`)"
+                        + " (`pav`, `ilguma`, `platuma`, `aprasymas` )"
                         + " VALUES ( "			
                         + sql_ins
                         + " )";
@@ -288,35 +238,17 @@ try {
                         resultSetChange = statement_change.executeUpdate(sql_ins);
                     } 
 
-                    } else {
+                } else {
                     
-                        if ( add != null ) {
+                    if ( add != null ) {
 
                         out.println ( add );
                     }
                 } 
-
-                	String del = "";
-    
-                        String id_punkto = request.getParameter ("id_punkto");
-		                if ( ( (  del = request.getParameter("del") ) != null) && del.equals ( "del1rec" ) ) {		
-   
-                        String sql_delete = "DELETE FROM `punktai` WHERE `punktai`.`id`='"+id_punkto+"'";
-                        out.println ( sql_delete );
-                        statement_change = connection.createStatement();
-                        resultSetChange = statement_change.executeUpdate(sql_delete);
-                    }	
-                    
-        } catch ( Exception e ) {
-            
-            e.printStackTrace();
-            }
-
-                try {
                         
-                    statement_take = connection.createStatement();		
-                    String sql ="SELECT * FROM `punktai` WHERE1";
-                    resultSet = statement_take.executeQuery(sql);
+                statement_take = connection.createStatement();		
+                String sql ="SELECT * FROM `punktai` WHERE1";
+                resultSet = statement_take.executeQuery(sql);
                             
                      while ( resultSet.next() ){
 
@@ -333,7 +265,6 @@ try {
 
                 <tr>
                     <td><input type="button" class="record_edit" id="toEdit_<%= id_rec  %>" data-id_punkto="<%= id_rec  %>"<%= rec_data %> value="&#9998;" onClick="iRedagavima( <%= id_rec %> )"></td>
-                    <td><input type="button" class="delete" id="toDelete_<%=id_rec %>"data-id_punkto="<%=id_rec %>" value="&#10006;" onClick="iTrinima( <%=id_rec %>)"></td>
                 <%
                         for ( int i = 0; i < reiksmes_punktai.length; i++ ) {
                 %>
@@ -345,11 +276,11 @@ try {
                 <% 
                         }
             
-                } catch ( Exception e ) {
+            } catch ( Exception e ) {
                     
                         e.printStackTrace();
-                    }  
-%>
+                    }
+                %>
                 </table>
                     </div>
                 </div>
