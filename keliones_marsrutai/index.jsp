@@ -45,6 +45,8 @@
 	
 	String id_lankymosi_punkte = "0";
 	id_lankymosi_punkte = request.getParameter( "id_lankymosi_punkte" ); 
+	String id_keliones_marsrutu_atkarpos = "0";
+	id_lankymosi_punkte = request.getParameter( "id_keliones_marsrutu_atkarpos" ); 
 	
 	try{
 	     
@@ -377,6 +379,7 @@ uzsipilde = true;
 								<!--<input type="hidden" name="atkarpos_numeris" value="1">-->
 								<input type="hidden" name="id_marsruto_atkarpos" value="1">
 								<input type="hidden" id="id_lankymosi_punkte" name="id_lankymosi_punkte" value="0">
+								<input type="hidden" id="id_keliones_marsrutu_atkarpos" name="id_keliones_marsrutu_atkarpos" value="0">
 							<!--</td> 4 auksciau????--> 
 														
 						</tr> 
@@ -396,7 +399,7 @@ uzsipilde = true;
 					</form>
 					<form id="del_rec" method="post" action="">
 						<input type="hidden" name="del" value="del1rec">
-						<input type="hidden" id="id_lankymosi_punkte" name="id_lankymosi_punkte" value="0">
+						<input type="hidden" id="id_lankymosi_punkte" name="id_lankymosi_punkte" value="0"> <!-- duplikatas!!!!!!!!-->
 					</form>
 							</div>
 						</tr>
@@ -503,18 +506,18 @@ uzsipilde = true;
 					Statement statement_change1 = connection.createStatement();
 					Integer  resultSetChange1 = statement_change1.executeUpdate(sql_upd1);	
 								
-				/*	String sql_upd2 = 
+					String sql_upd2 = 
 						"UPDATE `keliones_marsruto_atkarpos` SET `aprasymas`='"+request.getParameter("kma_aprasymas")+"', "
 						+ " `data_laikas`='"+request.getParameter("kma_data_laikas")+"', "
 						+ " `trukme`='"+request.getParameter("kma_trukme")+"', "
 						+ " `id_keliones_budo`='"+request.getParameter("id_keliones_budo")+"', "
-						+ " `id_marsruto_atkarpos`='"+request.getParameter("id_marsruto_atkarpos")+"' "  
-						+ "	WHERE `keliones_marsruto_atkarpos`.`id_keliones`='"+id_keliones+"'"; // negerai kad ID keliones nes kelis per karta keicia.
+				//		+ " `id_marsruto_atkarpos`='"+request.getParameter("id_marsruto_atkarpos")+"' "  
+						+ "	WHERE `keliones_marsruto_atkarpos`.`id`='"+id_keliones+"'"; 
 					
 					out.println ( sql_upd2 );
 					
 					Statement statement_change2 = connection.createStatement();
-					Integer  resultSetChange2 = statement_change2.executeUpdate(sql_upd2);	*/
+					Integer  resultSetChange2 = statement_change2.executeUpdate(sql_upd2);
 
 				}
 								
