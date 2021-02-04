@@ -105,7 +105,7 @@
 				
 				if(resultSet.next()){
 					String pav = resultSet.getString("pav");
-					errormsg= "duplicate word";
+					errormsg= "žodis "+ lauk_budai [1] + " kartojasi";
 
 				}else{
 					sql_ins = budai.insert(lauk_budai);	
@@ -233,13 +233,15 @@
                 <main class="tm-col-right tm-contact-main"> <!-- Content -->
                     <section class="tm-content tm-contact">
                         <h2 ><strong>Keliones budai</strong></h2>
+						<th>
+						<%= errormsg %>	
+						</th>
 <form method="post" action="">
 	<table class="header">
 		<tr>
 			<th>Pavadinimas</th>
 			<td>
 				<input id="pav" type="text" name="pav" pattern="[A-Ža-ž]{3,}" title="Įveskite tris ar daugiau raidžių" required>
-				<%= errormsg %>	
 			</td>
 		</tr>
 		<tr>
