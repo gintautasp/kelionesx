@@ -238,7 +238,7 @@
 		<tr>
 			<th>Pavadinimas</th>
 			<td>
-				<input id="pav" type="text" name="pav" pattern="[A-Ža-ž]{3,}" title="Įveskite tris ar daugiau raidžių" required>
+				<input id="pav" type="text" name="pav" pattern="[A-Ža-ž]{3,}+" title="Įveskite tris ar daugiau raidžių" required>
 			</td>
 		</tr>
 		<tr>
