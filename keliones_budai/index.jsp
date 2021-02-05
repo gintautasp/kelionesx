@@ -69,9 +69,14 @@
 			
 				lauk_budai [ i ] = request.getParameter ( lent_budai [ i ] );
 			}
-			String comma = "";
-			id_budai = request.getParameter( "id_budai" );
-			if  (  id_budai == null ) {																					
+				String comma = "";
+				String sql = "SELECT * FROM `keliones_budai` WHERE `keliones_budai`.`pav`='" + lauk_budai [1] + "'";
+				id_budai = request.getParameter( "id_budai" );
+				statement_take = connection.createStatement();
+				resultSet = statement_take.executeQuery(sql);
+				
+			if  (  id_budai == null || resultSet.next()) {	
+				errormsg= "žodis "+ "("+lauk_budai [1]+")" + " kartojasi negalima pakeisti";																	
 				sql_ins = budai.insert(lauk_budai);
 				statement_change = connection.createStatement();
 				resultSetChange = statement_change.executeUpdate(sql_ins);
@@ -86,13 +91,12 @@
 				resultSetChange = statement_change.executeUpdate( sql_upd );				
 			 }
 			
-		 } 
-		 else {
+		 } else {
 		 
 			if ( add != null ) {
 			}
 		 }
-		 if ( ( ( add = request.getParameter("papil")  ) != null) && add.equals("papildyti") ){
+		 if ( ( ( add = request.getParameter("papil")  ) != null) && add.equals("papildyti")){
 				for ( int i = 1; i<lent_budai.length; i++ ) {
 				lauk_budai [ i ] = request.getParameter( lent_budai [ i ]);
 				}
@@ -102,10 +106,9 @@
 				resultSet = statement_take.executeQuery(sql);
 				
 				if(resultSet.next()){
-					String pav = resultSet.getString("pav");
-					errormsg= "žodis "+ lauk_budai [1] + " kartojasi";
+					errormsg= "žodis "+ "("+lauk_budai [1]+")" + " kartojasi negalima papildyti";
 
-				}else{
+				} else{
 					sql_ins = budai.insert(lauk_budai);	
 					statement_change = connection.createStatement();
 					resultSetChange = statement_change.executeUpdate(sql_ins);
@@ -243,7 +246,7 @@
 		</tr>
 		<tr>
 		<th></th>
-		<td>
+		<td >
 			<%= errormsg %>	
 		</td>
 		</tr>
@@ -333,4 +336,3 @@
     <script src="../js/templatemo-script.js"></script>
 </body>
 </html>
-
