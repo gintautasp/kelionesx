@@ -47,7 +47,8 @@
 	id_lankymosi_punkte = request.getParameter( "id_lankymosi_punkte" ); 
 	String id_keliones_marsruto_atkarpos = "0";
 	id_keliones_marsruto_atkarpos = request.getParameter( "id_keliones_marsruto_atkarpos" );
-	
+	String del = request.getParameter( "del" );
+	out.println ( del );
 	
 	try{
 	     
@@ -81,13 +82,17 @@
 		id_keliones = "1";
 		atkarpos_numeris = "1";
 		String id_marsruto_atkarpos = "1";
-		id_marsruto_atkarpos = request.getParameter( "id_marsruto_atkarpos" );
-		out.println(id_marsruto_atkarpos);
-		String[] arrOfStr = id_marsruto_atkarpos.split("_");
-		id_marsruto_atkarpos = arrOfStr[0];
-		String id_punkto1 = arrOfStr[1];
-		out.println(arrOfStr[0]);
-		out.println(arrOfStr[1]);
+		String id_punkto1 = "1";
+		if ( ( id_marsruto_atkarpos = request.getParameter( "id_marsruto_atkarpos" ) ) !=null ) {
+					
+			out.println(id_marsruto_atkarpos);
+			String[] arrOfStr = id_marsruto_atkarpos.split("_");
+			id_marsruto_atkarpos = arrOfStr[0];
+			id_punkto1 = arrOfStr[1];
+			out.println(arrOfStr[0]);
+			out.println(arrOfStr[1]);
+		
+		}
 		
 		if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "papildyti" ) ) {
 		
@@ -181,9 +186,11 @@
 			}
 		 } 
 	
-	String del = "";
+	//String del = request.getParameter( "del" );
 	
-		if ( ( (  del = request.getParameter("del" ) ) != null) && del.equals ( "del1rec" ) ) {		
+		out.println ( del );
+	
+		if ( ( (  del  ) != null) && del.equals ( "del1rec" ) ) {		
 
 			String id_lankymosi_punkte_i_del = request.getParameter ( "id_lankymosi_punkte_i_del" );
 			String id_keliones_marsruto_atkarpos_i_del = request.getParameter ( "id_keliones_marsruto_atkarpos_i_del" ); 
