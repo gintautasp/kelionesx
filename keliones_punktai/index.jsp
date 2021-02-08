@@ -207,9 +207,11 @@
 		</select><br>
 		
 		
-			
+                        <td>
                         <label for="text">Pavadinimas</label>
-                        <input type="text" id="pav" name="pav" value=""><br>
+                        <input id="pav" type="text" name="pav" pattern="[A-Ža-ž\s]{3,}" title="Įveskite tris ar daugiau raidžių" required><br>
+                        </td>
+                        
                         
                         <label for="text">Ilguma</label>
                         <input type="text" id="ilguma" name="ilguma" value=""><br>
