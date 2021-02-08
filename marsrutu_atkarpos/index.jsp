@@ -93,14 +93,35 @@
 				out.println ( add );
 			}
 		 }
+		
 		 if ( ( ( add = request.getParameter("papil")  ) != null ) && add.equals("papildyti") ){
 				for ( int i = 1; i<lent_marsrutu_atkarpos.length; i++ ) {
 				lauk_marsrutu_atkarpos [ i ] = request.getParameter ( lent_marsrutu_atkarpos [ i ] );
+				} 
+				
+				String sql = "SELECT * FROM `marsrutu_atkarpos` WHERE `marsrutu_atkarpos`.`pav`='" + lauk_marsrutu_atkarpos [1] + "'";
+				statement_take = connection.createStatement();
+				resultSet = statement_take.executeQuery(sql);
+				
+				if(resultSet.next()){
+					String pav = resultSet.getString("pav");
+					%>
+					<script> window.onload = function() { 
+							swal({
+						title: "Oops!",
+						text: "Toks pavadinimas jau įvestas",
+						icon: "error"
+						});
+					}
+					</script>
+					<%
+
+				}else{
+					sql_ins = lent_priemones.insert(lauk_marsrutu_atkarpos);	
+					statement_change = connection.createStatement();
+					resultSetChange = statement_change.executeUpdate(sql_ins);
+				}
 			}
-			sql_ins = lent_priemones.insert(lauk_marsrutu_atkarpos);	
-			statement_change = connection.createStatement();
-			resultSetChange = statement_change.executeUpdate(sql_ins);
-		 }
 		 String del;
 		String where_salyga;
 	
@@ -229,7 +250,7 @@
 		<tr>
 			<th>Pavadinimas</th>
 			<td>
-				<input id="pav" type="text" name="pav" required>
+				<input id="pav" type="text" name="pav" pattern="[A-Ža-ž\s]{3,}" title="Įveskite tris ar daugiau raidžių" required>
 			</td>
 			<tr>
 			<th>Ypatybes</th>
@@ -354,6 +375,7 @@
         </div>
     </div>
 
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="../js/jquery-3.4.1.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/jquery.backstretch.min.js"></script>

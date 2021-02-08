@@ -6,8 +6,6 @@
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="java.sql.SQLException"%>
-<%@page import="javax.swing.JOptionPane"%>
-<%@page import="java.util.*"%>
 <%@page language="java" import="commons.Crud" %>
 <%
 	String driverName = "com.mysql.jdbc.Driver";
@@ -18,6 +16,7 @@
 	String[] lent_budai = {"id", "pav" };
 	String[] lauk_budai = new String [ lent_budai.length ];		
 	Crud budai = new Crud ( "keliones_budai", lent_budai );
+	String errormsg= "";
 %>
 <html>
 <%
@@ -70,9 +69,14 @@
 			
 				lauk_budai [ i ] = request.getParameter ( lent_budai [ i ] );
 			}
-			String comma = "";
-			id_budai = request.getParameter( "id_budai" );
-			if  (  id_budai == null ) {																					
+				String comma = "";
+				String sql = "SELECT * FROM `keliones_budai` WHERE `keliones_budai`.`pav`='" + lauk_budai [1] + "'";
+				id_budai = request.getParameter( "id_budai" );
+				statement_take = connection.createStatement();
+				resultSet = statement_take.executeQuery(sql);
+				
+			if  (  id_budai == null || resultSet.next()) {	
+				errormsg= "žodis "+ "("+lauk_budai [1]+")" + " kartojasi negalima pakeisti";																	
 				sql_ins = budai.insert(lauk_budai);
 				statement_change = connection.createStatement();
 				resultSetChange = statement_change.executeUpdate(sql_ins);
@@ -85,22 +89,32 @@
 				sql_upd = budai.update(lauk_budai, salyga);						
 				statement_change = connection.createStatement();
 				resultSetChange = statement_change.executeUpdate( sql_upd );				
-			}
+			 }
 			
-		 } 
-		 else {
+		 } else {
 		 
 			if ( add != null ) {
 			}
 		 }
-		 if ( ( ( add = request.getParameter("papil")  ) != null) && add.equals("papildyti") ){
+		 if ( ( ( add = request.getParameter("papil")  ) != null) && add.equals("papildyti")){
 				for ( int i = 1; i<lent_budai.length; i++ ) {
-				lauk_budai [ i ] = request.getParameter ( lent_budai [ i ] );
-			}
-			sql_ins = budai.insert(lauk_budai);	
-			statement_change = connection.createStatement();
-			resultSetChange = statement_change.executeUpdate(sql_ins);
+				lauk_budai [ i ] = request.getParameter( lent_budai [ i ]);
+				}
+				
+				String sql = "SELECT * FROM `keliones_budai` WHERE `keliones_budai`.`pav`='" + lauk_budai [1] + "'";
+				statement_take = connection.createStatement();
+				resultSet = statement_take.executeQuery(sql);
+				
+				if(resultSet.next()){
+					errormsg= "žodis "+ "("+lauk_budai [1]+")" + " kartojasi negalima papildyti";
+
+				} else{
+					sql_ins = budai.insert(lauk_budai);	
+					statement_change = connection.createStatement();
+					resultSetChange = statement_change.executeUpdate(sql_ins);
+				}
 		 }
+		 
 		 String del;
 		String where_salyga;
 	
@@ -220,13 +234,21 @@
                 <main class="tm-col-right tm-contact-main"> <!-- Content -->
                     <section class="tm-content tm-contact">
                         <h2 ><strong>Keliones budai</strong></h2>
+						<th>
+						</th>
 <form method="post" action="">
 	<table class="header">
 		<tr>
 			<th>Pavadinimas</th>
 			<td>
-				<input id="pav" type="text" name="pav" pattern="[A-Ža-ž]{3,}" title="Įveskite tris ar daugiau raidžių" required>
+				<input id="pav" type="text" name="pav" pattern="[A-Ža-ž]{3,}+" title="Įveskite tris ar daugiau raidžių" required>
 			</td>
+		</tr>
+		<tr>
+		<th></th>
+		<td >
+			<%= errormsg %>	
+		</td>
 		</tr>
 		<tr>
 			<td>
@@ -254,20 +276,14 @@
 		statement_take = connection.createStatement();		
 		String sql = budai.select ();
 		resultSet = statement_take.executeQuery(sql);
-		String text=request.getParameter("pav");
-		String add;
-		
-		 if ( ( (add = request.getParameter("papil")  ) != null) && add.equals("papildyti") ){
-				if((text.equals("autobusas"))||(text.equals("automobilis"))){
-					out.println("duplicate word");
-				}
-		}
+
 		while( resultSet.next() ){
 		
 			String rec_data = "";
 		
 			for ( int i = 1; i < lauk_budai.length; i++ ) { 
 				rec_data += " data-"  +lent_budai [ i ]  + "=\"" + resultSet.getString(lent_budai[i]) + "\"";
+				
 			}
 
 			String id_rec = resultSet.getString (  "id"  );

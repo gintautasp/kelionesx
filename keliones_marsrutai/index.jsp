@@ -45,6 +45,10 @@
 	
 	String id_lankymosi_punkte = "0";
 	id_lankymosi_punkte = request.getParameter( "id_lankymosi_punkte" ); 
+	String id_keliones_marsruto_atkarpos = "0";
+	id_keliones_marsruto_atkarpos = request.getParameter( "id_keliones_marsruto_atkarpos" );
+	String del = request.getParameter( "del" );
+	out.println ( del );
 	
 	try{
 	     
@@ -53,8 +57,161 @@
 		response.setCharacterEncoding("UTF-8");		
 		
 	} catch(Exception e) {}
+
 	
-%>	
+	// Connection connection = null;
+	Statement statement1 = null;
+	ResultSet resultSet1 = null;
+	Statement statement_take1 = null;
+	Statement statement2 = null;
+	ResultSet resultSet2 = null;
+	Statement statement_take2 = null;
+	Statement statement_change3 = null;
+	Integer resultSetChange3 = null;
+	Statement statement_change4 = null;
+	Integer resultSetChange4 = null;
+	
+	try { 
+	
+		connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
+		String add; 
+		String id_keliones;
+		String atkarpos_numeris;
+		
+		//	id_keliones = request.getParameter ("i");
+		id_keliones = "1";
+		atkarpos_numeris = "1";
+		String id_marsruto_atkarpos = "1";
+		String id_punkto1 = "1";
+		if ( ( id_marsruto_atkarpos = request.getParameter( "id_marsruto_atkarpos" ) ) !=null ) {
+					
+			out.println(id_marsruto_atkarpos);
+			String[] arrOfStr = id_marsruto_atkarpos.split("_");
+			id_marsruto_atkarpos = arrOfStr[0];
+			id_punkto1 = arrOfStr[1];
+			out.println(arrOfStr[0]);
+			out.println(arrOfStr[1]);
+		
+		}
+		
+		if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "papildyti" ) ) {
+		
+			for ( int i = 0; i< lent_lpaprasymas.length; i++ ) {
+			
+				lauk_lpaprasymas [ i ] = request.getParameter ( lent_lpaprasymas [ i ] );
+			}
+
+			String sql_ins = "";
+			String comma = "";
+			
+				if ( ( id_lankymosi_punkte == null ) || ( id_lankymosi_punkte.equals("0" ) ) ){ //&& ( id_keliones_marsruto_atkarpos == null ) || ( id_keliones_marsruto_atkarpos.equals("0" ) ) ) 
+					
+					for ( int i = 0; i < lent_lpaprasymas.length - 2; i++ ) {
+					
+						sql_ins =  sql_ins + comma  + "'" + lauk_lpaprasymas [ i ] + "'";
+						comma = ",";
+					}
+					
+					sql_ins = 
+						"INSERT INTO `lankymasis_punkte`"
+						+ " ( `data_laikas`, `trukme`, `aprasymas`, `id_punkto`, `id_keliones`)"
+						+ " VALUES ( "			
+						+ sql_ins + ", '" + id_punkto1 + "', '" + id_keliones + "' "
+						+ " )";
+
+					out.println ( sql_ins ); 
+
+					Statement statement_change1 = connection.createStatement();
+					Integer  resultSetChange1 = statement_change1.executeUpdate(sql_ins);			
+							
+					for ( int i = 0; i< lent_km_aprasymas.length; i++ ) {
+					
+						lauk_km_aprasymas [ i ] = request.getParameter ( lent_km_aprasymas [ i ] );
+					}
+
+					String sql_ins1 = "";
+					String comma1 = "";
+					
+					for ( int i = 1; i < lent_km_aprasymas.length - 2; i++ ) {
+					
+						sql_ins1 =  sql_ins1 + comma1  + "'" + lauk_km_aprasymas [ i ] + "'";
+						comma1 = ",";
+					}
+					
+					sql_ins1 = 
+						"INSERT INTO `keliones_marsruto_atkarpos`"
+						+ " ( `id_marsruto_atkarpos`, `id_keliones_budo`, `aprasymas`, `data_laikas`, `trukme`, `atkrapos_numeris`, `id_keliones` )"
+						+ " VALUES ( "			
+						+ " '" + id_marsruto_atkarpos + "', " + sql_ins1 + ", '" + atkarpos_numeris + "', '" + id_keliones + "' "
+						+ " )";
+
+					out.println ( sql_ins1 );  
+
+					Statement statement_change2 = connection.createStatement();
+					Integer  resultSetChange2 = statement_change2.executeUpdate(sql_ins1);			
+				
+				} else {
+					
+					String sql_upd1 = 
+						"UPDATE `lankymasis_punkte` SET `data_laikas`='"+request.getParameter("data_laikas")+"', "
+						+ " `trukme`='"+request.getParameter("trukme")+"', "
+						+ " `aprasymas`='"+request.getParameter("lpaprasymas")+"', "
+						+ "	WHERE `lankymasis_punkte`.`id`='"+id_lankymosi_punkte+"'";
+					
+					out.println ( sql_upd1 );
+					
+					Statement statement_change1 = connection.createStatement();
+					Integer  resultSetChange1 = statement_change1.executeUpdate(sql_upd1);	
+								
+					String sql_upd2 = 
+						"UPDATE `keliones_marsruto_atkarpos` SET `aprasymas`='"+request.getParameter("kma_aprasymas")+"', "
+						+ " `data_laikas`='"+request.getParameter("kma_data_laikas")+"', "
+						+ " `trukme`='"+request.getParameter("kma_trukme")+"', "
+						+ " `id_keliones_budo`='"+request.getParameter("id_keliones_budo")+"', "
+						+ " `id_marsruto_atkarpos`='"+request.getParameter("id_marsruto_atkarpos")+"' "
+						+ "	WHERE `keliones_marsruto_atkarpos`.`id`='"+id_keliones_marsruto_atkarpos+"'";
+					
+					out.println ( sql_upd2 );
+					
+					Statement statement_change2 = connection.createStatement();
+					Integer  resultSetChange2 = statement_change2.executeUpdate(sql_upd2);
+
+				}
+								
+			} else {
+			
+			if ( add != null ) {
+
+				out.println ( add );
+			}
+		 } 
+	
+	//String del = request.getParameter( "del" );
+	
+		out.println ( del );
+	
+		if ( ( (  del  ) != null) && del.equals ( "del1rec" ) ) {		
+
+			String id_lankymosi_punkte_i_del = request.getParameter ( "id_lankymosi_punkte_i_del" );
+			String id_keliones_marsruto_atkarpos_i_del = request.getParameter ( "id_keliones_marsruto_atkarpos_i_del" ); 
+
+			String sql_delete = "DELETE FROM `lankymasis_punkte` WHERE `lankymasis_punkte`.`id`='"+ id_lankymosi_punkte_i_del +"'";
+			out.println ( sql_delete );
+			statement_change3 = connection.createStatement();
+			resultSetChange3 = statement_change3.executeUpdate(sql_delete);
+			
+			String sql_delete1 = "DELETE FROM `keliones_marsruto_atkarpos`` WHERE `keliones_marsruto_atkarpos`.`id`='"+ id_keliones_marsruto_atkarpos_i_del +"'";
+			out.println ( sql_delete1 );
+			statement_change4 = connection.createStatement();
+			resultSetChange4 = statement_change4.executeUpdate(sql_delete1);
+		}	
+				
+	} catch ( Exception e ) {
+	
+		e.printStackTrace();
+	}
+%>
+
 <script>
 		function iRedagavima ( id_rec ) {
 		
@@ -66,10 +223,42 @@
 <%
 				}
 %>
+				document.getElementById( "id_lankymosi_punkte" ).value = mygtukas.dataset.id_lankymosi_punkte
 				
-				document.getElementById( "id_lankymosi_punkte" ).value = id_rec
+<%			
+				for ( int i=0; i<lent_km_aprasymas.length - 2; i++) {
+%>
+					document.getElementById('<%=lent_km_aprasymas [ i ] %>').value= mygtukas.dataset.<%=lent_km_aprasymas [ i ] %>;
+<%
+				}
+%>
+
+				document.getElementById( "id_keliones_marsruto_atkarpos" ).value = mygtukas.dataset.id_keliones_marsruto_atkarpos
 			}
+			
 		}
+		
+		function iTrinima ( id_rec ) {
+			
+			mygtukasEdit = document.getElementById ( 'toEdit_' + id_rec );
+				
+			pav = mygtukasEdit.dataset.kma_aprasymas;
+			
+			id_lankymosi_punkte = mygtukasEdit.dataset.id_lankymosi_punkte
+			id_keliones_marsruto_atkarpos = mygtukasEdit.dataset.id_keliones_marsruto_atkarpos
+				
+			var r = confirm( "Ar norite pašalinti keliones maršruto atkarpą" + pav + ' ' + id_lankymosi_punkte + ' ' + id_keliones_marsruto_atkarpos + "?" );
+				
+			if ( r == true ) {
+					
+			forma_del = document.getElementById ( "del_rec" );
+			document.getElementById ( "id_keliones_marsruto_atkarpos_i_del" ).value = id_keliones_marsruto_atkarpos;
+			document.getElementById ( "id_lankymosi_punkte_i_del" ).value = id_lankymosi_punkte;
+			forma_del.submit();
+			}
+				
+		}
+				
 </script>
 
     <div class="tm-container">        
@@ -141,17 +330,8 @@
 			</tr>			
 <%
 
-/*	try{
-	     
-		request.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html; charset=UTF-8");
-		response.setCharacterEncoding("UTF-8");		
-		
-	} catch(Exception e) {}*/
-
 	try { 
 	
-		connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
 		String ivestis = request.getParameter ("search");
 		String idx;
 		String where_part = "WHERE 1";
@@ -164,11 +344,16 @@
 			
 
 		String datax = 
-			"SELECT *, `lankymasis_punkte`.`aprasymas` AS `lpaprasymas`, `punktai`.`aprasymas` AS `puaprasymas`, `punktai`.`pav` AS `pupav`, `marsrutu_atkarpos`.`pav` AS `mapav`, `keliones_marsruto_atkarpos`.`aprasymas` AS `kma_aprasymas`, `keliones_marsruto_atkarpos`.`data_laikas` AS `kma_data_laikas`, `keliones_marsruto_atkarpos`.`trukme` AS `kma_trukme`, `keliones`.`aprasymas` AS `k_aprasymas`, `lankymasis_punkte`.`data_laikas` AS `lp_data_laikas`, `lankymasis_punkte`.`id` AS `id_lankymosi_punkte`, `keliones`.`pav` AS `kel_pav` " 
+			"SELECT *, `lankymasis_punkte`.`aprasymas` AS `lpaprasymas`, `punktai`.`aprasymas` AS `puaprasymas`, `punktai`.`pav` AS `pupav`, `punktai2`.`pav` AS `pupav2`, "
+			+ " `marsrutu_atkarpos`.`pav` AS `mapav`, `keliones_marsruto_atkarpos`.`aprasymas` AS `kma_aprasymas`, `keliones_marsruto_atkarpos`.`data_laikas` AS `kma_data_laikas`, "
+			+ " `keliones_marsruto_atkarpos`.`trukme` AS `kma_trukme`, `keliones`.`aprasymas` AS `k_aprasymas`, `lankymasis_punkte`.`data_laikas` AS `lp_data_laikas`, "
+			+ "`lankymasis_punkte`.`id` AS `id_lankymosi_punkte`, `keliones`.`pav` AS `kel_pav`, `keliones_marsruto_atkarpos`.`id` AS `id_keliones_marsruto_atkarpos`, " 
+			+ "`keliones`.`data` AS `kel_data`, `keliones`.`laikas` AS `kel_laikas`, `keliones`.`trukme` AS `kel_trukme`, `punktai`.`id` AS `id_punkto1`  " 
 			+ "	FROM `keliones_marsruto_atkarpos` " 
 			+ "LEFT JOIN `marsrutu_atkarpos` ON ( `marsrutu_atkarpos`.`id`=`keliones_marsruto_atkarpos`.`id_marsruto_atkarpos` )"
 			+ "LEFT JOIN `lankymasis_punkte` ON ( `marsrutu_atkarpos`.`id_punkto1`=`lankymasis_punkte`.`id_punkto`	) "
 			+ "LEFT JOIN `punktai` ON ( `lankymasis_punkte`.`id_punkto`=`punktai`.`id` )  "
+			+ "LEFT JOIN `punktai` AS `punktai2` ON ( `marsrutu_atkarpos`.`id_punkto2`=`punktai2`.`id` )  "
 			+ "LEFT JOIN `keliones` ON ( `keliones`.`id`=`lankymasis_punkte`.`id_keliones` ) "
 			+ where_part;
 			
@@ -189,9 +374,9 @@ while( resultSet.next() ){
 										
 <tr class="lent_vidus">
 	<td><%= resultSet.getString ( "kel_pav" ) %></td>
-	<td><%= resultSet.getString ( "data" ) %></td>
-	<td><%= resultSet.getString  ("laikas" ) %></td>
-	<td><%= resultSet.getString ( "trukme" ) %></td>
+	<td><%= resultSet.getString ( "kel_data" ) %></td>
+	<td><%= resultSet.getString  ("kel_laikas" ) %></td>
+	<td><%= resultSet.getString ( "kel_trukme" ) %></td>
 	<td><%= resultSet.getString ( "k_aprasymas" ) %></td>
 </tr>
 
@@ -210,8 +395,8 @@ while( resultSet.next() ){
 							<th>Lankimosi punkte aprašymas</th>
 							<th>Pavadinimas</th>
 							<th>Ypatybės</th>
-							<th>Id 1 punkto</th>
-							<th>Id 2 punkto</th>
+							<th>1 Punktas</th>
+							<th>2 Punktas</th>
 							<th>Maršruto atkarpos id</th>
 							<th>Kelionės būdo id</th>
 							<th>Keliones maršruto aprašymas</th>
@@ -232,29 +417,30 @@ uzsipilde = true;
 			
 			for ( int i = 0; i<lent_lpaprasymas.length - 1; i++ ) {
 
-			
 				rec_data += "data-" + lent_lpaprasymas [ i ] + "=\"" + resultSet.getString	 ( lent_lpaprasymas [ i ] ) + "\"";
 			}
 			
 			for ( int i = 0; i<lent_km_aprasymas.length - 2; i++ ) {
 
-			
 				rec_data += "data-" + lent_km_aprasymas [ i ] + "=\"" + resultSet.getString	 ( lent_km_aprasymas [ i ] ) + "\"";
 			}
+					
 					String id_rec = resultSet.getString ( "id_lankymosi_punkte" );
+					String id_rec2 = resultSet.getString ( "id_keliones_marsruto_atkarpos" );
+					String kma_aprasymas = resultSet.getString ( "kma_aprasymas" );
 					
 %>					
 			
 <tr class="lent_vidus">
-	<td><input type="button" class="record_edit" id="toEdit_<%=id_rec %>"data-id_lankymosi_punkte="<%=id_rec %>"<%=rec_data %> value="&#9998;" onClick="iRedagavima( <%=id_rec %> )"></td>   
-	<td><input type="button" class="delete" id="toDelete_<%=id_rec %>"data-id_lankymosi_punkte="<%=id_rec %>" value="&#10006;" onClick="iTrinima( <%=id_rec %>)"></td>	
+	<td><input type="button" class="record_edit" id="toEdit_<%=id_rec + "_" + id_rec2 %>"data-id_lankymosi_punkte="<%=id_rec %>" data-id_keliones_marsruto_atkarpos="<%=id_rec2 %>" <%=rec_data %> value="&#9998;" onClick="iRedagavima( '<%=id_rec + "_" + id_rec2 %>' )"></td>   
+	<td><input type="button" class="delete" id="toDelete_<%=id_rec + "_" + id_rec2 %>"data-id_lankymosi_punkte="<%=id_rec %>" data-id_keliones_marsruto_atkarpos="<%=id_rec2 %>" data-kma_aprasymas="<%=kma_aprasymas %>" value="&#10006;" onClick="iTrinima( '<%=id_rec + "_" + id_rec2 %>' )"></td>	
 	<td><%= resultSet.getString ( "data_laikas" ) %></td>
 	<td><%= resultSet.getString ( "trukme" ) %></td>
 	<td><%= resultSet.getString  ("lpaprasymas" ) %></td>
 	<td><%= resultSet.getString ( "mapav" ) %></td>
 	<td><%= resultSet.getString ( "ipatybes" ) %></td>
-	<td><%= resultSet.getString  ("id_punkto1" ) %></td>
-	<td><%= resultSet.getString ( "id_punkto2" ) %></td>
+	<td><%= resultSet.getString  ("pupav") %></td>												
+	<td><%= resultSet.getString ( "pupav2" ) %></td>												
 	<td><%= resultSet.getString ( "id_marsruto_atkarpos" ) %></td>
 	<td><%= resultSet.getString ( "id_keliones_budo" ) %></td>
 	<td><%= resultSet.getString ( "kma_aprasymas" ) %></td>
@@ -295,45 +481,11 @@ uzsipilde = true;
 							</td>	
 
 							<td>
-								<select name="id_punkto1" id="id_punkto1">
-								<%
-								try {
-									Statement st = connection.createStatement();
-									String sql = "SELECT * FROM `punktai`";
-									ResultSet rs = st.executeQuery(sql);
-									while(rs.next() ){
-								%>
-										<option value="<%=rs.getString("id")%>"><%=rs.getString("pav")%><%=rs.getString("ilguma")%>"><%=rs.getString("platuma")%>"><%=rs.getString("aprasymas")%>"></option>												
-								<%
-									}
-
-								}catch(Exception e){
-
-								}
-								%>
-								
-								</select>
+	
 							</td>
 							
 							<td>
-								<select name="id_punkto2" id="id_punkto2">
-								<%
-								try {
-									Statement st = connection.createStatement();
-									String sql = "SELECT * FROM `punktai`";
-									ResultSet rs = st.executeQuery(sql);
-									while(rs.next() ){
-								%>
-										<option value="<%=rs.getString("id")%>"><%=rs.getString("pav")%><%=rs.getString("ilguma")%>"><%=rs.getString("platuma")%>"><%=rs.getString("aprasymas")%>"></option>												
-								<%
-									}
-
-								}catch(Exception e){
-
-								}
-								%>
-								
-								</select>
+							
 							</td>
 							
 							<td>
@@ -341,11 +493,11 @@ uzsipilde = true;
 								<%
 									try {
 									Statement st = connection.createStatement();
-									String sql = "SELECT * FROM `punktai`";
+									String sql = "SELECT * FROM `marsrutu_atkarpos`";
 									ResultSet rs = st.executeQuery(sql);
 									while(rs.next() ){
 								%>
-										<option value="<%=rs.getString("id")%>"><%=rs.getString("id")%></option>												
+										<option value="<%=rs.getString("id")%>_<%=rs.getString("id_punkto1")%>"><%=rs.getString("pav")%></option>												
 								<%
 									}
 
@@ -378,21 +530,23 @@ uzsipilde = true;
 							</td>
 							
 							<td>
-								<input type="kma_aprasymas" name="kma_aprasymas">
+								<input type="kma_aprasymas" name="kma_aprasymas" id="kma_aprasymas">
 							</td>
 							
 							<td>
-								<input type="kma_data_laikas" name="kma_data_laikas">
+								<input type="kma_data_laikas" name="kma_data_laikas" id="kma_data_laikas">
 							</td>
 							
 							<td>
-								<input type="kma_trukme" name="kma_trukme">
+								<input type="kma_trukme" name="kma_trukme" id="kma_trukme">
 							</td>
-									<!--<td>-->
-								<!--<input type="hidden" name="atkarpos_numeris" value="1">-->
-								<input type="hidden" name="id_marsruto_atkarpos" value="1">
+									
+								<!--<input type="hidden" name="atkarpos_numeris" value="1">
+								<input type="hidden" name="id_marsruto_atkarpos" value="1">-->
 								<input type="hidden" id="id_lankymosi_punkte" name="id_lankymosi_punkte" value="0">
-							<!--</td> 4 auksciau????--> 
+								<input type="hidden" id="id_keliones_marsruto_atkarpos" name="id_keliones_marsruto_atkarpos" value="0">
+								<input type="hidden" id="id_punkto1" name="id_punkto1" value="0">
+						
 														
 						</tr> 
 					</table>
@@ -411,151 +565,13 @@ uzsipilde = true;
 					</form>
 					<form id="del_rec" method="post" action="">
 						<input type="hidden" name="del" value="del1rec">
-						<input type="hidden" id="id_lankymosi_punkte" name="id_lankymosi_punkte" value="0">
+						<input type="hidden" id="id_lankymosi_punkte_i_del" name="id_lankymosi_punkte_i_del" value="0">
+						<input type="hidden" id="id_keliones_marsruto_atkarpos_i_del" name="id_keliones_marsruto_atkarpos_i_del" value="0">
 					</form>
 							</div>
 						</tr>
 		</div>
 	</div>
-<%
-	
-	// Connection connection = null;
-	Statement statement1 = null;
-	ResultSet resultSet1 = null;
-	Statement statement_take1 = null;
-	Statement statement2 = null;
-	ResultSet resultSet2 = null;
-	Statement statement_take2 = null;
-	
-
-	
-	try{
-	     
-		request.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html; charset=UTF-8");
-		response.setCharacterEncoding("UTF-8");		
-		
-	} catch(Exception e) {}
-
-	try { 
-	
-		//connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
-		String add; 
-		String id_keliones;
-		String atkarpos_numeris;
-		
-		//	id_keliones = request.getParameter ("i");
-		id_keliones = "1";
-		atkarpos_numeris = "1";
-		
-		if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "papildyti" ) ) {
-		
-			for ( int i = 0; i< lent_lpaprasymas.length; i++ ) {
-			
-				lauk_lpaprasymas [ i ] = request.getParameter ( lent_lpaprasymas [ i ] );
-			}
-
-			String sql_ins = "";
-			String comma = "";
-			
-				if ( ( id_lankymosi_punkte == null ) || ( id_lankymosi_punkte.equals("0" ) ) ) {  
-					
-					for ( int i = 0; i < lent_lpaprasymas.length - 1; i++ ) {
-					
-						sql_ins =  sql_ins + comma  + "'" + lauk_lpaprasymas [ i ] + "'";
-						comma = ",";
-					}
-					
-					sql_ins = 
-						"INSERT INTO `lankymasis_punkte`"
-						+ " ( `data_laikas`, `trukme`, `aprasymas`, `id_punkto`, `id_keliones`)"
-						+ " VALUES ( "			
-						+ sql_ins + ", '" + id_keliones + "' "
-						+ " )";
-
-					out.println ( sql_ins ); 
-
-					Statement statement_change1 = connection.createStatement();
-					Integer  resultSetChange1 = statement_change1.executeUpdate(sql_ins);			
-							
-					for ( int i = 0; i< lent_km_aprasymas.length; i++ ) {
-					
-						lauk_km_aprasymas [ i ] = request.getParameter ( lent_km_aprasymas [ i ] );
-					}
-
-					String sql_ins1 = "";
-					String comma1 = "";
-					
-					for ( int i = 0; i < lent_km_aprasymas.length - 2; i++ ) {
-					
-						sql_ins1 =  sql_ins1 + comma1  + "'" + lauk_km_aprasymas [ i ] + "'";
-						comma1 = ",";
-					}
-					
-					sql_ins1 = 
-						"INSERT INTO `keliones_marsruto_atkarpos`"
-						+ " ( `id_marsruto_atkarpos`, `id_keliones_budo`, `aprasymas`, `data_laikas`, `trukme`, `atkrapos_numeris`, `id_keliones` )"
-						+ " VALUES ( "			
-						+ sql_ins1 + ", '" + atkarpos_numeris + "', '" + id_keliones + "' "
-						+ " )";
-
-					out.println ( sql_ins1 );  
-
-					Statement statement_change2 = connection.createStatement();
-					Integer  resultSetChange2 = statement_change2.executeUpdate(sql_ins1);			
-				
-				} else {
-					
-					String sql_upd1 = 
-						"UPDATE `lankymasis_punkte` SET `data_laikas`='"+request.getParameter("data_laikas")+"', "
-						+ " `trukme`='"+request.getParameter("trukme")+"', "
-						+ " `aprasymas`='"+request.getParameter("lpaprasymas")+"', "
-						+ " `id_punkto`='"+request.getParameter("id_punkto1")+"' "
-						+ "	WHERE `lankymasis_punkte`.`id_keliones`='"+id_keliones+"'";
-					
-					out.println ( sql_upd1 );
-					
-					Statement statement_change1 = connection.createStatement();
-					Integer  resultSetChange1 = statement_change1.executeUpdate(sql_upd1);	
-								
-				/*	String sql_upd2 = 
-						"UPDATE `keliones_marsruto_atkarpos` SET `aprasymas`='"+request.getParameter("kma_aprasymas")+"', "
-						+ " `data_laikas`='"+request.getParameter("kma_data_laikas")+"', "
-						+ " `trukme`='"+request.getParameter("kma_trukme")+"', "
-						+ " `id_keliones_budo`='"+request.getParameter("id_keliones_budo")+"', "
-						+ " `id_marsruto_atkarpos`='"+request.getParameter("id_marsruto_atkarpos")+"' "  
-						+ "	WHERE `keliones_marsruto_atkarpos`.`id_keliones`='"+id_keliones+"'"; // negerai kad ID keliones nes kelis per karta keicia.
-					
-					out.println ( sql_upd2 );
-					
-					Statement statement_change2 = connection.createStatement();
-					Integer  resultSetChange2 = statement_change2.executeUpdate(sql_upd2);	*/
-
-				}
-								
-			} else {
-			
-			if ( add != null ) {
-
-				out.println ( add );
-			}
-		 } 
-	
-		statement_take1 = connection.createStatement();		
-		String sql ="SELECT * FROM `lankymasis_punkte`  WHERE 1";
-
-		resultSet1 = statement_take1.executeQuery(sql);
-		 
-		while( resultSet1.next() ){
- 
-		}
-		
-
-	} catch ( Exception e ) {
-	
-		e.printStackTrace();
-	}
-%>	
     <script src="../js/jquery-3.4.1.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/jquery.backstretch.min.js"></script>
