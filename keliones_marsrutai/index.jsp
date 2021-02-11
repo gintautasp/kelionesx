@@ -37,7 +37,7 @@
 	String[] lauk_lp = new String [ lent_lp.length ];		
 	Crud lent_lankymasis_punkte = new Crud ( "keliones_marsrutai", lent_lp );*/
 	
-	String[] lent_lpaprasymas = {  "lp_data_laikas", "lp_trukme", "lpaprasymas", "id_punkto1", "id_keliones"};
+	String[] lent_lpaprasymas = {  "lp_data_laikas", "lp_trukme", "lpaprasymas", "id_punkto2", "id_keliones"};
 	String[] lauk_lpaprasymas = new String [ lent_lpaprasymas.length ];
 	
 	String[] lent_km_aprasymas = {  "id_marsruto_atkarpos", "id_keliones_budo", "kma_aprasymas", "kma_data_laikas", "kma_trukme", "atkrapos_numeris", "id_keliones"};
@@ -82,13 +82,13 @@
 		id_keliones = "1";
 		atkarpos_numeris = "1";
 		String id_marsruto_atkarpos = "1";
-		String id_punkto1 = "1";
+		String id_punkto2 = "1";
 		if ( ( id_marsruto_atkarpos = request.getParameter( "id_marsruto_atkarpos" ) ) !=null ) {
 					
 			out.println("88:" + id_marsruto_atkarpos);
 			String[] arrOfStr = id_marsruto_atkarpos.split("_");
 			id_marsruto_atkarpos = arrOfStr[0];
-			id_punkto1 = arrOfStr[1];
+			id_punkto2 = arrOfStr[1];
 			out.println("92:" + arrOfStr[0]);
 			out.println("93:" + arrOfStr[1]);
 				
@@ -116,7 +116,7 @@
 						"INSERT INTO `lankymasis_punkte`"
 						+ " ( `data_laikas`, `trukme`, `aprasymas`, `id_punkto`, `id_keliones`)"
 						+ " VALUES ( "			
-						+ sql_ins + ", '" + id_punkto1 + "', '" + id_keliones + "' "
+						+ sql_ins + ", '" + id_punkto2 + "', '" + id_keliones + "' "
 						+ " )";
 
 					out.println ("122:" + sql_ins ); 
@@ -232,7 +232,7 @@
 <%
 				}
 %>
-				document.getElementById( "id_marsruto_atkarpos" ).value = mygtukas.dataset.id_marsruto_atkarpos +"_"+mygtukas.dataset.id_punkto1;
+				document.getElementById( "id_marsruto_atkarpos" ).value = mygtukas.dataset.id_marsruto_atkarpos +"_"+mygtukas.dataset.id_punkto2;
 				document.getElementById( "id_keliones_marsruto_atkarpos" ).value = mygtukas.dataset.id_keliones_marsruto_atkarpos;
 			}
 			
@@ -348,10 +348,10 @@
 			+ " `marsrutu_atkarpos`.`pav` AS `mapav`, `keliones_marsruto_atkarpos`.`aprasymas` AS `kma_aprasymas`, `keliones_marsruto_atkarpos`.`data_laikas` AS `kma_data_laikas`, "
 			+ " `keliones_marsruto_atkarpos`.`trukme` AS `kma_trukme`, `keliones`.`aprasymas` AS `k_aprasymas`, `lankymasis_punkte`.`data_laikas` AS `lp_data_laikas`, "
 			+ "`lankymasis_punkte`.`id` AS `id_lankymosi_punkte`, `keliones`.`pav` AS `kel_pav`, `keliones_marsruto_atkarpos`.`id` AS `id_keliones_marsruto_atkarpos`, " 
-			+ "`keliones`.`data` AS `kel_data`, `keliones`.`laikas` AS `kel_laikas`, `keliones`.`trukme` AS `kel_trukme`, `punktai`.`id` AS `id_punkto1`, `lankymasis_punkte`.`trukme` AS lp_trukme " 
+			+ "`keliones`.`data` AS `kel_data`, `keliones`.`laikas` AS `kel_laikas`, `keliones`.`trukme` AS `kel_trukme`, `punktai`.`id` AS `id_punkto2`, `lankymasis_punkte`.`trukme` AS lp_trukme " 
 			+ "	FROM `keliones_marsruto_atkarpos` " 
 			+ "LEFT JOIN `marsrutu_atkarpos` ON ( `marsrutu_atkarpos`.`id`=`keliones_marsruto_atkarpos`.`id_marsruto_atkarpos` )"
-			+ "LEFT JOIN `lankymasis_punkte` ON ( `keliones_marsruto_atkarpos`.`id_keliones`=`lankymasis_punkte`.`id_keliones` AND `marsrutu_atkarpos`.`id_punkto1`=`lankymasis_punkte`.`id_punkto`	) "
+			+ "LEFT JOIN `lankymasis_punkte` ON ( `keliones_marsruto_atkarpos`.`id_keliones`=`lankymasis_punkte`.`id_keliones` AND `marsrutu_atkarpos`.`id_punkto2`=`lankymasis_punkte`.`id_punkto`	) "
 			+ "LEFT JOIN `punktai` ON ( `lankymasis_punkte`.`id_punkto`=`punktai`.`id` )  "
 			+ "LEFT JOIN `punktai` AS `punktai2` ON ( `marsrutu_atkarpos`.`id_punkto2`=`punktai2`.`id` )  "
 			+ "LEFT JOIN `keliones` ON ( `keliones`.`id`=`lankymasis_punkte`.`id_keliones` ) "
@@ -497,7 +497,7 @@ uzsipilde = true;
 									ResultSet rs = st.executeQuery(sql);
 									while(rs.next() ){
 								%>
-										<option value="<%=rs.getString("id")%>_<%=rs.getString("id_punkto1")%>"><%=rs.getString("pav")%></option>												
+										<option value="<%=rs.getString("id")%>_<%=rs.getString("id_punkto2")%>"><%=rs.getString("pav")%></option>												
 								<%
 									}
 
@@ -545,7 +545,7 @@ uzsipilde = true;
 								<input type="hidden" name="id_marsruto_atkarpos" value="1">-->
 								<input type="hidden" id="id_lankymosi_punkte" name="id_lankymosi_punkte" value="0">
 								<input type="hidden" id="id_keliones_marsruto_atkarpos" name="id_keliones_marsruto_atkarpos" value="0">
-								<input type="hidden" id="id_punkto1" name="id_punkto1" value="0">
+								<input type="hidden" id="id_punkto2" name="id_punkto2" value="0">
 						
 														
 						</tr> 
