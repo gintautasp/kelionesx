@@ -153,8 +153,8 @@
 				} else {
 					
 					String sql_upd1 = 
-						"UPDATE `lankymasis_punkte` SET `data_laikas`='"+request.getParameter("data_laikas")+"', "
-						+ " `trukme`='"+request.getParameter("trukme")+"', "
+						"UPDATE `lankymasis_punkte` SET `data_laikas`='"+request.getParameter("lp_data_laikas")+"', "
+						+ " `trukme`='"+request.getParameter("lp_trukme")+"', "
 						+ " `aprasymas`='"+request.getParameter("lpaprasymas")+"', "
 						+ "	WHERE `lankymasis_punkte`.`id`='"+id_lankymosi_punkte+"'";
 					
@@ -200,7 +200,7 @@
 			statement_change3 = connection.createStatement();
 			resultSetChange3 = statement_change3.executeUpdate(sql_delete);
 			
-			String sql_delete1 = "DELETE FROM `keliones_marsruto_atkarpos`` WHERE `keliones_marsruto_atkarpos`.`id`='"+ id_keliones_marsruto_atkarpos_i_del +"'";
+			String sql_delete1 = "DELETE FROM `keliones_marsruto_atkarpos` WHERE `keliones_marsruto_atkarpos`.`id`='"+ id_keliones_marsruto_atkarpos_i_del +"'";
 			out.println ( sql_delete1 );
 			statement_change4 = connection.createStatement();
 			resultSetChange4 = statement_change4.executeUpdate(sql_delete1);
@@ -348,10 +348,10 @@
 			+ " `marsrutu_atkarpos`.`pav` AS `mapav`, `keliones_marsruto_atkarpos`.`aprasymas` AS `kma_aprasymas`, `keliones_marsruto_atkarpos`.`data_laikas` AS `kma_data_laikas`, "
 			+ " `keliones_marsruto_atkarpos`.`trukme` AS `kma_trukme`, `keliones`.`aprasymas` AS `k_aprasymas`, `lankymasis_punkte`.`data_laikas` AS `lp_data_laikas`, "
 			+ "`lankymasis_punkte`.`id` AS `id_lankymosi_punkte`, `keliones`.`pav` AS `kel_pav`, `keliones_marsruto_atkarpos`.`id` AS `id_keliones_marsruto_atkarpos`, " 
-			+ "`keliones`.`data` AS `kel_data`, `keliones`.`laikas` AS `kel_laikas`, `keliones`.`trukme` AS `kel_trukme`, `punktai`.`id` AS `id_punkto1`  " 
+			+ "`keliones`.`data` AS `kel_data`, `keliones`.`laikas` AS `kel_laikas`, `keliones`.`trukme` AS `kel_trukme`, `punktai`.`id` AS `id_punkto1`, `lankymasis_punkte`.`trukme` AS lp_trukme " 
 			+ "	FROM `keliones_marsruto_atkarpos` " 
 			+ "LEFT JOIN `marsrutu_atkarpos` ON ( `marsrutu_atkarpos`.`id`=`keliones_marsruto_atkarpos`.`id_marsruto_atkarpos` )"
-			+ "LEFT JOIN `lankymasis_punkte` ON ( `marsrutu_atkarpos`.`id_punkto1`=`lankymasis_punkte`.`id_punkto`	) "
+			+ "LEFT JOIN `lankymasis_punkte` ON ( `keliones_marsruto_atkarpos`.`id_keliones`=`lankymasis_punkte`.`id_keliones` AND `marsrutu_atkarpos`.`id_punkto1`=`lankymasis_punkte`.`id_punkto`	) "
 			+ "LEFT JOIN `punktai` ON ( `lankymasis_punkte`.`id_punkto`=`punktai`.`id` )  "
 			+ "LEFT JOIN `punktai` AS `punktai2` ON ( `marsrutu_atkarpos`.`id_punkto2`=`punktai2`.`id` )  "
 			+ "LEFT JOIN `keliones` ON ( `keliones`.`id`=`lankymasis_punkte`.`id_keliones` ) "
@@ -434,8 +434,8 @@ uzsipilde = true;
 <tr class="lent_vidus">
 	<td><input type="button" class="record_edit" id="toEdit_<%=id_rec + "_" + id_rec2 %>"data-id_lankymosi_punkte="<%=id_rec %>" data-id_keliones_marsruto_atkarpos="<%=id_rec2 %>" <%=rec_data %> value="&#9998;" onClick="iRedagavima( '<%=id_rec + "_" + id_rec2 %>' )"></td>   
 	<td><input type="button" class="delete" id="toDelete_<%=id_rec + "_" + id_rec2 %>"data-id_lankymosi_punkte="<%=id_rec %>" data-id_keliones_marsruto_atkarpos="<%=id_rec2 %>" data-kma_aprasymas="<%=kma_aprasymas %>" value="&#10006;" onClick="iTrinima( '<%=id_rec + "_" + id_rec2 %>' )"></td>	
-	<td><%= resultSet.getString ( "data_laikas" ) %></td>
-	<td><%= resultSet.getString ( "trukme" ) %></td>
+	<td><%= resultSet.getString ( "lp_data_laikas" ) %></td>
+	<td><%= resultSet.getString ( "lp_trukme" ) %></td>
 	<td><%= resultSet.getString  ("lpaprasymas" ) %></td>
 	<td><%= resultSet.getString ( "mapav" ) %></td>
 	<td><%= resultSet.getString ( "ipatybes" ) %></td>
