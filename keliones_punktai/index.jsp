@@ -32,16 +32,18 @@
     int resultSetChange;
     String[] punktai = {  "pav", "platuma", "ilguma", "aprasymas"  };
     String[] reiksmes_punktai = new String [ punktai.length ];
-<<<<<<< HEAD
-=======
-	
-	try {
-	connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
-	
-	} catch(Exception e){				
-		}
->>>>>>> 40132f14c516dbca7361f184af64a2796b92711f
+
+    	try{
+	     
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");		
+		
+	} catch(Exception e) {}
 %>
+
+  
+
 
     <script>
 
@@ -147,38 +149,7 @@
 				
                 <form method="POST" action="">
 		
-		<label for="id_punkto_tipo">Punktu tipai</label>
-		<select id="id_punkto_tipo" name="id_punkto_tipo">
-<<<<<<< HEAD
-<%		
-try {
-	Statement st = connection.createStatement();
-	String sql = "SELECT * FROM `punktu_tipai`";
-	ResultSet rs = st.executeQuery(sql);
-	while(rs.next() ) {
-				%>
-				<option value="<%=rs.getString("id")%>"><%=rs.getString("pav")%></option>												
-				<%
-				}
-	}catch(Exception e){
-=======
-		<%		
-							try {
-									Statement st = connection.createStatement();
-									String sql = "SELECT * FROM `punktu_tipai`";
-									ResultSet rs = st.executeQuery(sql);
-									while(rs.next() ) {
-								%>
-										<option value="<%=rs.getString("id")%>"><%=rs.getString("pav")%></option>												
-								<%
-									}
-								} catch(Exception e){
-									
-									e.printStackTrace();
->>>>>>> 40132f14c516dbca7361f184af64a2796b92711f
-								}
-%>
-		</select><br>
+
 		
 		
                         <td>
@@ -211,25 +182,13 @@ try {
 		
 		
 <%
-<<<<<<< HEAD
-=======
 
->>>>>>> 40132f14c516dbca7361f184af64a2796b92711f
 try {
                         
             request.setCharacterEncoding("UTF-8");
             response.setContentType("text/html; charset=UTF-8");
             response.setCharacterEncoding("UTF-8");		
-            
-                } catch(Exception e) {}
-<<<<<<< HEAD
-            
-            try { 
-=======
-                  
-        try { 
 
->>>>>>> 40132f14c516dbca7361f184af64a2796b92711f
                     
                 connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
                 String add = "";
