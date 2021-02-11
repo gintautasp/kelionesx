@@ -37,7 +37,7 @@
 	String[] lauk_lp = new String [ lent_lp.length ];		
 	Crud lent_lankymasis_punkte = new Crud ( "keliones_marsrutai", lent_lp );*/
 	
-	String[] lent_lpaprasymas = {  "data_laikas", "trukme", "lpaprasymas", "id_punkto1", "id_keliones"};
+	String[] lent_lpaprasymas = {  "lp_data_laikas", "lp_trukme", "lpaprasymas", "id_punkto1", "id_keliones"};
 	String[] lauk_lpaprasymas = new String [ lent_lpaprasymas.length ];
 	
 	String[] lent_km_aprasymas = {  "id_marsruto_atkarpos", "id_keliones_budo", "kma_aprasymas", "kma_data_laikas", "kma_trukme", "atkrapos_numeris", "id_keliones"};
@@ -48,7 +48,7 @@
 	String id_keliones_marsruto_atkarpos = "0";
 	id_keliones_marsruto_atkarpos = request.getParameter( "id_keliones_marsruto_atkarpos" );
 	String del = request.getParameter( "del" );
-	out.println ( del );
+	out.println ( "51:" + del );
 	
 	try{
 	     
@@ -85,13 +85,13 @@
 		String id_punkto1 = "1";
 		if ( ( id_marsruto_atkarpos = request.getParameter( "id_marsruto_atkarpos" ) ) !=null ) {
 					
-			out.println(id_marsruto_atkarpos);
+			out.println("88:" + id_marsruto_atkarpos);
 			String[] arrOfStr = id_marsruto_atkarpos.split("_");
 			id_marsruto_atkarpos = arrOfStr[0];
 			id_punkto1 = arrOfStr[1];
-			out.println(arrOfStr[0]);
-			out.println(arrOfStr[1]);
-		
+			out.println("92:" + arrOfStr[0]);
+			out.println("93:" + arrOfStr[1]);
+				
 		}
 		
 		if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "papildyti" ) ) {
@@ -104,7 +104,7 @@
 			String sql_ins = "";
 			String comma = "";
 			
-				if ( ( id_lankymosi_punkte == null ) || ( id_lankymosi_punkte.equals("0" ) ) ){ //&& ( id_keliones_marsruto_atkarpos == null ) || ( id_keliones_marsruto_atkarpos.equals("0" ) ) ) 
+				if ( ( id_lankymosi_punkte == null ) || ( id_lankymosi_punkte.equals("0" ) ) ){ 
 					
 					for ( int i = 0; i < lent_lpaprasymas.length - 2; i++ ) {
 					
@@ -119,7 +119,7 @@
 						+ sql_ins + ", '" + id_punkto1 + "', '" + id_keliones + "' "
 						+ " )";
 
-					out.println ( sql_ins ); 
+					out.println ("122:" + sql_ins ); 
 
 					Statement statement_change1 = connection.createStatement();
 					Integer  resultSetChange1 = statement_change1.executeUpdate(sql_ins);			
@@ -145,7 +145,7 @@
 						+ " '" + id_marsruto_atkarpos + "', " + sql_ins1 + ", '" + atkarpos_numeris + "', '" + id_keliones + "' "
 						+ " )";
 
-					out.println ( sql_ins1 );  
+					out.println ("148:" + sql_ins1 );  
 
 					Statement statement_change2 = connection.createStatement();
 					Integer  resultSetChange2 = statement_change2.executeUpdate(sql_ins1);			
@@ -155,10 +155,10 @@
 					String sql_upd1 = 
 						"UPDATE `lankymasis_punkte` SET `data_laikas`='"+request.getParameter("lp_data_laikas")+"', "
 						+ " `trukme`='"+request.getParameter("lp_trukme")+"', "
-						+ " `aprasymas`='"+request.getParameter("lpaprasymas")+"', "
+						+ " `aprasymas`='"+request.getParameter("lpaprasymas")+"' "
 						+ "	WHERE `lankymasis_punkte`.`id`='"+id_lankymosi_punkte+"'";
 					
-					out.println ( sql_upd1 );
+					out.println ( "161:" + sql_upd1 );
 					
 					Statement statement_change1 = connection.createStatement();
 					Integer  resultSetChange1 = statement_change1.executeUpdate(sql_upd1);	
@@ -168,10 +168,10 @@
 						+ " `data_laikas`='"+request.getParameter("kma_data_laikas")+"', "
 						+ " `trukme`='"+request.getParameter("kma_trukme")+"', "
 						+ " `id_keliones_budo`='"+request.getParameter("id_keliones_budo")+"', "
-						+ " `id_marsruto_atkarpos`='"+request.getParameter("id_marsruto_atkarpos")+"' "
+						+ " `id_marsruto_atkarpos`='"+id_marsruto_atkarpos+"' "
 						+ "	WHERE `keliones_marsruto_atkarpos`.`id`='"+id_keliones_marsruto_atkarpos+"'";
 					
-					out.println ( sql_upd2 );
+					out.println ( "174:" + sql_upd2 );
 					
 					Statement statement_change2 = connection.createStatement();
 					Integer  resultSetChange2 = statement_change2.executeUpdate(sql_upd2);
@@ -182,13 +182,13 @@
 			
 			if ( add != null ) {
 
-				out.println ( add );
+				out.println ( "185:" + add );
 			}
 		 } 
 	
 	//String del = request.getParameter( "del" );
 	
-		out.println ( del );
+		out.println ( "191:" + del );
 	
 		if ( ( (  del  ) != null) && del.equals ( "del1rec" ) ) {		
 
@@ -196,12 +196,12 @@
 			String id_keliones_marsruto_atkarpos_i_del = request.getParameter ( "id_keliones_marsruto_atkarpos_i_del" ); 
 
 			String sql_delete = "DELETE FROM `lankymasis_punkte` WHERE `lankymasis_punkte`.`id`='"+ id_lankymosi_punkte_i_del +"'";
-			out.println ( sql_delete );
+			out.println ( "199:" + sql_delete );
 			statement_change3 = connection.createStatement();
 			resultSetChange3 = statement_change3.executeUpdate(sql_delete);
 			
 			String sql_delete1 = "DELETE FROM `keliones_marsruto_atkarpos` WHERE `keliones_marsruto_atkarpos`.`id`='"+ id_keliones_marsruto_atkarpos_i_del +"'";
-			out.println ( sql_delete1 );
+			out.println ( "204:" +sql_delete1 );
 			statement_change4 = connection.createStatement();
 			resultSetChange4 = statement_change4.executeUpdate(sql_delete1);
 		}	
@@ -232,8 +232,8 @@
 <%
 				}
 %>
-
-				document.getElementById( "id_keliones_marsruto_atkarpos" ).value = mygtukas.dataset.id_keliones_marsruto_atkarpos
+				document.getElementById( "id_marsruto_atkarpos" ).value = mygtukas.dataset.id_marsruto_atkarpos +"_"+mygtukas.dataset.id_punkto1;
+				document.getElementById( "id_keliones_marsruto_atkarpos" ).value = mygtukas.dataset.id_keliones_marsruto_atkarpos;
 			}
 			
 		}
@@ -357,7 +357,7 @@
 			+ "LEFT JOIN `keliones` ON ( `keliones`.`id`=`lankymasis_punkte`.`id_keliones` ) "
 			+ where_part;
 			
-			out.println ( datax );
+			out.println ( "360:" + datax );
 
 			statement_take = connection.createStatement();	
 			resultSet = statement_take.executeQuery(datax);
@@ -462,10 +462,10 @@ uzsipilde = true;
 						<tr class="lent_vidus">
 							<td colspan="2"></td>
 							<td>
-								<input type="text" name="data_laikas" id="data_laikas" value="">
+								<input type="text" name="lp_data_laikas" id="lp_data_laikas" value="">
 							</td>
 							<td>
-								<input type="text" name="trukme" id="trukme" value="">
+								<input type="text" name="lp_trukme" id="lp_trukme" value="">
 							</td>							
 
 							<td>
