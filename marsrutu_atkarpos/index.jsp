@@ -288,7 +288,7 @@
 						ResultSet rs = st.executeQuery(sql);
 						while(rs.next() ){
 								%>
-										<option value="<%=rs.getString("id")%>"><%=rs.getString("id")%></option>												
+										<option value="<%=rs.getString("pav")%>"><%=rs.getString("id")%></option>												
 								<%
 									}
 
