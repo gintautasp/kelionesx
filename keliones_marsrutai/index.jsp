@@ -33,6 +33,8 @@
 	ResultSet resultSet = null;
 	Statement statement_take = null;
 	
+	Boolean debug = false;
+	
 	/*String[] lent_lp = { "data_laikas", "trukme", "aprasymas" };
 	String[] lauk_lp = new String [ lent_lp.length ];		
 	Crud lent_lankymasis_punkte = new Crud ( "keliones_marsrutai", lent_lp );*/
@@ -48,7 +50,7 @@
 	String id_keliones_marsruto_atkarpos = "0";
 	id_keliones_marsruto_atkarpos = request.getParameter( "id_keliones_marsruto_atkarpos" );
 	String del = request.getParameter( "del" );
-	out.println ( "51:" + del );
+	if (debug) { out.println ( "53:" + del ) };
 	
 	try{
 	     
@@ -85,12 +87,12 @@
 		String id_punkto2 = "1";
 		if ( ( id_marsruto_atkarpos = request.getParameter( "id_marsruto_atkarpos" ) ) !=null ) {
 					
-			out.println("88:" + id_marsruto_atkarpos);
+			if (debug) { out.println("90:" + id_marsruto_atkarpos) }; 
 			String[] arrOfStr = id_marsruto_atkarpos.split("_");
 			id_marsruto_atkarpos = arrOfStr[0];
 			id_punkto2 = arrOfStr[1];
-			out.println("92:" + arrOfStr[0]);
-			out.println("93:" + arrOfStr[1]);
+			if (debug) { out.out.println("94:" + arrOfStr[0]) };
+			if (debug) { out.println("95:" + arrOfStr[1]) };
 				
 		}
 		
@@ -119,7 +121,7 @@
 						+ sql_ins + ", '" + id_punkto2 + "', '" + id_keliones + "' "
 						+ " )";
 
-					out.println ("122:" + sql_ins ); 
+					if (debug) { out.println ("124:" + sql_ins ); };
 
 					Statement statement_change1 = connection.createStatement();
 					Integer  resultSetChange1 = statement_change1.executeUpdate(sql_ins);			
@@ -145,7 +147,7 @@
 						+ " '" + id_marsruto_atkarpos + "', " + sql_ins1 + ", '" + atkarpos_numeris + "', '" + id_keliones + "' "
 						+ " )";
 
-					out.println ("148:" + sql_ins1 );  
+					   if (debug) { out.println ("150:" + sql_ins1 ) };
 
 					Statement statement_change2 = connection.createStatement();
 					Integer  resultSetChange2 = statement_change2.executeUpdate(sql_ins1);			
@@ -158,7 +160,7 @@
 						+ " `aprasymas`='"+request.getParameter("lpaprasymas")+"' "
 						+ "	WHERE `lankymasis_punkte`.`id`='"+id_lankymosi_punkte+"'";
 					
-					out.println ( "161:" + sql_upd1 );
+					if (debug) { out.println ( "163:" + sql_upd1 ) };
 					
 					Statement statement_change1 = connection.createStatement();
 					Integer  resultSetChange1 = statement_change1.executeUpdate(sql_upd1);	
@@ -171,7 +173,7 @@
 						+ " `id_marsruto_atkarpos`='"+id_marsruto_atkarpos+"' "
 						+ "	WHERE `keliones_marsruto_atkarpos`.`id`='"+id_keliones_marsruto_atkarpos+"'";
 					
-					out.println ( "174:" + sql_upd2 );
+					if (debug) { out.println ( "176:" + sql_upd2 ) }; 
 					
 					Statement statement_change2 = connection.createStatement();
 					Integer  resultSetChange2 = statement_change2.executeUpdate(sql_upd2);
@@ -182,13 +184,13 @@
 			
 			if ( add != null ) {
 
-				out.println ( "185:" + add );
+				if (debug) { out.println ( "187:" + add ) };
 			}
 		 } 
 	
 	//String del = request.getParameter( "del" );
 	
-		out.println ( "191:" + del );
+		if (debug) { out.println ( "193:" + del ) };
 	
 		if ( ( (  del  ) != null) && del.equals ( "del1rec" ) ) {		
 
@@ -196,12 +198,12 @@
 			String id_keliones_marsruto_atkarpos_i_del = request.getParameter ( "id_keliones_marsruto_atkarpos_i_del" ); 
 
 			String sql_delete = "DELETE FROM `lankymasis_punkte` WHERE `lankymasis_punkte`.`id`='"+ id_lankymosi_punkte_i_del +"'";
-			out.println ( "199:" + sql_delete );
+			if (debug) { out.println ( "201:" + sql_delete  ) };
 			statement_change3 = connection.createStatement();
 			resultSetChange3 = statement_change3.executeUpdate(sql_delete);
 			
 			String sql_delete1 = "DELETE FROM `keliones_marsruto_atkarpos` WHERE `keliones_marsruto_atkarpos`.`id`='"+ id_keliones_marsruto_atkarpos_i_del +"'";
-			out.println ( "204:" +sql_delete1 );
+			if (debug) { out.println ( "206:" + sql_delete1 ) };
 			statement_change4 = connection.createStatement();
 			resultSetChange4 = statement_change4.executeUpdate(sql_delete1);
 		}	
@@ -258,7 +260,23 @@
 			}
 				
 		}
+		
+		function iValyma () {
+
+			document.getElementById("lp_data_laikas").value= "";
+			document.getElementById("lp_trukme").value= "";
+			document.getElementById("lpaprasymas").value= "";
+			document.getElementById("id_punkto2").value= "";
 				
+
+			document.getElementById("id_marsruto_atkarpos").value= "";
+			document.getElementById("id_keliones_budo").value= "";
+			document.getElementById("kma_aprasymas").value= "";
+			document.getElementById("kma_data_laikas").value= "";
+			document.getElementById("kma_trukme").value= "";
+			document.getElementById("atkarpos_numeris").value= "";
+
+			}	
 </script>
 
     <div class="tm-container">        
@@ -357,7 +375,7 @@
 			+ "LEFT JOIN `keliones` ON ( `keliones`.`id`=`lankymasis_punkte`.`id_keliones` ) "
 			+ where_part;
 			
-			out.println ( "360:" + datax );
+			if (debug) { out.println ( "360:" + datax ) };
 
 			statement_take = connection.createStatement();	
 			resultSet = statement_take.executeQuery(datax);
@@ -462,22 +480,22 @@ uzsipilde = true;
 						<tr class="lent_vidus">
 							<td colspan="2"></td>
 							<td>
-								<input type="text" name="lp_data_laikas" id="lp_data_laikas" value="">
+								<input type="text" name="lp_data_laikas" id="lp_data_laikas" value="" required>
 							</td>
 							<td>
-								<input type="text" name="lp_trukme" id="lp_trukme" value="">
+								<input type="text" name="lp_trukme" id="lp_trukme" value="" required>
 							</td>							
 
 							<td>
-								<input type="text" name="lpaprasymas" id="lpaprasymas" value="">
+								<input type="text" name="lpaprasymas" id="lpaprasymas" value="" required>
 							</td>
 
 							<td>
-								<input type="text" name="pav4" value="">
-								</td>		
+								
+							</td>		
 
 							<td>
-								<input type="text" name="pav5" >
+								
 							</td>	
 
 							<td>
@@ -530,19 +548,19 @@ uzsipilde = true;
 							</td>
 							
 							<td>
-								<input type="kma_aprasymas" name="kma_aprasymas" id="kma_aprasymas">
+								<input type="kma_aprasymas" name="kma_aprasymas" id="kma_aprasymas" required>
 							</td>
 							
 							<td>
-								<input type="kma_data_laikas" name="kma_data_laikas" id="kma_data_laikas">
+								<input type="kma_data_laikas" name="kma_data_laikas" id="kma_data_laikas" required>
 							</td>
 							
 							<td>
-								<input type="kma_trukme" name="kma_trukme" id="kma_trukme">
+								<input type="kma_trukme" name="kma_trukme" id="kma_trukme" required>
 							</td>
 									
-								<!--<input type="hidden" name="atkarpos_numeris" value="1">
-								<input type="hidden" name="id_marsruto_atkarpos" value="1">-->
+								<input type="hidden" id="atkarpos_numeris" name="atkarpos_numeris" value="1">
+								<!--<input type="hidden" name="id_marsruto_atkarpos" value="1">-->
 								<input type="hidden" id="id_lankymosi_punkte" name="id_lankymosi_punkte" value="0">
 								<input type="hidden" id="id_keliones_marsruto_atkarpos" name="id_keliones_marsruto_atkarpos" value="0">
 								<input type="hidden" id="id_punkto2" name="id_punkto2" value="0">
@@ -554,8 +572,8 @@ uzsipilde = true;
 				<!--	</form>  -->
 						
 						    <div class="col text-center">
-							<!--	<input type="button" name="clear" value="valyti" onClick = "iValyma()"> 
-								<input type="submit" name="add" value="pakeisti"> -->
+								<input type="button" name="clear" value="Grįžti į įvedimą" onClick = "iValyma()">
+								<!--<input type="submit" name="add" value="pakeisti"> -->
 								<input type="submit" name="add" value="papildyti">
 							</div>
 							<div>
