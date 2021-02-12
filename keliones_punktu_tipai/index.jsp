@@ -219,10 +219,7 @@
 																																					// miestas.takeFromParams ( request );for ( int i = 0; i<lent_punktu_tipai.length; i++ ) {
 				lauk_punktu_tipu [ i ] = request.getParameter ( lent_punktu_tipai [ i ] );
 			}
-					
 			
-			
-				
 			String comma = "";
 			
 			String errormes = "";
@@ -245,6 +242,7 @@
 					String pav = resultSet.getString("pav");
 					out.println( "Toks punkto tipas jau yra" );
 				
+				
 				}else {
 			
 					sql_ins = "INSERT INTO `punktu_tipai`"  
@@ -260,16 +258,34 @@
 					resultSetChange = statement_change.executeUpdate(sql_ins);	
 				}
 				
-			} else {
-		 
-				String sql_upd = "UPDATE `punktu_tipai` SET `pav`='"+request.getParameter("pav")+"' WHERE `punktu_tipai`. `id`='"+ id_punkto_tipo+"'";
 				
-				out.println ( sql_upd );
+			}else {
 			
-				statement_change = connection.createStatement();
-				resultSetChange = statement_change.executeUpdate(sql_upd);	
+			String sql = "SELECT * FROM `punktu_tipai` WHERE `punktu_tipai`.`pav`='"+lauk_punktu_tipu[0]+"'";
+			
+				statement_take = connection.createStatement();
+				resultSet = statement_take.executeQuery(sql);	
+				
+				if  ( resultSet.next() ){
+				
+					String pav = resultSet.getString("pav");
+					out.println( "Toks punkto tipas jau yra, pakeisti negalima!" );
+				
+				
+				}else {
+			
+		 
+					String sql_upd = "UPDATE `punktu_tipai` SET `pav`='"+request.getParameter("pav")+"' WHERE `punktu_tipai`. `id`='"+ id_punkto_tipo+"'";
+				
+					out.println ( sql_upd );
+			
+					statement_change = connection.createStatement();
+					resultSetChange = statement_change.executeUpdate(sql_upd);	
+				}
 				
 			}
+
+				
 
 			} else {
 		 
