@@ -32,15 +32,13 @@
     int resultSetChange;
     String[] punktai = {  "pav", "platuma", "ilguma", "aprasymas"  };
     String[] reiksmes_punktai = new String [ punktai.length ];
-<<<<<<< HEAD
-=======
+
 	
 	try {
 	connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
 	
 	} catch(Exception e){				
 		}
->>>>>>> 40132f14c516dbca7361f184af64a2796b92711f
 %>
 
     <script>
@@ -149,7 +147,7 @@
 		
 		<label for="id_punkto_tipo">Punktu tipai</label>
 		<select id="id_punkto_tipo" name="id_punkto_tipo">
-<<<<<<< HEAD
+
 <%		
 try {
 	Statement st = connection.createStatement();
@@ -161,8 +159,9 @@ try {
 				<%
 				}
 	}catch(Exception e){
-=======
-		<%		
+        }
+
+				
 							try {
 									Statement st = connection.createStatement();
 									String sql = "SELECT * FROM `punktu_tipai`";
@@ -175,15 +174,17 @@ try {
 								} catch(Exception e){
 									
 									e.printStackTrace();
->>>>>>> 40132f14c516dbca7361f184af64a2796b92711f
+
 								}
 %>
 		</select><br>
 		
 		
-			
+                        <td>
                         <label for="text">Pavadinimas</label>
-                        <input type="text" id="pav" name="pav" value=""><br>
+                        <input id="pav" type="text" name="pav" pattern="[A-Ža-ž\s]{3,}" title="Įveskite tris ar daugiau raidžių" required><br>
+                        </td>
+                        
                         
                         <label for="text">Ilguma</label>
                         <input type="text" id="ilguma" name="ilguma" value=""><br>
@@ -209,10 +210,7 @@ try {
 		
 		
 <%
-<<<<<<< HEAD
-=======
 
->>>>>>> 40132f14c516dbca7361f184af64a2796b92711f
 try {
                         
             request.setCharacterEncoding("UTF-8");
@@ -220,15 +218,11 @@ try {
             response.setCharacterEncoding("UTF-8");		
             
                 } catch(Exception e) {}
-<<<<<<< HEAD
+
             
             try { 
-=======
-                  
-        try { 
 
->>>>>>> 40132f14c516dbca7361f184af64a2796b92711f
-                    
+                     
                 connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
                 String add = "";
                 

@@ -37,7 +37,7 @@
 	String[] lauk_lp = new String [ lent_lp.length ];		
 	Crud lent_lankymasis_punkte = new Crud ( "keliones_marsrutai", lent_lp );*/
 	
-	String[] lent_lpaprasymas = {  "data_laikas", "trukme", "lpaprasymas", "id_punkto1", "id_keliones"};
+	String[] lent_lpaprasymas = {  "lp_data_laikas", "lp_trukme", "lpaprasymas", "id_punkto2", "id_keliones"};
 	String[] lauk_lpaprasymas = new String [ lent_lpaprasymas.length ];
 	
 	String[] lent_km_aprasymas = {  "id_marsruto_atkarpos", "id_keliones_budo", "kma_aprasymas", "kma_data_laikas", "kma_trukme", "atkrapos_numeris", "id_keliones"};
@@ -48,7 +48,7 @@
 	String id_keliones_marsruto_atkarpos = "0";
 	id_keliones_marsruto_atkarpos = request.getParameter( "id_keliones_marsruto_atkarpos" );
 	String del = request.getParameter( "del" );
-	out.println ( del );
+	out.println ( "51:" + del );
 	
 	try{
 	     
@@ -82,16 +82,16 @@
 		id_keliones = "1";
 		atkarpos_numeris = "1";
 		String id_marsruto_atkarpos = "1";
-		String id_punkto1 = "1";
+		String id_punkto2 = "1";
 		if ( ( id_marsruto_atkarpos = request.getParameter( "id_marsruto_atkarpos" ) ) !=null ) {
 					
-			out.println(id_marsruto_atkarpos);
+			out.println("88:" + id_marsruto_atkarpos);
 			String[] arrOfStr = id_marsruto_atkarpos.split("_");
 			id_marsruto_atkarpos = arrOfStr[0];
-			id_punkto1 = arrOfStr[1];
-			out.println(arrOfStr[0]);
-			out.println(arrOfStr[1]);
-		
+			id_punkto2 = arrOfStr[1];
+			out.println("92:" + arrOfStr[0]);
+			out.println("93:" + arrOfStr[1]);
+				
 		}
 		
 		if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "papildyti" ) ) {
@@ -104,7 +104,7 @@
 			String sql_ins = "";
 			String comma = "";
 			
-				if ( ( id_lankymosi_punkte == null ) || ( id_lankymosi_punkte.equals("0" ) ) ){ //&& ( id_keliones_marsruto_atkarpos == null ) || ( id_keliones_marsruto_atkarpos.equals("0" ) ) ) 
+				if ( ( id_lankymosi_punkte == null ) || ( id_lankymosi_punkte.equals("0" ) ) ){ 
 					
 					for ( int i = 0; i < lent_lpaprasymas.length - 2; i++ ) {
 					
@@ -116,10 +116,10 @@
 						"INSERT INTO `lankymasis_punkte`"
 						+ " ( `data_laikas`, `trukme`, `aprasymas`, `id_punkto`, `id_keliones`)"
 						+ " VALUES ( "			
-						+ sql_ins + ", '" + id_punkto1 + "', '" + id_keliones + "' "
+						+ sql_ins + ", '" + id_punkto2 + "', '" + id_keliones + "' "
 						+ " )";
 
-					out.println ( sql_ins ); 
+					out.println ("122:" + sql_ins ); 
 
 					Statement statement_change1 = connection.createStatement();
 					Integer  resultSetChange1 = statement_change1.executeUpdate(sql_ins);			
@@ -145,7 +145,7 @@
 						+ " '" + id_marsruto_atkarpos + "', " + sql_ins1 + ", '" + atkarpos_numeris + "', '" + id_keliones + "' "
 						+ " )";
 
-					out.println ( sql_ins1 );  
+					out.println ("148:" + sql_ins1 );  
 
 					Statement statement_change2 = connection.createStatement();
 					Integer  resultSetChange2 = statement_change2.executeUpdate(sql_ins1);			
@@ -153,12 +153,12 @@
 				} else {
 					
 					String sql_upd1 = 
-						"UPDATE `lankymasis_punkte` SET `data_laikas`='"+request.getParameter("data_laikas")+"', "
-						+ " `trukme`='"+request.getParameter("trukme")+"', "
-						+ " `aprasymas`='"+request.getParameter("lpaprasymas")+"', "
+						"UPDATE `lankymasis_punkte` SET `data_laikas`='"+request.getParameter("lp_data_laikas")+"', "
+						+ " `trukme`='"+request.getParameter("lp_trukme")+"', "
+						+ " `aprasymas`='"+request.getParameter("lpaprasymas")+"' "
 						+ "	WHERE `lankymasis_punkte`.`id`='"+id_lankymosi_punkte+"'";
 					
-					out.println ( sql_upd1 );
+					out.println ( "161:" + sql_upd1 );
 					
 					Statement statement_change1 = connection.createStatement();
 					Integer  resultSetChange1 = statement_change1.executeUpdate(sql_upd1);	
@@ -168,10 +168,10 @@
 						+ " `data_laikas`='"+request.getParameter("kma_data_laikas")+"', "
 						+ " `trukme`='"+request.getParameter("kma_trukme")+"', "
 						+ " `id_keliones_budo`='"+request.getParameter("id_keliones_budo")+"', "
-						+ " `id_marsruto_atkarpos`='"+request.getParameter("id_marsruto_atkarpos")+"' "
+						+ " `id_marsruto_atkarpos`='"+id_marsruto_atkarpos+"' "
 						+ "	WHERE `keliones_marsruto_atkarpos`.`id`='"+id_keliones_marsruto_atkarpos+"'";
 					
-					out.println ( sql_upd2 );
+					out.println ( "174:" + sql_upd2 );
 					
 					Statement statement_change2 = connection.createStatement();
 					Integer  resultSetChange2 = statement_change2.executeUpdate(sql_upd2);
@@ -182,13 +182,13 @@
 			
 			if ( add != null ) {
 
-				out.println ( add );
+				out.println ( "185:" + add );
 			}
 		 } 
 	
 	//String del = request.getParameter( "del" );
 	
-		out.println ( del );
+		out.println ( "191:" + del );
 	
 		if ( ( (  del  ) != null) && del.equals ( "del1rec" ) ) {		
 
@@ -196,12 +196,12 @@
 			String id_keliones_marsruto_atkarpos_i_del = request.getParameter ( "id_keliones_marsruto_atkarpos_i_del" ); 
 
 			String sql_delete = "DELETE FROM `lankymasis_punkte` WHERE `lankymasis_punkte`.`id`='"+ id_lankymosi_punkte_i_del +"'";
-			out.println ( sql_delete );
+			out.println ( "199:" + sql_delete );
 			statement_change3 = connection.createStatement();
 			resultSetChange3 = statement_change3.executeUpdate(sql_delete);
 			
-			String sql_delete1 = "DELETE FROM `keliones_marsruto_atkarpos`` WHERE `keliones_marsruto_atkarpos`.`id`='"+ id_keliones_marsruto_atkarpos_i_del +"'";
-			out.println ( sql_delete1 );
+			String sql_delete1 = "DELETE FROM `keliones_marsruto_atkarpos` WHERE `keliones_marsruto_atkarpos`.`id`='"+ id_keliones_marsruto_atkarpos_i_del +"'";
+			out.println ( "204:" +sql_delete1 );
 			statement_change4 = connection.createStatement();
 			resultSetChange4 = statement_change4.executeUpdate(sql_delete1);
 		}	
@@ -232,8 +232,8 @@
 <%
 				}
 %>
-
-				document.getElementById( "id_keliones_marsruto_atkarpos" ).value = mygtukas.dataset.id_keliones_marsruto_atkarpos
+				document.getElementById( "id_marsruto_atkarpos" ).value = mygtukas.dataset.id_marsruto_atkarpos +"_"+mygtukas.dataset.id_punkto2;
+				document.getElementById( "id_keliones_marsruto_atkarpos" ).value = mygtukas.dataset.id_keliones_marsruto_atkarpos;
 			}
 			
 		}
@@ -348,16 +348,16 @@
 			+ " `marsrutu_atkarpos`.`pav` AS `mapav`, `keliones_marsruto_atkarpos`.`aprasymas` AS `kma_aprasymas`, `keliones_marsruto_atkarpos`.`data_laikas` AS `kma_data_laikas`, "
 			+ " `keliones_marsruto_atkarpos`.`trukme` AS `kma_trukme`, `keliones`.`aprasymas` AS `k_aprasymas`, `lankymasis_punkte`.`data_laikas` AS `lp_data_laikas`, "
 			+ "`lankymasis_punkte`.`id` AS `id_lankymosi_punkte`, `keliones`.`pav` AS `kel_pav`, `keliones_marsruto_atkarpos`.`id` AS `id_keliones_marsruto_atkarpos`, " 
-			+ "`keliones`.`data` AS `kel_data`, `keliones`.`laikas` AS `kel_laikas`, `keliones`.`trukme` AS `kel_trukme`, `punktai`.`id` AS `id_punkto1`  " 
+			+ "`keliones`.`data` AS `kel_data`, `keliones`.`laikas` AS `kel_laikas`, `keliones`.`trukme` AS `kel_trukme`, `punktai`.`id` AS `id_punkto2`, `lankymasis_punkte`.`trukme` AS lp_trukme " 
 			+ "	FROM `keliones_marsruto_atkarpos` " 
 			+ "LEFT JOIN `marsrutu_atkarpos` ON ( `marsrutu_atkarpos`.`id`=`keliones_marsruto_atkarpos`.`id_marsruto_atkarpos` )"
-			+ "LEFT JOIN `lankymasis_punkte` ON ( `marsrutu_atkarpos`.`id_punkto1`=`lankymasis_punkte`.`id_punkto`	) "
+			+ "LEFT JOIN `lankymasis_punkte` ON ( `keliones_marsruto_atkarpos`.`id_keliones`=`lankymasis_punkte`.`id_keliones` AND `marsrutu_atkarpos`.`id_punkto2`=`lankymasis_punkte`.`id_punkto`	) "
 			+ "LEFT JOIN `punktai` ON ( `lankymasis_punkte`.`id_punkto`=`punktai`.`id` )  "
 			+ "LEFT JOIN `punktai` AS `punktai2` ON ( `marsrutu_atkarpos`.`id_punkto2`=`punktai2`.`id` )  "
 			+ "LEFT JOIN `keliones` ON ( `keliones`.`id`=`lankymasis_punkte`.`id_keliones` ) "
 			+ where_part;
 			
-			out.println ( datax );
+			out.println ( "360:" + datax );
 
 			statement_take = connection.createStatement();	
 			resultSet = statement_take.executeQuery(datax);
@@ -434,8 +434,8 @@ uzsipilde = true;
 <tr class="lent_vidus">
 	<td><input type="button" class="record_edit" id="toEdit_<%=id_rec + "_" + id_rec2 %>"data-id_lankymosi_punkte="<%=id_rec %>" data-id_keliones_marsruto_atkarpos="<%=id_rec2 %>" <%=rec_data %> value="&#9998;" onClick="iRedagavima( '<%=id_rec + "_" + id_rec2 %>' )"></td>   
 	<td><input type="button" class="delete" id="toDelete_<%=id_rec + "_" + id_rec2 %>"data-id_lankymosi_punkte="<%=id_rec %>" data-id_keliones_marsruto_atkarpos="<%=id_rec2 %>" data-kma_aprasymas="<%=kma_aprasymas %>" value="&#10006;" onClick="iTrinima( '<%=id_rec + "_" + id_rec2 %>' )"></td>	
-	<td><%= resultSet.getString ( "data_laikas" ) %></td>
-	<td><%= resultSet.getString ( "trukme" ) %></td>
+	<td><%= resultSet.getString ( "lp_data_laikas" ) %></td>
+	<td><%= resultSet.getString ( "lp_trukme" ) %></td>
 	<td><%= resultSet.getString  ("lpaprasymas" ) %></td>
 	<td><%= resultSet.getString ( "mapav" ) %></td>
 	<td><%= resultSet.getString ( "ipatybes" ) %></td>
@@ -462,10 +462,10 @@ uzsipilde = true;
 						<tr class="lent_vidus">
 							<td colspan="2"></td>
 							<td>
-								<input type="text" name="data_laikas" id="data_laikas" value="">
+								<input type="text" name="lp_data_laikas" id="lp_data_laikas" value="">
 							</td>
 							<td>
-								<input type="text" name="trukme" id="trukme" value="">
+								<input type="text" name="lp_trukme" id="lp_trukme" value="">
 							</td>							
 
 							<td>
@@ -497,7 +497,7 @@ uzsipilde = true;
 									ResultSet rs = st.executeQuery(sql);
 									while(rs.next() ){
 								%>
-										<option value="<%=rs.getString("id")%>_<%=rs.getString("id_punkto1")%>"><%=rs.getString("pav")%></option>												
+										<option value="<%=rs.getString("id")%>_<%=rs.getString("id_punkto2")%>"><%=rs.getString("pav")%></option>												
 								<%
 									}
 
@@ -545,7 +545,7 @@ uzsipilde = true;
 								<input type="hidden" name="id_marsruto_atkarpos" value="1">-->
 								<input type="hidden" id="id_lankymosi_punkte" name="id_lankymosi_punkte" value="0">
 								<input type="hidden" id="id_keliones_marsruto_atkarpos" name="id_keliones_marsruto_atkarpos" value="0">
-								<input type="hidden" id="id_punkto1" name="id_punkto1" value="0">
+								<input type="hidden" id="id_punkto2" name="id_punkto2" value="0">
 						
 														
 						</tr> 
