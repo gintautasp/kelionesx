@@ -19,16 +19,21 @@ SELECT *, `lankymasis_punkte`.`aprasymas` AS `lpaprasymas`, `punktai`.`aprasymas
 `marsrutu_atkarpos`.`pav` AS `mapav`, `keliones_marsruto_atkarpos`.`aprasymas` AS `kma_aprasymas`, `keliones_marsruto_atkarpos`.`data_laikas` AS `kma_data_laikas`, 
 `keliones_marsruto_atkarpos`.`trukme` AS `kma_trukme`, `keliones`.`aprasymas` AS `k_aprasymas`, `lankymasis_punkte`.`data_laikas` AS `lp_data_laikas`, 
 `lankymasis_punkte`.`id` AS `id_lankymosi_punkte`, `keliones`.`pav` AS `kel_pav`, `keliones_marsruto_atkarpos`.`id` AS `id_keliones_marsruto_atkarpos`,
-`keliones`.`data` AS `kel_data`, `keliones`.`laikas` AS `kel_laikas`, `keliones`.`trukme` AS `kel_trukme`, `punktai`.`id` AS `id_punkto1`  
+`keliones`.`data` AS `kel_data`, `keliones`.`laikas` AS `kel_laikas`, `keliones`.`trukme` AS `kel_trukme`, `punktai`.`id` AS `id_punkto2`, `lankymasis_punkte`.`trukme` AS lp_trukme 
 FROM `keliones_marsruto_atkarpos` 
 LEFT JOIN `marsrutu_atkarpos` ON ( `marsrutu_atkarpos`.`id`=`keliones_marsruto_atkarpos`.`id_marsruto_atkarpos` )
-LEFT JOIN `lankymasis_punkte` ON ( `keliones_marsruto_atkarpos`.`id_keliones`=`lankymasis_punkte`.`id_keliones` AND `marsrutu_atkarpos`.`id_punkto1`=`lankymasis_punkte`.`id_punkto`) 
+LEFT JOIN `lankymasis_punkte` ON ( `keliones_marsruto_atkarpos`.`id_keliones`=`lankymasis_punkte`.`id_keliones` AND `marsrutu_atkarpos`.`id_punkto2`=`lankymasis_punkte`.`id_punkto`) 
 LEFT JOIN `punktai` ON ( `lankymasis_punkte`.`id_punkto`=`punktai`.`id` )  
 LEFT JOIN `punktai` AS `punktai2` ON ( `marsrutu_atkarpos`.`id_punkto2`=`punktai2`.`id` )  
 LEFT JOIN `keliones` ON ( `keliones`.`id`=`lankymasis_punkte`.`id_keliones` ) 
 WHERE 1 AND `keliones_marsruto_atkarpos`.`id_keliones`= '1'
 
-SELECT *
+SELECT *, 
 FROM `keliones_marsruto_atkarpos` 
 LEFT JOIN `marsrutu_atkarpos` ON ( `marsrutu_atkarpos`.`id`=`keliones_marsruto_atkarpos`.`id_marsruto_atkarpos` )
 WHERE 1 AND `keliones_marsruto_atkarpos`.`id_keliones`= '1'
+
+
+ UPDATE `keliones_marsruto_atkarpos` SET `aprasymas`='12345', `data_laikas`='2021-02-11 10:37:12', `trukme`='11:37:12', `id_keliones_budo`='1', `id_marsruto_atkarpos`='null' WHERE `keliones_marsruto_atkarpos`.`id`='51' 
+ 51:null 88:1_1 92:1 93:1 122:INSERT INTO `lankymasis_punkte` ( `data_laikas`, `trukme`, `aprasymas`, `id_punkto`, `id_keliones`) VALUES ( '2021-01-08 14:20:08','01:00:00','123', '1', '1' ) 
+ 148:INSERT INTO `keliones_marsruto_atkarpos` ( `id_marsruto_atkarpos`, `id_keliones_budo`, `aprasymas`, `data_laikas`, `trukme`, `atkrapos_numeris`, `id_keliones` ) VALUES ( '1', '1','123','2021-02-11 10:37:12','01:00:00', '1', '1' ) 191:null 
