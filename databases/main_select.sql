@@ -43,23 +43,8 @@
 	
 	FROM `keliones_marsruto_atkarpos`
 	
-	LEFT JOIN `marsrutu_atkarpos` ON ( 	
-	
-		`marsrutu_atkarpos`.`id`=`keliones_marsruto_atkarpos`.`id_marsruto_atkarpos` 
-	)
-	LEFT JOIN `lankymasis_punkte` ON ( 
-
-			`marsrutu_atkarpos`.`id_punkto1`=`lankymasis_punkte`.`id_punkto`
-	)
-	LEFT JOIN `punktai` ON ( 
-
-		`lankymasis_punkte`.`id_punkto`=`punktai`.`id` 
-	) 
-	LEFT JOIN 
-		`keliones` ON ( 
-			`keliones`.`id`=`lankymasis_punkte`.`id_keliones` 
-	)
-	WHERE 
-			1 
-		AND 
-			`keliones_marsruto_atkarpos`.`id_keliones`= '1'
+	LEFT JOIN `marsrutu_atkarpos` ON ( `marsrutu_atkarpos`.`id`=`keliones_marsruto_atkarpos`.`id_marsruto_atkarpos` )
+	LEFT JOIN `lankymasis_punkte` ON ( `marsrutu_atkarpos`.`id_punkto1`=`lankymasis_punkte`.`id_punkto`	)
+	LEFT JOIN `punktai` ON ( `lankymasis_punkte`.`id_punkto`=`punktai`.`id` ) 
+	LEFT JOIN `keliones` ON ( `keliones`.`id`=`lankymasis_punkte`.`id_keliones` )
+	WHERE 1 AND `keliones_marsruto_atkarpos`.`id_keliones`= '1'
