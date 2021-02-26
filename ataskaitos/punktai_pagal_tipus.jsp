@@ -27,9 +27,11 @@
 	<tr>
 	</tr>
 	<tr>
-		<th>Punktų tipai</th>
-		<th>Įvesta punktų</th>
-		<th>Aplankyta punktų</th>
+		<th>id</th>
+		<th>pav</th>
+		<th>ilguma</th>
+		<th>platuma</th>
+		<th>aprasymas</th>
 	</tr>
 <%
 	String driverName = "com.mysql.jdbc.Driver";
@@ -41,6 +43,8 @@
 	Connection connection = null;
 	Statement statement = null;
 	ResultSet resultSet = null;
+	String id_punkto_tipo = "0";
+	
 		try{
 	     
 		request.setCharacterEncoding("UTF-8");
@@ -50,26 +54,27 @@
 		connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
 		
 		String sql = "";
+		id_punkto_tipo = request.getParameter( "i" );
 		
 		statement=connection.createStatement();	
 		
 		sql =
-			"SELECT `punktu_tipai`. `id` AS `id_punkto_tipo`, `punktu_tipai`.`pav` ,"
-			+"COUNT(`punktai`.`id`) AS `punktu_skaicius`,"
-			+"COUNT(`lankymasis_punkte`.`id`) AS `punktu_kiekis`"
-			+"FROM `punktu_tipai`" 
-			+"LEFT JOIN `punktai` ON ( `punktai`.`id_punkto_tipo`= `punktu_tipai`.`id` )"
-			+"LEFT JOIN `lankymasis_punkte` ON ( `lankymasis_punkte`.`id_punkto` = `punktai`.`id` )"
-			+"GROUP BY `punktu_tipai`.`id` ";
-		out.println (sql);
-		resultSet = statement.executeQuery(sql);
+			"SELECT * "
+			+" FROM `punktai`"
+			+" WHERE `punktai`.`id_punkto_tipo`='" + id_punkto_tipo+"'";
+			
+			
+		
+	resultSet = statement.executeQuery(sql);
 		 
 		while( resultSet.next() ){
 %>
 <tr style="background-color: none">
+	<td><%= resultSet.getString ( "id" ) %></td>
 	<td><%= resultSet.getString ( "pav" ) %></td>
-	<td><a target="_blank" href="/kelionesx/ataskaitos/punktai_pagal_tipus.jsp?i=<%= resultSet.getString ( "id_punkto_tipo" ) %>"><%=resultSet.getString ( "punktu_skaicius" ) %></a></td>
-	<td><a href="lankymasis_punkte.jsp?i=<%= resultSet.getString ( "id_punkto_tipo" ) %>"><%=resultSet.getString ("punktu_kiekis" ) %></a></td>
+	<td><%= resultSet.getString ( "ilguma" ) %></td>
+	<td><%=resultSet.getString ( "platuma" ) %></td>
+	<td><%=resultSet.getString ( "aprasymas" ) %></td>
 	
 </tr>
 
@@ -83,4 +88,4 @@
 </table>
 
 </body>
-</html>
+</html>	
