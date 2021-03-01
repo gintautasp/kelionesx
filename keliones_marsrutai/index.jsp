@@ -44,10 +44,10 @@
 	
 	String[] lent_km_aprasymas = {  "id_marsruto_atkarpos", "id_keliones_budo", "kma_aprasymas", "kma_data_laikas", "kma_trukme", "atkrapos_numeris", "id_keliones"};
 	String[] lauk_km_aprasymas = new String [ lent_km_aprasymas.length ];
-	Crude lpaprasymas_crud = new Crude ( "lankymasis_punkte",  lent_lpaprasymas );
-	Crude km_aprasymas_crud = new Crude ( "keliones_marsruto_atkarpos", lent_km_aprasymas );
-	//Crude lpaprasymas_crud = new Crude ( dbName, userId, password, connectionUrl, "lankymasis_punkte",  lent_lpaprasymas );
-	//Crude km_aprasymas_crud = new Crude ( dbName, userId, password, connectionUrl, "keliones_marsruto_atkarpos", lent_km_aprasymas );
+	//Crude lpaprasymas_crud = new Crude ( "lankymasis_punkte",  lent_lpaprasymas );
+	//Crude km_aprasymas_crud = new Crude ( "keliones_marsruto_atkarpos", lent_km_aprasymas );
+	Crude lpaprasymas_crud = new Crude ( dbName, userId, password, connectionUrl, "lankymasis_punkte",  lent_lpaprasymas );
+	Crude km_aprasymas_crud = new Crude ( dbName, userId, password, connectionUrl, "keliones_marsruto_atkarpos", lent_km_aprasymas );
 	
 	String id_lankymosi_punkte = "0";
 	id_lankymosi_punkte = request.getParameter( "id_lankymosi_punkte" ); 
@@ -89,104 +89,45 @@
 		//	id_keliones = request.getParameter ("i");
 		id_keliones = "1";
 		atkarpos_numeris = "1";
-		String id_marsruto_atkarpos = "1";
+		String id_marsruto_atkarpos = request.getParameter( "id_marsruto_atkarpos" );
 		String id_punkto2 = "1";
-	/*	if ( ( id_marsruto_atkarpos = request.getParameter( "id_marsruto_atkarpos" ) ) !=null ) {
-					
-			if (debug) { out.println("90:" + id_marsruto_atkarpos); }; 
-			String[] arrOfStr = id_marsruto_atkarpos.split("_");
-			id_marsruto_atkarpos = arrOfStr[0];
-			id_punkto2 = arrOfStr[1];
-			if (debug) { out.println("94:" + arrOfStr[0]); };
-			if (debug) { out.println("95:" + arrOfStr[1]); };
-				
-		}*/
+		String lp_data_laikas = request.getParameter( "lp_data_laikas" );
+		String lp_trukme = request.getParameter( "lp_trukme" );
+		String lpaprasymas = request.getParameter( "lpaprasymas" );
+		String kma_aprasymas = request.getParameter( "kma_aprasymas" );
+		String kma_data_laikas = request.getParameter( "kma_data_laikas" );
+		String kma_trukme = request.getParameter( "kma_trukme" );
+		String id_keliones_budo = request.getParameter( "id_keliones_budo" );
 		
+
 		if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "papildyti" ) ) {
 		
+			lpaprasymas_crud.parseIdMarsrutoAtkarposIrPunkto2(id_marsruto_atkarpos);
+			km_aprasymas_crud.parseIdMarsrutoAtkarposIrPunkto2(id_marsruto_atkarpos);
+						
 			for ( int i = 0; i< lent_lpaprasymas.length; i++ ) {
 			
 				lauk_lpaprasymas [ i ] = request.getParameter ( lent_lpaprasymas [ i ] );
 			}
 
-		//	String sql_ins = "";
-		//	String comma = "";
-			
 				if ( ( id_lankymosi_punkte == null ) || ( id_lankymosi_punkte.equals("0" ) ) ){ 
-					
-					lpaprasymas_crud.papildyti1(lauk_lpaprasymas, id_punkto2, id_keliones);
-			/*		for ( int i = 0; i < lent_lpaprasymas.length - 2; i++ ) {
-					
-						sql_ins =  sql_ins + comma  + "'" + lauk_lpaprasymas [ i ] + "'";
-						comma = ",";
-					}
-					
-					sql_ins = 
-						"INSERT INTO `lankymasis_punkte`"
-						+ " ( `data_laikas`, `trukme`, `aprasymas`, `id_punkto`, `id_keliones`)"
-						+ " VALUES ( "			
-						+ sql_ins + ", '" + id_punkto2 + "', '" + id_keliones + "' "
-						+ " )";
+						
+					lpaprasymas_crud.papildyti1(lauk_lpaprasymas, id_keliones);
 
-				//	if (debug) { out.println ("124:" + sql_ins ); };
-//out.println ("124:" + sql_ins );
-					Statement statement_change1 = connection.createStatement();
-					Integer  resultSetChange1 = statement_change1.executeUpdate(sql_ins);	*/	
 							
 					for ( int i = 0; i< lent_km_aprasymas.length; i++ ) {
 					
 						lauk_km_aprasymas [ i ] = request.getParameter ( lent_km_aprasymas [ i ] );
 					}
 					
-					km_aprasymas_crud.papildyti2(lauk_km_aprasymas, id_marsruto_atkarpos, atkarpos_numeris, id_keliones, id_punkto2);
-				/*	String sql_ins1 = "";
-					String comma1 = "";
-					
-					for ( int i = 1; i < lent_km_aprasymas.length - 2; i++ ) {
-					
-						sql_ins1 =  sql_ins1 + comma1  + "'" + lauk_km_aprasymas [ i ] + "'";
-						comma1 = ",";
-					}
-					
-					sql_ins1 = 
-						"INSERT INTO `keliones_marsruto_atkarpos`"
-						+ " ( `id_marsruto_atkarpos`, `id_keliones_budo`, `aprasymas`, `data_laikas`, `trukme`, `atkrapos_numeris`, `id_keliones` )"
-						+ " VALUES ( "			
-						+ " '" + id_marsruto_atkarpos + "', " + sql_ins1 + ", '" + atkarpos_numeris + "', '" + id_keliones + "' "
-						+ " )";
-
-					 //  if (debug) { out.println ("150:" + sql_ins1 ); };
-//out.println ("150:" + sql_ins1);
-//INSERT INTO `keliones_marsruto_atkarpos` ( `id_marsruto_atkarpos`, `id_keliones_budo`, `aprasymas`, `data_laikas`, `trukme`, `atkrapos_numeris`, `id_keliones` ) VALUES ( '1', '1','12313','2021-01-08 14:20:08','02:00:00', '1', '1' ) 
-					Statement statement_change2 = connection.createStatement();
-					Integer  resultSetChange2 = statement_change2.executeUpdate(sql_ins1);	*/
+					km_aprasymas_crud.papildyti2(lauk_km_aprasymas, atkarpos_numeris, id_keliones, id_punkto2);
+				
 				
 				} else {
 					
-					String sql_upd1 = 
-						"UPDATE `lankymasis_punkte` SET `data_laikas`='"+request.getParameter("lp_data_laikas")+"', "
-						+ " `trukme`='"+request.getParameter("lp_trukme")+"', "
-						+ " `aprasymas`='"+request.getParameter("lpaprasymas")+"' "
-						+ "	WHERE `lankymasis_punkte`.`id`='"+id_lankymosi_punkte+"'";
-					
-					if (debug) { out.println ( "163:" + sql_upd1 ); };
-					
-					Statement statement_change1 = connection.createStatement();
-					Integer  resultSetChange1 = statement_change1.executeUpdate(sql_upd1);	
-								
-					String sql_upd2 = 
-						"UPDATE `keliones_marsruto_atkarpos` SET `aprasymas`='"+request.getParameter("kma_aprasymas")+"', "
-						+ " `data_laikas`='"+request.getParameter("kma_data_laikas")+"', "
-						+ " `trukme`='"+request.getParameter("kma_trukme")+"', "
-						+ " `id_keliones_budo`='"+request.getParameter("id_keliones_budo")+"', "
-						+ " `id_marsruto_atkarpos`='"+id_marsruto_atkarpos+"' "
-						+ "	WHERE `keliones_marsruto_atkarpos`.`id`='"+id_keliones_marsruto_atkarpos+"'";
-					
-					if (debug) { out.println ( "176:" + sql_upd2 ); }; 
-					
-					Statement statement_change2 = connection.createStatement();
-					Integer  resultSetChange2 = statement_change2.executeUpdate(sql_upd2);
-
+					lpaprasymas_crud.update1 (lauk_lpaprasymas, id_lankymosi_punkte, lp_data_laikas, lp_trukme, lpaprasymas);
+					km_aprasymas_crud.update2 (lauk_km_aprasymas, id_keliones_marsruto_atkarpos, kma_aprasymas, kma_data_laikas, kma_trukme, id_keliones_budo);						
+				
 				}
 								
 			} else {
@@ -209,15 +150,6 @@
 			lpaprasymas_crud.delete(id_lankymosi_punkte_i_del);
 			km_aprasymas_crud.delete(id_keliones_marsruto_atkarpos_i_del);
 			
-			/*String sql_delete = "DELETE FROM `lankymasis_punkte` WHERE `lankymasis_punkte`.`id`='"+ id_lankymosi_punkte_i_del +"'";
-			if (debug) { out.println ( "201:" + sql_delete  ); };
-			statement_change3 = connection.createStatement();
-			resultSetChange3 = statement_change3.executeUpdate(sql_delete);
-			
-			String sql_delete1 = "DELETE FROM `keliones_marsruto_atkarpos` WHERE `keliones_marsruto_atkarpos`.`id`='"+ id_keliones_marsruto_atkarpos_i_del +"'";
-			if (debug) { out.println ( "206:" + sql_delete1 ); };
-			statement_change4 = connection.createStatement();
-			resultSetChange4 = statement_change4.executeUpdate(sql_delete1);*/
 		}	
 				
 	} catch ( Exception e ) {
