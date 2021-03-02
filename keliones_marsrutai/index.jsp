@@ -297,36 +297,25 @@
 	
 		String ivestis = request.getParameter ("search");
 		String idx;
+	//	idx = request.getParameter ("i");	
 		idx = "1";
+		
+		
 
-		String datax = lpaprasymas_crud.uzklausa(idx);
-		
-			
-	//	idx = request.getParameter ("i");		
-		
 		if ( idx != null ) {
 		
-			statement_take = connection.createStatement();	
-			resultSet = statement_take.executeQuery(datax);
-	
+			/*statement_take = connection.createStatement();	
+			resultSet = statement_take.executeQuery(datax);*/
+			lpaprasymas_crud.uzklausa(idx);
 			boolean uzsipilde = false;
-
-while( resultSet.next() ){
+			String eilute = "";
+		
+	while( ! (eilute = lpaprasymas_crud.uzklausosEilute(lent_km_aprasymas) ).equals ("") ){
 	
 	if ( ! uzsipilde ){
-
+	out.println(eilute);
 %>
-
-
-										
-<tr class="lent_vidus">
-	<td><%= resultSet.getString ( "kel_pav" ) %></td>
-	<td><%= resultSet.getString ( "kel_data" ) %></td>
-	<td><%= resultSet.getString  ("kel_laikas" ) %></td>
-	<td><%= resultSet.getString ( "kel_trukme" ) %></td>
-	<td><%= resultSet.getString ( "k_aprasymas" ) %></td>
-</tr>
-
+									
 					</table>
 					<form method="post" action="">
 						<h2 align="center"><strong>Lankymasis punkte ir maršrutų atkarpos</strong></h2>
@@ -359,10 +348,10 @@ while( resultSet.next() ){
 uzsipilde = true;
 }
 
-			String rec_data = "";
+			//String rec_data = "";
 
 			
-			for ( int i = 0; i<lent_lpaprasymas.length - 1; i++ ) {
+		/*	for ( int i = 0; i<lent_lpaprasymas.length - 1; i++ ) {
 
 				rec_data += "data-" + lent_lpaprasymas [ i ] + "=\"" + resultSet.getString	 ( lent_lpaprasymas [ i ] ) + "\"";
 			}
@@ -370,30 +359,14 @@ uzsipilde = true;
 			for ( int i = 0; i<lent_km_aprasymas.length - 2; i++ ) {
 
 				rec_data += "data-" + lent_km_aprasymas [ i ] + "=\"" + resultSet.getString	 ( lent_km_aprasymas [ i ] ) + "\"";
-			}
+			}/*
 					
-					String id_rec = resultSet.getString ( "id_lankymosi_punkte" );
+			/*		String id_rec = resultSet.getString ( "id_lankymosi_punkte" );
 					String id_rec2 = resultSet.getString ( "id_keliones_marsruto_atkarpos" );
-					String kma_aprasymas = resultSet.getString ( "kma_aprasymas" );
-					
+					String kma_aprasymas = resultSet.getString ( "kma_aprasymas" );*/
+		out.println(lpaprasymas_crud.getEilute2());			
 %>					
 			
-<tr class="lent_vidus">
-	<td><input type="button" class="record_edit" id="toEdit_<%=id_rec + "_" + id_rec2 %>"data-id_lankymosi_punkte="<%=id_rec %>" data-id_keliones_marsruto_atkarpos="<%=id_rec2 %>" <%=rec_data %> value="&#9998;" onClick="iRedagavima( '<%=id_rec + "_" + id_rec2 %>' )"></td>   
-	<td><input type="button" class="delete" id="toDelete_<%=id_rec + "_" + id_rec2 %>"data-id_lankymosi_punkte="<%=id_rec %>" data-id_keliones_marsruto_atkarpos="<%=id_rec2 %>" data-kma_aprasymas="<%=kma_aprasymas %>" value="&#10006;" onClick="iTrinima( '<%=id_rec + "_" + id_rec2 %>' )"></td>	
-	<td><%= resultSet.getString ( "lp_data_laikas" ) %></td>
-	<td><%= resultSet.getString ( "lp_trukme" ) %></td>
-	<td><%= resultSet.getString  ("lpaprasymas" ) %></td>
-	<td><%= resultSet.getString ( "mapav" ) %></td>
-	<td><%= resultSet.getString ( "ipatybes" ) %></td>
-	<td><%= resultSet.getString  ("pupav") %></td>												
-	<td><%= resultSet.getString ( "pupav2" ) %></td>												
-	<td><%= resultSet.getString ( "id_marsruto_atkarpos" ) %></td>
-	<td><%= resultSet.getString ( "id_keliones_budo" ) %></td>
-	<td><%= resultSet.getString ( "kma_aprasymas" ) %></td>
-	<td><%= resultSet.getString ( "kma_data_laikas" ) %></td>
-	<td><%= resultSet.getString ( "kma_trukme" ) %></td>
-</tr>
 
 
 
