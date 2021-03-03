@@ -11,6 +11,15 @@
 	<link href="../css/bootstrap.min.css" rel="stylesheet" />
     <link href="../font/css/all.min.css" rel="stylesheet" /> 
     <link rel="stylesheet" href="../css/templatemo-diagoona.css?v=1.0">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<!--<link rel="stylesheet" href="/resources/demos/style.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<style>
+	.no-close .ui-dialog-titlebar-close {
+	  display: none;
+	}
+	</style>-->
 
 </head>
 <body>
@@ -222,6 +231,23 @@
 			document.getElementById("atkarpos_numeris").value= "";
 
 			}	
+			
+		  $( function() {
+			$( "#dialog-confirm" ).dialog({
+			  resizable: false,
+			  height: "auto",
+			  width: 400,
+			  modal: true,
+			  buttons: {
+				"Delete all items": function() {
+				  $( this ).dialog( "close" );
+				},
+				Cancel: function() {
+				  $( this ).dialog( "close" );
+				}
+			  }
+			});
+		  } );
 </script>
 
     <div class="tm-container">        
@@ -304,8 +330,6 @@
 
 		if ( idx != null ) {
 		
-			/*statement_take = connection.createStatement();	
-			resultSet = statement_take.executeQuery(datax);*/
 			lpaprasymas_crud.uzklausa(idx);
 			boolean uzsipilde = false;
 			String eilute = "";
@@ -347,23 +371,6 @@
 <%
 uzsipilde = true;
 }
-
-			//String rec_data = "";
-
-			
-		/*	for ( int i = 0; i<lent_lpaprasymas.length - 1; i++ ) {
-
-				rec_data += "data-" + lent_lpaprasymas [ i ] + "=\"" + resultSet.getString	 ( lent_lpaprasymas [ i ] ) + "\"";
-			}
-			
-			for ( int i = 0; i<lent_km_aprasymas.length - 2; i++ ) {
-
-				rec_data += "data-" + lent_km_aprasymas [ i ] + "=\"" + resultSet.getString	 ( lent_km_aprasymas [ i ] ) + "\"";
-			}/*
-					
-			/*		String id_rec = resultSet.getString ( "id_lankymosi_punkte" );
-					String id_rec2 = resultSet.getString ( "id_keliones_marsruto_atkarpos" );
-					String kma_aprasymas = resultSet.getString ( "kma_aprasymas" );*/
 		out.println(lpaprasymas_crud.getEilute2());			
 %>					
 			
@@ -491,6 +498,11 @@ uzsipilde = true;
 							</div>
 						</tr>
 		</div>
+		
+<div id="dialog-confirm" title="Empty the recycle bin?">
+  <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>These items will be permanently deleted and cannot be recovered. Are you sure?</p>
+</div>
+
 	</div>
     <script src="../js/jquery-3.4.1.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
