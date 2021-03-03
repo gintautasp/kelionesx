@@ -95,6 +95,32 @@
 	
 %>
 <script>
+function salinimas(dialogText, dialogTitle, id_rec) {
+  $('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
+    draggable: false,
+    modal: true,
+    resizable: false,
+    width: 'auto',
+    title: dialogTitle || 'Trinimas',
+    minHeight: 75,
+    buttons: {
+      Patvirtinti: function () {
+				
+		document.getElementById ( "m_del" ).value = id_rec;
+
+				
+		forma_del = document.getElementById ( "del_rec" );
+
+		forma_del.submit();
+
+        $(this).dialog('destroy');
+      },
+      Atšaukti: function () {
+        $(this).dialog('destroy');
+      }
+    }
+  });
+}
 $( function() {
     var dialog, form,
  
@@ -206,18 +232,7 @@ $( function() {
 				mygtukasEdit = document.getElementById ( 'toDelete_' + id_rec );
 				
 				pav = mygtukasEdit.dataset.pav;
-				
-				var r = confirm( "Pašalinti šiuos duomenis?" + pav + "?" );
-				
-				
-				if ( r == true ) {
-					
-					document.getElementById ( "m_del" ).value = id_rec;
-					
-					forma_del = document.getElementById ( "del_rec" );
-					forma_del.submit();
-				}
-				
+				salinimas( "Ar tikrai norite pašalinti šiuos duomenis? ", "Pašalinti " +  pav + "?", id_rec )	
 			}
 			
 </script>
